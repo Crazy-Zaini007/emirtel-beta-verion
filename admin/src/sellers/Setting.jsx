@@ -246,7 +246,7 @@ const [editedEntry1, setEditedEntry1] = useState({});
                   </Paper>
                     }
 
-                    {current==1 &&
+                    {current===1 &&
                     <Paper className="card border-0">
                       <div className="card-body pb-5">
                       <div className="top justify-content-between d-flex">
