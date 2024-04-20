@@ -1,1 +1,0 @@
-# emirtel-beta-verion
