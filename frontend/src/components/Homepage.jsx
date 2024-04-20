@@ -23,7 +23,6 @@ export default function Homepage() {
     const {user}=useAuthContext()
    
     const apiUrl = process.env.API_URL;
-
     const categories = useSelector((state) => state.allCategories.categories);
     const allProducts = useSelector((state) => state.products.allProducts);
     const userAllProducts = useSelector((state) => state.products.userAllProducts);
