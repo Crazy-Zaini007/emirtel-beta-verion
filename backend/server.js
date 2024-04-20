@@ -3,7 +3,6 @@ require('dotenv').config();
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const http = require('http');
-const cors = require('cors');
 //Admin Routes path
  const JoinAmdin = require('./routes/admin/adminRegRoute')
 const Category=require('./routes/admin/categoryRoute')
