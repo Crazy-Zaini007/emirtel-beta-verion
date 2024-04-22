@@ -9,9 +9,7 @@ import Rating from '@mui/material/Rating';
 export default function Approvals() {
   const { getProductApprovals, loading } = ApprovalHook()
   const { seller } = useAuthContext()
-  const apiUrl = process.env.API_URL;
-
-
+  const apiUrl = process.env.REACT_APP_API_URL;
   useEffect(() => {
     if (seller) {
       getProductApprovals()
@@ -21,7 +19,7 @@ export default function Approvals() {
   const[view,setView]=useState('')
   const handleView=(product)=>{
     setView(product)
-    console.log(view.images)
+
   }
   const approvals = useSelector((state) => state.productsApprovals.approvals);
 
@@ -166,8 +164,6 @@ export default function Approvals() {
     <span className="visually-hidden">Next</span>
   </button>
 </div>
-
-
             </div>
             <div className="col-lg-6 col-md-12 px-md-5 py-0 right-col my-md-3 my-3">
               <p className='back' onClick={()=>setView('')}><i className='fa-solid fa-arrow-left'></i> Back to main page</p>

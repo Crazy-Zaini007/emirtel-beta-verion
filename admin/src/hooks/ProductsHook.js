@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 export default function ProductsHook() {
     const { seller } = useAuthContext()
     const dispatch  = useDispatch()
-    const apiUrl = process.env.API_URL;
+    const apiUrl = process.env.REACT_APP_API_URL;
     
     // Fetching Loggedin Seller Products
 

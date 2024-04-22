@@ -6,7 +6,7 @@ export default function SignupHook() {
     const [error,setError]=useState(null)
     const [success,setSuccess]=useState(null)
     const[emptyFields,setEmptyFields]=useState([])
-    const apiUrl = process.env.API_URL;
+    const apiUrl = process.env.REACT_APP_API_URL;
     
     // fetching api end-point to register a new seller
     const sellerSignup=async( email,role, userName, password,cpassword,code)=>{

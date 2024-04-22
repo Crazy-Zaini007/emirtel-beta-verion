@@ -8,7 +8,7 @@ export default function SignupHook() {
     const [mySuccess,setMySuccess]=useState(null)
     const[emptyFields,setEmptyFields]=useState([])
     const {dispatch}=useAuthContext()
-    const apiUrl = process.env.API_URL;
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     const userSignup=async( name,email, password)=>{
         setLoading(true)

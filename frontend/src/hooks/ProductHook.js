@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useAuthContext } from './UserContextHook'
 
 export default function CategoryHook() {
-  const apiUrl = process.env.API_URL;
+  const apiUrl = process.env.REACT_APP_API_URL;
 
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(null)

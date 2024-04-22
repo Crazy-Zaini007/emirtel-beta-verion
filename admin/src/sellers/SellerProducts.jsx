@@ -20,7 +20,7 @@ import { addProduct} from '../redux/reducers/productSlice'
 import { toast } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux';
 export default function SellerProducts() {
-  const apiUrl = process.env.API_URL;
+  const apiUrl = process.env.REACT_APP_API_URL;
   const rowsPerPageOptions = [20, 40, 100];
 
   const [page, setPage] = useState(0);

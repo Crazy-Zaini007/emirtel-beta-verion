@@ -11,7 +11,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 export default function ManageAdmins() {
 
-  const apiUrl = process.env.API_URL;
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const { getAllAdmins } = AdminsHook()
   const { seller } = useAuthContext()

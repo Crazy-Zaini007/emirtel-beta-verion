@@ -14,7 +14,7 @@ import SecurityHook from '../hooks/SecurityHook';
 export default function Setting() {
 
   const securityCode = useSelector((state) => state.security.securityCode);
-  const apiUrl = process.env.API_URL;
+  const apiUrl = process.env.REACT_APP_API_URL;
 
     const [current,setCurrent]=useState(0)
     const {getAllAdmins,admin}=AdminsHook()

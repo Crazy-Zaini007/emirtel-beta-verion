@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 
 export default function SecurityHook() {
     const dispatch = useDispatch()
-    const apiUrl = process.env.API_URL;
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     const { seller } = useAuthContext()
     // Fetching Logged in Seller's Created Categories

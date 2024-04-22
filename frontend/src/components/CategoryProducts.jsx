@@ -6,7 +6,7 @@ import fetchicon from '../assets/icons/fetchicon.gif'
 import { Slide, Fade } from "react-awesome-reveal";
 
 export default function CategoryProducts() {
-    const apiUrl = process.env.API_URL;
+    const apiUrl = process.env.REACT_APP_API_URL;
     
     const {user}=useAuthContext()
     const[products,setProducts]=useState()

@@ -33,7 +33,7 @@ export default function Categories() {
   const categories = useSelector((state) => state.getCategories.categories);
   const sortedCategories = [...categories].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-  const apiUrl = process.env.API_URL;
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     if (seller) {

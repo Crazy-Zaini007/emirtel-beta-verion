@@ -5,8 +5,8 @@ import { useDispatch } from 'react-redux';
 export default function CategoryHook() {
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(null)
-    const apiUrl = process.env.API_URL;
-    
+    const apiUrl = process.env.REACT_APP_API_URL;
+    console.log("apiUrl",apiUrl)
     const getAllCategories=async()=>{
       setLoading(true)
        try {
@@ -18,6 +18,7 @@ export default function CategoryHook() {
         if(response.ok){
           setLoading(null)
           dispatch(getCategories(json.data))
+          console.log(json)
         }
         if(!response.ok){
             setLoading(null)

@@ -3,6 +3,8 @@ require('dotenv').config();
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const http = require('http');
+const cors = require('cors');
+
 //Admin Routes path
  const JoinAmdin = require('./routes/admin/adminRegRoute')
 const Category=require('./routes/admin/categoryRoute')
@@ -21,6 +23,7 @@ const CategoryDetails=require('./routes/user/getCategoryProducts_Route')
 const app = express()
 const server = http.createServer(app)
 
+app.use(cors());
 //set the limit to 100MB for request
 app.use(bodyParser.json({ limit: '50mb' }))
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))

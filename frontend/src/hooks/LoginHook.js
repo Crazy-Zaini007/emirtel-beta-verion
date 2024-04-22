@@ -9,7 +9,7 @@ export default function SignupHook() {
     const[emptyFields1,setEmptyFields1]=useState([])
     const {dispatch}=useAuthContext()
     
-    const apiUrl = process.env.API_URL;
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     const userLogin=async( email1, password1)=>{
         setLoading(true)

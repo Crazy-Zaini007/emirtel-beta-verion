@@ -14,7 +14,7 @@ export default function Overview() {
   const dispatch = useDispatch()
   const { getAllApprovedProducts, loading } = ProductsHook()
   const { getAllAdmins, admin } = AdminsHook()
-  const apiUrl = process.env.API_URL;
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const { seller } = useAuthContext()
   const [option, setOption] = useState(0)

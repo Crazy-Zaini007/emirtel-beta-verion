@@ -4,7 +4,7 @@ import { getAllProducts } from '../redux/reducers/approvalSlice'
 import { useDispatch } from 'react-redux';
 
 export default function ApprovalHook() {
-  const apiUrl = process.env.API_URL;
+  const apiUrl = process.env.REACT_APP_API_URL;
 
     const dispatch = useDispatch()
 

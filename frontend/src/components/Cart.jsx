@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 
 export default function Cart() {
 
-    const apiUrl = process.env.API_URL;
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     const userProfile = useSelector((state) => state.userProfile.userProfile);
 

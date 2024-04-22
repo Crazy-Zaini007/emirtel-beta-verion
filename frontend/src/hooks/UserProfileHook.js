@@ -7,7 +7,7 @@ export default function UserProfileHook() {
   const [loading, setLoading] = useState(false);
   const { user } = useAuthContext();
   const dispatch = useDispatch();
-  const apiUrl = process.env.API_URL;
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const gettingUserProfile = async () => {
     setLoading(true)

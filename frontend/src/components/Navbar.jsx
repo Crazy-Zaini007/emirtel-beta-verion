@@ -108,15 +108,15 @@ export default function Navbar() {
           </>}
           {user && <>
 
-            <div class="dropdown d-inline" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Profile">
+            <div className="dropdown d-inline" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Profile">
               <Link className="mx-md-2 mx-1" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                 <Tooltip title="Profile">
                   <PersonIcon ></PersonIcon>
                 </Tooltip>
               </Link>
-              <ul class="dropdown-menu border-0 shadow" aria-labelledby="dropdownMenuButton1">
-                <li data-bs-toggle="modal" data-bs-target="#profile_modal"><Link class="dropdown-item" ><i className="fas fa-user-circle me-1"></i> Profile</Link></li>
-                <li><Link onClick={() => handleLogout()} class="dropdown-item"><i className="fas fa-sign-out-alt me-1"></i>Logout</Link></li>
+              <ul className="dropdown-menu border-0 shadow" aria-labelledby="dropdownMenuButton1">
+                <li data-bs-toggle="modal" data-bs-target="#profile_modal"><Link className="dropdown-item" ><i className="fas fa-user-circle me-1"></i> Profile</Link></li>
+                <li><Link onClick={() => handleLogout()} className="dropdown-item"><i className="fas fa-sign-out-alt me-1"></i>Logout</Link></li>
               </ul>
             </div>
           </>
@@ -126,7 +126,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      <div className="modal fade join_modal" id="join_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div className="modal fade join_modal" id="join_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div className="modal-dialog border-0">
           <div className="modal-content border-0">
 
@@ -153,12 +153,12 @@ export default function Navbar() {
                         <input type="text" placeholder='Name' className={Array.isArray(emptyFields) && emptyFields.includes('name') ? 'error' : ''} value={name} onChange={(e) => setName(e.target.value)} />
                       </div>
                       <div className=" innner_inputs mb-3 ">
-                        <i class="fas fa-at pe-2 py-0 icon"></i>
+                        <i className="fas fa-at pe-2 py-0 icon"></i>
                         <input type="email" placeholder='Email address' className={Array.isArray(emptyFields) && emptyFields.includes('email') ? 'error' : ''} value={email} onChange={(e) => setEmail(e.target.value)} />
                       </div>
                       <div className=" innner_inputs mb-3">
-                        <i class="fas fa-lock pe-2 py-0 icon"></i>
-                        <i class="fas fa-eye pe-2 py-0 show_hide_icon"></i>
+                        <i className="fas fa-lock pe-2 py-0 icon"></i>
+                        <i className="fas fa-eye pe-2 py-0 show_hide_icon"></i>
                         {showPassword === true ? <i className="fas fa-eye pe-2 py-0 show_hide_icon" onClick={() => setShowPassword(!showPassword)}></i> : <i className="fas fa-eye-slash pe-2 py-0 show_hide_icon" onClick={() => setShowPassword(!showPassword)}></i>}
                         <input type={showPassword ? 'text' : 'password'} placeholder='Password' className={Array.isArray(emptyFields) && emptyFields.includes('password') ? 'error' : ''} value={password} onChange={(e) => setPassword(e.target.value)} />
                       </div>
@@ -172,11 +172,11 @@ export default function Navbar() {
                       {success1 && <p className='text-center success-m'>{success1}</p>}
                       {error1 && <p className='text-center error-m '>{error1}</p>}
                       <div className=" innner_inputs mb-3">
-                        <i class="fas fa-at pe-2 py-0 icon"></i>
+                        <i className="fas fa-at pe-2 py-0 icon"></i>
                         <input type="email" placeholder='Email address' className={Array.isArray(emptyFields1) && emptyFields1.includes('email1') ? 'error' : ''} value={email1} onChange={(e) => setEmail1(e.target.value)} />
                       </div>
                       <div className=" innner_inputs mb-3">
-                        <i class="fas fa-lock pe-2 py-0 icon"></i>
+                        <i className="fas fa-lock pe-2 py-0 icon"></i>
                         {showPassword1 === true ? <i className="fas fa-eye pe-2 py-0 show_hide_icon" onClick={() => setShowPassword1(!showPassword1)}></i> : <i className="fas fa-eye-slash pe-2 py-0 show_hide_icon" onClick={() => setShowPassword1(!showPassword1)}></i>}
                         <input type={showPassword1 ? 'text' : 'password'} placeholder='Password' className={Array.isArray(emptyFields1) && emptyFields1.includes('password1') ? 'error' : ''} value={password1} onChange={(e) => setPassword1(e.target.value)} />
                       </div>
@@ -194,7 +194,7 @@ export default function Navbar() {
 
 
       {/* Profile Modal */}
-      <div className="modal fade join_modal" id="profile_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div className="modal fade join_modal" id="profile_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div className="modal-dialog border-0">
           <div className="modal-content border-0">
 
@@ -226,24 +226,24 @@ export default function Navbar() {
                   <div className=" innner_inputs mb-3 ">
                     {editMode ?
                       <>
-                        <i class="fas fa-at pe-2 py-0 icon"></i>
+                        <i className="fas fa-at pe-2 py-0 icon"></i>
                         <input type="email" placeholder='Email address' value={editedEntry.email} required onChange={(e) => handleInputChange(e, 'email')} />
                       </>
                       : <>
-                        <i class="fas fa-at pe-2 py-0 icon"></i>
+                        <i className="fas fa-at pe-2 py-0 icon"></i>
                         <input type="email" placeholder='Email address' value={userProfile && userProfile.email} />
                       </>
                     }
                   </div>
                   <div className=" innner_inputs mb-3">
                     {editMode ? <>
-                      <i class="fas fa-lock pe-2 py-0 icon"></i>
-                      <i class="fas fa-eye pe-2 py-0 show_hide_icon"></i>
+                      <i className="fas fa-lock pe-2 py-0 icon"></i>
+                      <i className="fas fa-eye pe-2 py-0 show_hide_icon"></i>
                       {showPassword === true ? <i className="fas fa-eye pe-2 py-0 show_hide_icon" onClick={() => setShowPassword(!showPassword)}></i> : <i className="fas fa-eye-slash pe-2 py-0 show_hide_icon" onClick={() => setShowPassword(!showPassword)}></i>}
                       <input type={showPassword ? 'text' : 'password'} placeholder='Password' value={editedEntry.originalPassword} required onChange={(e) => handleInputChange(e, 'originalPassword')} />
                     </> : <>
-                      <i class="fas fa-lock pe-2 py-0 icon"></i>
-                      <i class="fas fa-eye pe-2 py-0 show_hide_icon"></i>
+                      <i className="fas fa-lock pe-2 py-0 icon"></i>
+                      <i className="fas fa-eye pe-2 py-0 show_hide_icon"></i>
                       {showPassword === true ? <i className="fas fa-eye pe-2 py-0 show_hide_icon" onClick={() => setShowPassword(!showPassword)}></i> : <i className="fas fa-eye-slash pe-2 py-0 show_hide_icon" onClick={() => setShowPassword(!showPassword)}></i>}
                       <input type={showPassword ? 'text' : 'password'} placeholder='Password' value={userProfile && userProfile.originalPassword} />
                     </>

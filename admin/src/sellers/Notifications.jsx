@@ -22,7 +22,7 @@ export default function Notifications() {
   const { getAllAdmins, admin } = AdminsHook()
   const { seller } = useAuthContext()
   const dispatch = useDispatch()
-  const apiUrl = process.env.API_URL;
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     if (seller) {

@@ -9,7 +9,7 @@ export default function TeamsHook() {
     const { seller } = useAuthContext()
     const [loading, setLoading] = useState(null)
 
-    const apiUrl = process.env.API_URL;
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     // Fetching Logged in Seller's Created Categories
     const getAllAdmins=async()=>{

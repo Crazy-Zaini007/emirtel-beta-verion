@@ -2,7 +2,7 @@ import {useState} from 'react'
 import { useAuthContext } from "./UserContextHook";
 
 export default function LoginHook() {
-    const apiUrl = process.env.API_URL;
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     const {dispatch}=useAuthContext()
     const [isLoading,setLoading]=useState(false)
