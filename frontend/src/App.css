@@ -227,8 +227,38 @@ position: relative;
   color: var(--white);
   border-radius: 4px;
 }
-
 /* Carousel */
+.carousel .carousel-inner .carousel-item {
+  max-height: 100vh;
+  position: relative;
+}
+
+.carousel .carousel-inner  .carousel-caption {
+  bottom: 22%;
+  z-index: 999;
+}
+
+.carousel .carousel-inner  .carousel-caption .input-group input{
+  height: 50px;
+  border: 0px;
+  z-index: 999;
+  padding-left: 15px;
+}
+.carousel .carousel-inner  .carousel-caption .input-group button{
+  background-color: var(--cool-Green);
+  border: 0px;
+  color: white;
+  font-weight: 600;
+  letter-spacing: 1px;
+  font-size: 14px;
+  cursor: pointer;
+
+}
+
+.carousel .carousel-inner .carousel-item img {
+  opacity: 0.9;
+  z-index: 0;
+}
 
 /* benefits */
 
