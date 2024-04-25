@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import CountUp from 'react-countup';
+// import CountUp from 'react-countup';
 import { Slide, Fade } from "react-awesome-reveal";
 import CategoryHook from '../hooks/CategoryHook'
 import { Link } from 'react-router-dom'
@@ -24,24 +24,27 @@ export default function Homepage() {
     const userAllProducts = useSelector((state) => state.products.userAllProducts);
     const latestProducts = useSelector((state) => state.products.latestProducts);
     const userAllLatestProducts = useSelector((state) => state.products.userAllLatestProducts);
-    const userProfile = useSelector((state) => state.userProfile.userProfile);
+    // const userProfile = useSelector((state) => state.userProfile.userProfile);
 
 
-    const[title,setTitle]=useState('')
+    const [title, setTitle] = useState('');
 
     const filteredUserAllLatestProducts = userAllLatestProducts && userAllLatestProducts.filter(product => {
         return (
-            product.title.trim().toLowerCase().includes(title.trim().toLowerCase()) ||
-            product.description.trim().toLowerCase().includes(title.trim().toLowerCase())
+            (product.title.trim().toLowerCase().includes(title.trim().toLowerCase()) ||
+            product.description.trim().toLowerCase().includes(title.trim().toLowerCase())) &&
+            product.isApproved === true
         );
     });
-
+    
     const filteredLatestProducts = latestProducts && latestProducts.filter(product => {
         return (
-            product.title.trim().toLowerCase().includes(title.trim().toLowerCase()) ||
-            product.description.trim().toLowerCase().includes(title.trim().toLowerCase())
+            (product.title.trim().toLowerCase().includes(title.trim().toLowerCase()) ||
+            product.description.trim().toLowerCase().includes(title.trim().toLowerCase())) &&
+            product.isApproved === true
         );
     });
+    
 
     const { getAllCategories } = CategoryHook()
     const { gettingAllProducts, gettingAllLatestProducts, gettingAuthAllProducts, gettingAuthAllLatestProducts } = ProductHook()
@@ -73,7 +76,10 @@ export default function Homepage() {
     //   Add to Wishlist 
     const [wLoading, setWLoading] = useState(false)
     const addToWishlist = async (product) => {
-        setWLoading(true)
+        setWLoading((prevState) => ({
+            ...prevState,
+            [product._id]: true
+        }));
         try {
             const response = await fetch(`${apiUrl}/auth/user/wishlist/add/wishlist`, {
                 method: "POST",
@@ -84,20 +90,28 @@ export default function Homepage() {
                 },
                 body: JSON.stringify(product)
             })
-
-            const json = await response.json()
             if (response.ok) {
                 gettingUserProfile()
                 gettingAuthAllLatestProducts()
                 gettingAuthAllProducts()
-                setWLoading(null)
+                setWLoading((prevState) => ({
+                    ...prevState,
+                    [product._id]: false
+                }));
 
             }
             if (!response.ok) {
-                setWLoading(null)
+                setWLoading((prevState) => ({
+                    ...prevState,
+                    [product._id]: false
+                }));
             }
         } catch (error) {
             console.log(error)
+            setWLoading((prevState) => ({
+                ...prevState,
+                [product._id]: false
+            }));
         }
     }
 
@@ -112,12 +126,16 @@ export default function Homepage() {
                 <div class="carousel-caption p-0">
                             <div className="row justify-content-center p-0">
                                 <div className="col-lg-10 col-12 p-0">
+                                <h1><span className='py-2 px-1 d-none d-sm-block'>Emirtel online</span></h1>
+                                <h6>Find the best ever daily life's Products here from variouse categories...</h6>
                            <div className="input-group mb-3 shadow">
                                     <input type="search" className="form-control shadow" value={title} onChange={(e)=>setTitle(e.target.value)} placeholder="Search for product..." aria-describedby="button-addon2" />
                                     <button className="btn shadow px-3" type="button" id="button-addon2"><i className="fa-solid fa-magnifying-glass me-md-2 ms-md-1 "></i><span className='d-none d-md-inline '>Search</span></button>
                                     </div>
-
-
+                                    {title &&<p className='text-start'>    
+                                        <span className='total_length me-2'>{filteredLatestProducts.length}</span>Products found for your search <span className='total_length' >"{title.toUpperCase()}"</span>
+                                        
+                                        </p>}
                                 </div>
                             </div>
                         </div>
@@ -168,8 +186,8 @@ export default function Homepage() {
                                                     }
                                                 </div>
                                                 <div className="right">
-                                                    <Slide className='btn purchase_btn mx-1 py-2' >Add to Cart</Slide>
-                                                    {/* <button className='btn purchase_btn mx-1 py-2' data-bs-toggle="modal" data-bs-target="#join_modal">Add to Cart</button> */}
+                                                  
+                                                    <Slide className='btn purchase_btn mx-1 py-2' data-bs-toggle="modal" data-bs-target="#join_modal">Add to Cart</Slide>
                                                 </div>
                                             </div>
                                         </div>
@@ -207,9 +225,12 @@ export default function Homepage() {
                                                         <small className='my-0 py-0 out_of_stock'>Out of Stock</small>
                                                     }
                                                 </div>
-                                                <div className="right">
-                                                    <Slide className='btn purchase_btn mx-1 py-2' onClick={() => addToWishlist(data)} disabled={data.wishlisted}>{data.wishlisted ? "In Cart" : "Add to Cart"}</Slide>
-                                                </div>
+                                                <Slide className="right">
+                                                    
+                                                <button className='btn purchase_btn mx-1 py-2' onClick={() => addToWishlist(data)} disabled={wLoading[data._id] || data.wishlisted}>
+                                                            {wLoading[data._id] ? <i className="fa-solid fa-spinner fa-spin"></i> : (data.wishlisted ? "In Cart" : "Add to Cart")}
+                                                        </button>
+                                                </Slide>
                                             </div>
                                         </div>
                                     </div>
@@ -236,7 +257,7 @@ export default function Homepage() {
                                 </div>
                                 <div className="card-body">
                                     <h5 className="card-title">{data.categoryName}</h5>
-                                    <strong><i className="fas fa-tags"></i> {data.product.length}</strong> <br />
+                                    <strong><i className="fas fa-tags"></i> {data.product.filter(product=>product.isApproved===true).length}</strong> <br />
                                     <p>{data.description}</p>
                                     <Slide direction="right" > <Link className='btn view_btn  py-2' to={`/category/prodcuts/${data._id}`}>View Products</Link></Slide>
                                 </div>
@@ -322,7 +343,7 @@ export default function Homepage() {
                         <>
                             {allProducts && allProducts.length > 0 ? (
                                 allProducts
-                                    .filter(d => d.soldQuantity === 0)
+                                    .filter(d => d.soldQuantity === 0 && d.isApproved===true)
                             ).map((data) => (
                                 <Fade className="col-xl-3 col-lg-4 col-md-6 col-sm-12 px-2 my-1" key={data._id}>
                                     <div className="card border-0" >
@@ -367,7 +388,7 @@ export default function Homepage() {
                         <>
                             {userAllProducts && userAllProducts.length > 0 ? (
                                 userAllProducts
-                                    .filter(data => data.soldQuantity === 0)
+                                    .filter(data => data.soldQuantity === 0 && data.isApproved===true)
                             ).map((data) => (
                                 <Fade className="col-xl-3 col-lg-4 col-md-6 col-sm-12 px-2 my-1" key={data._id}>
                                     <div className="card border-0" >
@@ -396,10 +417,12 @@ export default function Homepage() {
                                                         <small className='my-0 py-0 out_of_stock'>Out of Stock</small>
                                                     }
                                                 </div>
-                                                <div className="right">
-                                                    <Slide className='btn purchase_btn mx-1 py-2' onClick={() => addToWishlist(data)} disabled={data.wishlisted}>{data.wishlisted ? "In Cart" : "Add to Cart"}</Slide>
+                                                <Slide className="right">
+                                                <button className='btn purchase_btn mx-1 py-2' onClick={() => addToWishlist(data)} disabled={wLoading[data._id] || data.wishlisted}>
+                                                            {wLoading[data._id] ? <i className="fa-solid fa-spinner fa-spin"></i> : (data.wishlisted ? "In Cart" : "Add to Cart")}
+                                                        </button>
 
-                                                </div>
+                                                </Slide>
                                             </div>
                                         </div>
                                     </div>

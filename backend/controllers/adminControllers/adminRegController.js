@@ -12,12 +12,10 @@ const createToken = (_id) =>{
 }
 
 const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-      secure: true,
+    service: 'gmail',
     auth: {
-     user: process.env.Email_Address,
-      pass: process.env.Password,
+     user: 'zk013506@gmail.com',
+      pass: 'plfijitvuvswgdj',
     },
   })
   
@@ -100,7 +98,7 @@ const adminSignup = async (req, res) => {
                 await superAdmin.save()
 
                 const info = await transporter.sendMail({
-                    from: '"Emirtel Platform"', // sender address
+                    from: 'zk013506@gmail.com', // sender address
                     to: `${superAdmin.email}`, // list of receivers
                     subject: "🔒 New Account Alert", // Subject line
                     html: `<b>${userName} registered an Admin acccount having Email: ${email}</b>`

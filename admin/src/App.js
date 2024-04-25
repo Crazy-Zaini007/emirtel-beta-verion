@@ -16,6 +16,8 @@ import Setting from './sellers/Setting.jsx'
 import Notifications from './sellers/Notifications.jsx'
 import Approvals from './sellers/Approvals.jsx'
 import Overview from './sellers/Overview.jsx';
+import Orders from './sellers/Orders.jsx';
+
 
 function App() {
   const { seller } = useAuthContext();
@@ -82,7 +84,18 @@ element={
  
 }
 />
+
+<Route
+
+path="/emirtel/admin/orders"
+element={
+  seller &&
+    <Orders></Orders>
+ 
+}
+/>
            <Route
+           
 
 path="/emirtel/admin/setting"
 element={

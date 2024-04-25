@@ -2,8 +2,8 @@ import React, {useState, useEffect } from 'react'
 import { useAuthContext } from '../hooks/UserContextHook'
 import {useParams}  from 'react-router-dom'
 import { Rating } from '@mui/material';
-import fetchicon from '../assets/icons/fetchicon.gif'
 import { Slide, Fade } from "react-awesome-reveal";
+import UserProfileHook from '../hooks/UserProfileHook';
 
 export default function CategoryProducts() {
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -12,7 +12,8 @@ export default function CategoryProducts() {
     const[products,setProducts]=useState()
     const[authProducts,setAuthProducts]=useState()
     const [loading, setLoading] = useState(null)
-
+    const { gettingUserProfile } = UserProfileHook()
+   
     const { id }=useParams()
 
     const calculateAverageRating = (product_Rating) => {
@@ -21,32 +22,7 @@ export default function CategoryProducts() {
         return totalRating / product_Rating.length;
       }
 
-    //   Add to Wishlist 
-    const [wLoading,setWLoading]=useState(false)
-      const addToWishlist=async(product)=>{
-        setWLoading(true)
-         try {
-          const response=await fetch(`${apiUrl}/auth/user/wishlist/add/wishlist`,{
-            method:"POST",
-            headers:{
-                'Content-Type':'application/json',
-                'Authorization': `Bearer ${user.token}`
-                
-              },
-              body:JSON.stringify(product)
-          })
-          
-          const json=await response.json()
-          if(response.ok){
-          fetchData()
-          }
-          if(!response.ok){
-            setWLoading(null)
-          }
-         } catch (error) {
-         console.log(error)
-         }
-      }
+     
   
 
     // Getting Products when the user is not loggedIn
@@ -99,6 +75,7 @@ export default function CategoryProducts() {
     const fetchData=async()=>{
 if(user){
     await getAuthProducts()
+    await gettingUserProfile()
 }
 if(!user){
     await getProducts()
@@ -108,6 +85,47 @@ if(!user){
     useEffect(() => {
         fetchData()
     }, [user])
+
+
+    //   Add to Wishlist 
+    const [wLoading, setWLoading] = useState(false)
+    const addToWishlist = async (product) => {
+        setWLoading((prevState) => ({
+            ...prevState,
+            [product._id]: true
+        }));
+        try {
+            const response = await fetch(`${apiUrl}/auth/user/wishlist/add/wishlist`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user.token}`
+
+                },
+                body: JSON.stringify(product)
+            })
+            if (response.ok) {
+                setWLoading((prevState) => ({
+                    ...prevState,
+                    [product._id]: false
+                }));
+                fetchData()
+                gettingUserProfile()
+            }
+            if (!response.ok) {
+                setWLoading((prevState) => ({
+                    ...prevState,
+                    [product._id]: false
+                }));
+            }
+        } catch (error) {
+            console.log(error)
+            setWLoading((prevState) => ({
+                ...prevState,
+                [product._id]: false
+            }));
+        }
+    }
 
   return (
     <div>
@@ -119,13 +137,17 @@ if(!user){
        <div className="container-fluid latest_products py-5">
                 <div className="row justify-content-center px-md-3 px-2">
                     {loading &&
-                    <img className='fetch_Icon' src={fetchicon} alt="" />
+                    <div className='col-md-2'>
+                        <h6>Getting products...</h6>
+                    </div>
                     }
                    {!loading &&
                    <>
                    {!user &&
                    <>
-                    {products && products.product.length > 0 ? products.product.map((data) => (
+                    {products && products.product.length > 0 ? products.product
+                     .filter(data => data.isApproved === true)
+                    .map((data) => (
                         
                             <Fade className="col-xl-3 col-lg-4 col-md-6 col-sm-12 px-2 my-1" key={data._id}>
                             <div className="card border-0" >
@@ -168,7 +190,9 @@ if(!user){
                    }
                      {user &&
                    <>
-                    {authProducts && authProducts.length > 0 ? authProducts.map((data) => (
+                    {authProducts && authProducts.length > 0 ? authProducts
+                     .filter(data => data.isApproved === true)
+                    .map((data) => (
                         <Fade className="col-xl-3 col-lg-4 col-md-6 col-sm-12 px-2 my-1" key={data._id}>
                             <div className="card border-0" >
 
@@ -195,9 +219,11 @@ if(!user){
                                                 <small className='my-0 py-0 out_of_stock'>Out of Stock</small>
                                             }
                                         </div>
-                                        <div className="right">
-                                        <Slide className='btn purchase_btn mx-1 py-2' onClick={()=>addToWishlist(data)} disabled={data.wishlisted}>{data.wishlisted ?"In Cart":"Add to Cart"}</Slide>
-                                        </div>
+                                        <Slide className="right">
+                                        <button className='btn purchase_btn mx-1 py-2' onClick={() => addToWishlist(data)} disabled={wLoading[data._id] || data.wishlisted}>
+                                                            {wLoading[data._id] ? <i className="fa-solid fa-spinner fa-spin"></i> : (data.wishlisted ? "In Cart" : "Add to Cart")}
+                                                        </button>
+                                        </Slide>
                                     </div>
                                 </div>
                             </div>

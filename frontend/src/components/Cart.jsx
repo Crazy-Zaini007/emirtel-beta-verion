@@ -7,9 +7,10 @@ import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
-import Button from '@mui/material/Button';
+import { Fade } from "react-awesome-reveal";
 import Typography from '@mui/material/Typography';
-
+import {Link} from 'react-router-dom'
+import emptycart from '../assets/icons/empty_cart-icon.png'
 export default function Cart() {
 
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -17,7 +18,6 @@ export default function Cart() {
     const userProfile = useSelector((state) => state.userProfile.userProfile);
 
     const[option,setOption]=useState(0)
-   
 
     const { gettingUserProfile } = UserProfileHook()
 
@@ -31,8 +31,10 @@ export default function Cart() {
 
     const [wLoading, setWLoading] = useState(false)
     const removeCart = async (product) => {
-
-        setWLoading(true)
+        setWLoading((prevState) => ({
+            ...prevState,
+            [product._id]: true
+        }));
         let productId = product._id
         try {
             const response = await fetch(`${apiUrl}/auth/user/wishlist/delete/wishlist`, {
@@ -44,19 +46,27 @@ export default function Cart() {
                 },
                 body: JSON.stringify({ productId })
             })
-
-            const json = await response.json()
             if (response.ok) {
                 fetchData()
-                setWLoading(null)
+                setWLoading((prevState) => ({
+                    ...prevState,
+                    [product._id]: false
+                }));
             }
             if (!response.ok) {
-                setWLoading(null)
+                setWLoading((prevState) => ({
+                    ...prevState,
+                    [product._id]: false
+                }));
             }
         } catch (error) {
-
+            setWLoading((prevState) => ({
+                ...prevState,
+                [product._id]: false
+            }));
         }
     }
+    
 
     const [quantities, setQuantities] = useState({}); // State to track product quantities
     // Function to handle quantity increment
@@ -75,16 +85,25 @@ export default function Cart() {
         }));
     };
 
+    
+const [productsToCheckout, setProductsToCheckout] = useState([]);
+useEffect(() => {
+    if (userProfile && userProfile.wishlist && userProfile.wishlist.length > 0) {
+        const updatedProducts = userProfile.wishlist.map(product => {
+            const quantity = quantities[product._id] || 0;
+            return {
+                ...product,
+                quantity: quantity,
+                totalPrice: quantity * product.price
+            };
+        });
+        const filteredProducts = updatedProducts.filter(product => product.quantity > 0);
+        setProductsToCheckout(filteredProducts);
+    } else {
+        setProductsToCheckout([]);
+    }
+}, [userProfile, quantities]);
 
-    const [productsToCheckout, setProductsToCheckout] = useState([]);
-    useEffect(() => {
-        if (userProfile && userProfile.wishlist && userProfile.wishlist.length > 0) {
-            const filteredProducts = userProfile.wishlist.filter(product => quantities[product._id] > 0);
-            setProductsToCheckout(filteredProducts);
-        } else {
-            setProductsToCheckout([]);
-        }
-    }, [userProfile, quantities]);
 
     // Calculate total quantity and total price
     let totalQuantity = 0;
@@ -149,9 +168,46 @@ export default function Cart() {
   const[securityCode,setSecurityCode]=useState('')
   const[expDate,setExpDate]=useState('')
 
-
-
-
+// Placing and Order
+const plceOrder=async(e)=>{
+    e.preventDefault()
+    setWLoading(true);
+    try {
+        const response = await fetch(`${apiUrl}/auth/user/orders/place/order`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
+            },
+            body: JSON.stringify({deliveryType,fName,lName,phone,city,address,cardFName,cardLName,cardNumber,securityCode,expDate,orders:productsToCheckout,totalQuantity,totalPrice})
+        })
+        const json=await response.json()
+        if (response.ok) {
+            fetchData()
+            setDeliveryType('')
+            setFName('')
+            setLName('')
+            setPhone('')
+            setCity('')
+            setAddress('')
+            setCardFName('')
+            setCardLName('')
+            setCardNumber('')
+            setSecurityCode('')
+            setExpDate('')
+            setProductsToCheckout([])
+        setWLoading(false);
+        alert(json.message)
+        }
+        if (!response.ok) {
+        setWLoading(false);
+        alert(json.message)
+            
+        }
+    } catch (error) {
+        setWLoading(false);
+    }
+}
 
 
     return (
@@ -176,7 +232,7 @@ export default function Cart() {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {userProfile && userProfile.wishlist && userProfile.wishlist.length > 0 ?
+                                        {userProfile && userProfile.wishlist && userProfile.wishlist.length > 0 &&
                                             userProfile.wishlist.map((data, index) => (
                                                 <TableRow key={index}>
                                                     <TableCell className='td text-center'>
@@ -205,18 +261,32 @@ export default function Cart() {
                                                             <button className="btn px-3 py-2" onClick={() => decrementQuantity(data._id)}><i className="fas fa-minus"></i></button>
                                                         </div>
                                                     </TableCell>
-                                                    <TableCell className='text-center td '><button className='btn py-2 px-3' onClick={() => removeCart(data)} disabled={wLoading}><i className="fas fa-times"></i></button></TableCell>
+                                                    <TableCell className='text-center td '>
+                                                    <button className='btn py-2 px-3' onClick={() => removeCart(data)} disabled={wLoading[data._id]}>
+                                                            {wLoading[data._id] ? <i className="fa-solid fa-spinner fa-spin"></i> :<i className="fas fa-times"></i>}
+                                                        </button>
+                                                    </TableCell>
                                                     <TableCell className='text-center td'>{data.price * (quantities[data._id] || 0)}$</TableCell>
                                                 </TableRow>
                                             ))
-                                            :
-                                            <></>
+                                            
                                         }
                                     </TableBody>
-
+                                   
                                 </Table>
 
                             </TableContainer>
+                            {userProfile && userProfile.wishlist && userProfile.wishlist.length < 1 &&
+                                        <div className='row'>
+                                            <div className='col-md-2 col-sm-12 text-center mx-auto my-4 empty_cart '>
+                                                
+                                            <Fade direction='up' className='p-0'>
+                                            
+                                            <Link className='btn find_btn px-2' to='/' ><img src={emptycart} alt="" /></Link>
+                                            </Fade>
+                                    </div>
+                                        </div>
+                                    }
                             {userProfile && userProfile.wishlist && userProfile.wishlist.length > 0 &&
                                 <div className="d-flex justify-content-md-between justify-content-center py-3 check_out">
                                     <div className="left">
@@ -248,7 +318,7 @@ export default function Cart() {
                                 <h4 ><i className="fas fa-receipt"></i> Checkout Summary</h4>
                                 </div>
                                 <div className="right">
-                                    <span type='button' onClick={()=>setOption(0)}><i className='fas fa-times-circle'></i></span>
+                                    <span type='button' disabled={wLoading} onClick={()=>setOption(0)}><i className='fas fa-times-circle'></i></span>
                                 </div>
                         </div>
                            
@@ -321,14 +391,14 @@ export default function Cart() {
                  </div>
                         <div className="buttons">
                     <button className="buy_btn btn my-1 py-2" onClick={handleNext} >Continue</button>
-                    <button className="cancel_btn btn my-1" onClick={()=>setOption(0)}>Cancel</button>
+                    <button className="cancel_btn btn my-1" onClick={()=>setOption(0)} disabled={wLoading}>Cancel</button>
                    
 
                  </div>
               </> }
               {(activeStep+1===2 || activeStep+1===3)  && 
               <>   
-                      <form className='px-md-4 px-3'>
+                      <form className='px-md-4 px-3' onSubmit={plceOrder}>
                         {activeStep+1===2 && <>
                         <div className="row">
                             <div className="col-md-6 px-1">
@@ -426,8 +496,8 @@ export default function Cart() {
                     </div>
                       }
                        <div className="buttons px-1 pt-1">
-                    <button className="buy_btn btn my-1 py-2">Order Now</button>
-                    <button className="cancel_btn btn my-1"  disabled={activeStep === 0}onClick={handleBack}>Back</button>
+                    <button className="buy_btn btn my-1 py-2" disabled={wLoading}>{wLoading ?"Placing":"Order Now"}</button>
+                    <button className="cancel_btn btn my-1"  disabled={activeStep === 0 || wLoading}onClick={handleBack}>Back</button>
                    
                  </div>
                        </div>

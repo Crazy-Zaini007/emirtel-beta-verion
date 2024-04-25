@@ -7,12 +7,12 @@ const nodemailer = require("nodemailer");
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
-      secure: true,
     auth: {
-     user: process.env.Email_Address,
-      pass: process.env.Password,
-    },
-  })
+      user:process.env.EMAIL_ADDRESS,
+      pass: process.env.EMAIL_PASSWORD
+    }
+  });
+  
 // add a new Product 
 const addNewProduct = async (req, res) => {
     try {
@@ -78,7 +78,6 @@ const addNewProduct = async (req, res) => {
                         date: todayDate,
                         soldQuantity:0,
                         isApproved:admin.role ==="Super Admin"? true :false
-                        
                     }
                     if(admin.role==="Admin"){
                         const superAdmin=await Admin.findOne({role:"Super Admin"})
@@ -90,12 +89,14 @@ const addNewProduct = async (req, res) => {
                             }
                             superAdmin.notifications.push(newNotification)
                             
-                const info = await transporter.sendMail({
-                    from: 'Emirtel Platform', // sender address
-                    to: `${superAdmin.email}`, // list of receivers
-                    subject: "🛒 New Product Alert", // Subject line
-                    html: `<b>${admin.userName} added a new Product:${title} to the Category:${categoryName}, visit Product Approvals page to approve his product.</b>`
-                  })
+                    //  const mailOptions = {
+                    // from: 'zk013506@gmail.com', // sender address
+                    // to: superAdmin.email, // list of receivers
+                    // subject: "🛒 New Product Alert", // Subject line
+                    // text: `<b>${admin.userName} added a new Product:${title} to the Category:${categoryName}, visit Product Approvals page to approve his product.</b>`
+                    //           }
+                    //    await transporter.sendMail(mailOptions);
+             
                             await superAdmin.save()
                         }
                     }
@@ -218,7 +219,7 @@ const updateProduct = async (req, res) => {
     
                         existingProduct.title=title
                         existingProduct.categoryName=categoryName
-                        existingProduct.image = uploadImage?.secure_url || newImage; 
+                        // existingProduct.images = uploadImage?.secure_url || newImage; 
                         existingProduct.price=price
                         existingProduct.quantity=quantity
                         existingProduct.size=size
@@ -459,12 +460,12 @@ const getAllProducts=async(req,res)=>{
                             date:todayDate
                         }
                         productAdmin.notifications.push(newNotification)
-                        const info = await transporter.sendMail({
-                            from: '"Emirtel Platform"', // sender address
-                            to: `${productAdmin.email}`, // list of receivers
-                            subject: "🛒Product Rejection", // Subject line
-                            html: `<b>Super Admin rejected your product: ${productToApprove.title} from Category: ${categoryName}, due to the following Reason: ${reason}.</b>`
-                          })
+                        // const info = await transporter.sendMail({
+                        //     from: '"Emirtel Platform"', // sender address
+                        //     to: `${productAdmin.email}`, // list of receivers
+                        //     subject: "🛒Product Rejection", // Subject line
+                        //     html: `<b>Super Admin rejected your product: ${productToApprove.title} from Category: ${categoryName}, due to the following Reason: ${reason}.</b>`
+                        //   })
                         await productAdmin.save()
 
                         const superAdminNotification={
@@ -496,12 +497,12 @@ const getAllProducts=async(req,res)=>{
                             date:todayDate
                         }
                         admin.notifications.push(superAdminNotification)
-                        const info = await transporter.sendMail({
-                            from: '"Emirtel Platform"', // sender address
-                            to: `${productAdmin.email}`, // list of receivers
-                            subject: "🎉 Product Approval", // Subject line
-                            html: `<b>Super Admin approved your product: ${productToApprove.title} from Category: ${categoryName}.</b>`
-                          })
+                        // const info = await transporter.sendMail({
+                        //     from: '"Emirtel Platform"', // sender address
+                        //     to: `${productAdmin.email}`, // list of receivers
+                        //     subject: "🎉 Product Approval", // Subject line
+                        //     html: `<b>Super Admin approved your product: ${productToApprove.title} from Category: ${categoryName}.</b>`
+                        //   })
                         await admin.save()
                         const productToUpdate = existingCategory.product.find(product => product._id.toString() === productId)
                         productToUpdate.isApproved=true

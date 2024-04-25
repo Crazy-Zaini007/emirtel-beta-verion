@@ -186,7 +186,7 @@ const[preCategoryName,setPreCategoryName]=useState('')
   const updateProduct = async () => {
     setUpdateLoading(true)
         try {
-      const response = await fetch(`${apiUrl}/auth/admin/product/update/product`, {
+      const response = await fetch(`${apiUrl}/admin/product/update/product`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -255,17 +255,17 @@ const[preCategoryName,setPreCategoryName]=useState('')
       ),
     },
     {
-      label: 'Step 3:More Fields ',
+      label: 'Step 3:Description',
       content: (
         <div>
-          <label>
+          {/* <label>
           Sizes (if available):
           </label>
           <input type="text" placeholder='add product sizes with commas' value={sizes} onChange={(e)=>setSize(e.target.value)}/>
           <label>
           Colors (if available):
           </label>
-          <input type="text" placeholder='add product colors with commas' value={colors} onChange={(e)=>setColor(e.target.value)} />
+          <input type="text" placeholder='add product colors with commas' value={colors} onChange={(e)=>setColor(e.target.value)} /> */}
           <label>
            Product Description:
           </label>
@@ -274,13 +274,13 @@ const[preCategoryName,setPreCategoryName]=useState('')
       ),
     },
     {
-      label: 'Step 4: Media and Tags',
+      label: 'Step 4: Pictures',
       content: (
         <div>
-        <label >
+        {/* <label >
             Keywaords/Tage
         </label>
-        <input type="text" placeholder='add tags with commas' value={tags} onChange={(e)=>setTags(e.target.value)} />
+        <input type="text" placeholder='add tags with commas' value={tags} onChange={(e)=>setTags(e.target.value)} /> */}
         <label>
             Product Thumbnail: (max size: 5MB)
           </label>
@@ -330,7 +330,7 @@ const keywords=tags.split(',').map((item) => item.trim());
         setLoading1(true)
 try {
 
-  const response=await fetch(`${apiUrl}/auth/auth/admin/product/add/product`,{
+  const response=await fetch(`${apiUrl}/auth/admin/product/add/product`,{
     method:"POST",
     headers: {
       'Content-Type': 'application/json',
@@ -463,8 +463,6 @@ const[delLoading,setDelLoading]=useState(false)
                                                     <TableCell  className='text-center'>Quantity</TableCell>
                                                     <TableCell  className='text-center'>Sold</TableCell>
                                                     <TableCell  className='text-center'>Price</TableCell>
-                                                    <TableCell  className='text-center'>Image</TableCell>
-                                                    <TableCell  className='text-center'>Desc</TableCell>
                                                     <TableCell  className='text-center'>Rating</TableCell>
                                                     <TableCell  className='text-center'>Status</TableCell>
                                                     {seller.role !=="Super Admin" && <TableCell  className='text-center'>Approval</TableCell>}
@@ -502,14 +500,8 @@ const[delLoading,setDelLoading]=useState(false)
                                                       <TableCell className='border td data_td p-1 '>
                                                       <input type="number" min='0' value={editedEntry.price} required onChange={(e) => handleInputChange(e, 'price')}/>
                                                       </TableCell>
-                                                      <TableCell className='border td data_td p-1 '>
-                                                      <input type="file" accept='image/*' required onChange={(e) => handleImageChange(e, 'picture')}/>
-
-                                                      </TableCell>
-                                                      <TableCell className='border td data_td p-1 '>
-                                                      <input type="text" value={editedEntry.description}  required onChange={(e) => handleInputChange(e, 'description')}/>
-                                                        
-                                                      </TableCell>
+                                                      
+                                                    
                                                       <TableCell className='border td data_td p-1 '>
                                                       <input type="text" placeholder='Not Editable'  readonly/>
                                                         
@@ -553,10 +545,7 @@ const[delLoading,setDelLoading]=useState(false)
                                                         <TableCell  className='text-center td'>{product.quantity}</TableCell>
                                                         <TableCell  className='text-center td'>{product.soldQuantity}</TableCell>
                                                         <TableCell  className='text-center td'>{product.price}</TableCell>
-                                                        <TableCell  className='text-center td'>
-                                                        {product.image && <img src={product.image} className='rounded' alt={product.title} />}
-                                                        </TableCell>
-                                                        <TableCell  className='text-center td'>{product.description}</TableCell>
+                                                    
                                                         <TableCell  className='text-center td'> <Rating name="read-only" className='rating' value={calculateAverageRating(product.product_Rating)} precision={0.5} readOnly />({product.product_Rating.length})</TableCell>
 
                                                         <TableCell  className='text-center td'>
@@ -591,19 +580,10 @@ const[delLoading,setDelLoading]=useState(false)
                                                 </React.Fragment>
                                               )):(
                                                 <TableRow>
-                                                <TableCell></TableCell>
-                                                <TableCell></TableCell>
-                                                <TableCell></TableCell>
-                                                <TableCell></TableCell>
-                                                <TableCell></TableCell>
-                                                <TableCell></TableCell>
+                                                <TableCell colSpan={6}></TableCell>
                                                 <TableCell className='text-center td '>Products_not_found!</TableCell>
-                                                <TableCell></TableCell>
-                                                <TableCell></TableCell>
-                                                <TableCell></TableCell>
-                                                <TableCell></TableCell>
-                                                <TableCell></TableCell>
-
+                                                <TableCell colSpan={4}></TableCell>
+                                               
                                               </TableRow>
                                               )}
                                             </TableBody>

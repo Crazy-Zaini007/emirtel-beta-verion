@@ -1,16 +1,9 @@
 const mongoose = require("mongoose");
 
-//Orders Schema
-const Orders = new mongoose.Schema(
+//allOrders Schema
+const allOrdersSchema = new mongoose.Schema(
     {
         orderId:{
-            type: String,
-
-        },
-        productId:{
-            type: String,
-        },
-        sellerId:{
             type: String,
         },
         buyer_Name: {
@@ -22,18 +15,11 @@ const Orders = new mongoose.Schema(
         buyer_Phone: {
             type: String,
         },
-        title: {
-            type: String,
-            required: true,
-        },
-        price: {
+        totalPrice: {
             type: Number,
-            required: true,
+             required: true,
         },
-        totalPrice:{
-            type:Number
-        },
-        quantity: {
+        totalQuantity: {
             type: Number,
             required: true,
         },
@@ -62,9 +48,33 @@ const Orders = new mongoose.Schema(
         },
         time:{
             type: String,
-        }
+        },
+        products:[
+            {
+                productId:{
+                    type: String,
+                },
+                sellerId:{
+                    type: String,
+                },
+                title:{
+                    type: String,
+                },
+                quantity:{
+                    type: String,
+                },
+                price:{
+                    type:Number
+                },
+                totalPrice:{
+                    type:Number
+                }
+            }
+        ]
     },
     { timestamps: true }
 );
 
-module.exports = Orders;
+const AllOrders = mongoose.model('allOrders', allOrdersSchema)
+
+module.exports = AllOrders;

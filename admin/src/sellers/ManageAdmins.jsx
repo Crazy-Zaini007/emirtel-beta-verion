@@ -119,7 +119,7 @@ export default function ManageAdmins() {
                       <div className="col-md-3  px-sm-0 text-end add-new">
 
                         <select onChange={(e) => setName(e.target.value)}>
-                          <option value="">Choose admin</option>
+                          <option value="">Choose Admin</option>
                           {admins.map((admin) => (
                             <option value={admin.admin.userName} key={admin.admin._id}>{admin.admin.userName}</option>
                           )
@@ -270,20 +270,16 @@ export default function ManageAdmins() {
                                             <TableHead >
                                               <TableRow className='order_head'>
                                               <TableCell className='text-center'>#</TableCell>
-                                                    <TableCell  className='text-center'>orderId</TableCell>
+                                              <TableCell className='text-center'>OrderId</TableCell>
+                                                    <TableCell className='text-center'>Date</TableCell>
+                                                    <TableCell className='text-center'>Customer</TableCell>
+                                                    <TableCell className='text-center'>City</TableCell>
+                                                    <TableCell className='text-center'>Shipping_Address</TableCell>
+                                                    <TableCell  className='text-center'>Payment</TableCell>
                                                     <TableCell  className='text-center'>Product</TableCell>
-                                                    <TableCell  className='text-center'>Product_Price</TableCell>
+                                                    <TableCell  className='text-center'>Price</TableCell>
                                                     <TableCell  className='text-center'>Quantity</TableCell>
-                                                    <TableCell  className='text-center'>Total</TableCell>
-                                                    <TableCell  className='text-center'>Size</TableCell>
-                                                    <TableCell  className='text-center'>Color</TableCell>
-                                                    <TableCell  className='text-center'>Buyer_Name</TableCell>
-                                                    <TableCell  className='text-center'>Quantity</TableCell>
-                                                    <TableCell  className='text-center'>Buyer_Email</TableCell>
-                                                    <TableCell  className='text-center'>Buyer_Phone</TableCell>
-                                                    <TableCell  className='text-center'>Address</TableCell>
-                                                    <TableCell  className='text-center'>Payemnt_Type</TableCell>
-                                                    <TableCell  className='text-center'>Payment_Status</TableCell>
+                                                    <TableCell  className='text-center'>Total_Price</TableCell>
                                                     <TableCell  className='text-center'>Status</TableCell>
                                               </TableRow>
                                             </TableHead>
@@ -291,21 +287,24 @@ export default function ManageAdmins() {
                                               {admin.admin.orders.length>0 ? admin.admin.orders.map((order,index)=>(
                                                 <TableRow key={order._id}>
                                                   <TableCell  className='text-center td'>{index + 1}</TableCell>
-                                                        
-                                                        <TableCell  className='text-center td'>{order._id}</TableCell>
-                                                        <TableCell  className='text-center td'>{order.title}</TableCell>
-                                                        <TableCell  className='text-center td'>{order.price}</TableCell>
-                                                        <TableCell  className='text-center td'>{order.quantity}</TableCell>
-                                                        <TableCell  className='text-center td'>{order.quantity*order.price}</TableCell>
-                                                        <TableCell  className='text-center td'>{order.size}</TableCell>
-                                                        <TableCell  className='text-center td'>{order.color}</TableCell>
-                                                        <TableCell  className='text-center td'>{order.buyer_Name}</TableCell>
-                                                        <TableCell  className='text-center td'>{order.buyer_Email}</TableCell>
-                                                        <TableCell  className='text-center td'>{order.buyer_Phone}</TableCell>
-                                                        <TableCell  className='text-center td'>{order.address}</TableCell>
-                                                        <TableCell  className='text-center td'>{order.payemnt_Type}</TableCell>
-                                                        <TableCell  className='text-center td'>{order.payment_Status}</TableCell>
-                                                        <TableCell  className='text-center td'>{order.order_Status}</TableCell>
+                                                  <TableCell className="text-center td">{order.orderId}</TableCell>
+                                        <TableCell className="text-center td">{order.date}</TableCell>
+                                        <TableCell className="text-center td">{order.buyer_Name}</TableCell>
+                                        <TableCell className="text-center td">{order.city}</TableCell>
+                                        <TableCell className="text-center td">{order.address}</TableCell>
+                                        <TableCell className="text-center td">{order.payment_Type.toLowerCase()==='cash on delivery' ? <span className='on_delivery  px-3 py-2 '>On_Delivery</span>:<span className='paid  px-3 py-2 '>Paid</span>}</TableCell>
+                                        <TableCell className="text-center td">{order.title}</TableCell>
+                                        <TableCell className="text-center td">{order.price}</TableCell>
+                                        <TableCell className="text-center td">{order.quantity}</TableCell>
+                                        <TableCell className="text-center td">{order.totalPrice}</TableCell>
+                                        <TableCell className="text-center td ">
+                                        {order.order_Status.toLowerCase()==="pending" && <span className='pending  px-3 py-2 '>Pending</span> }
+                                        {order.order_Status.toLowerCase()==="delivered" &&<span className='delivered text-success px-2 py-1'><i className="fa-solid fa-truck-ramp-box me-1">Delivered</i></span> }
+                                        {order.order_Status.toLowerCase()==="packing" &&<span className='packing   px-2 py-1'><i className="fa-solid fa-boxes-packing me-1">Packing</i></span>}
+                                        {order.order_Status.toLowerCase()==="shipping" &&<span className='shipping   px-2 py-1'><i className="fa-solid fa-truck-fast me-1">Shipping</i></span> }
+
+                                        
+                                        </TableCell>
                                                 </TableRow>
                                               )):
                                               <>

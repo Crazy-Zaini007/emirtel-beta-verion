@@ -93,6 +93,8 @@ height: 40px;
   letter-spacing: 1px;
   cursor: pointer;
   text-decoration: none;
+  cursor: pointer;
+
 }
 .my_navbar a:hover{
   color: var(--black);
@@ -228,14 +230,30 @@ position: relative;
   border-radius: 4px;
 }
 /* Carousel */
-.carousel .carousel-inner .carousel-item {
-  max-height: 100vh;
-  position: relative;
+@media screen and (min-width:771px) {
+  .carousel .carousel-inner .carousel-item {
+    max-height: 75vh;
+    position: relative;
+  }
 }
+
 
 .carousel .carousel-inner  .carousel-caption {
   bottom: 22%;
   z-index: 999;
+}
+.carousel .carousel-inner  .carousel-caption h1{
+  letter-spacing: 1.5px;
+  color:var(--white);
+  line-height: 30px;
+  font-weight: 600;
+}
+.carousel .carousel-inner  .carousel-caption h6{
+  letter-spacing: 1px;
+  color:var(--white);
+  line-height: 30px;
+  font-weight: 400;
+
 }
 
 .carousel .carousel-inner  .carousel-caption .input-group input{
@@ -243,6 +261,8 @@ position: relative;
   border: 0px;
   z-index: 999;
   padding-left: 15px;
+  font-size: 16px;
+  color: var(--cool-Green);
 }
 .carousel .carousel-inner  .carousel-caption .input-group button{
   background-color: var(--cool-Green);
@@ -252,11 +272,15 @@ position: relative;
   letter-spacing: 1px;
   font-size: 14px;
   cursor: pointer;
-
+}
+.carousel .carousel-inner  .carousel-caption .total_length{
+  font-size: 16px;
+  color: var(--cool-Green);
+  font-weight: 600;
 }
 
-.carousel .carousel-inner .carousel-item img {
-  opacity: 0.9;
+.carousel .carousel-inner .carousel-item{
+  opacity: 1;
   z-index: 0;
 }
 
@@ -291,7 +315,7 @@ position: relative;
 }
 /* Latest Products */
 .latest_products{
-background-color: rgb(248, 246, 246);
+background-color: #f8f6f6;
 }
 .latest_products h2{
 color: var(--black);
@@ -315,7 +339,6 @@ text-transform: capitalize;
   cursor: pointer;
   transform: scale(0.95); /* Zoom out effect */
 }
-
 
 @media screen and (min-width:771px) {
   .latest_products .card .image{
@@ -553,6 +576,19 @@ box-shadow: 10px 20px 10px 1px solid var(--white);
 
 }
 
+.shopping_cart .empty_cart img{
+height: 70px;
+width: 70px;
+}
+.shopping_cart .empty_cart .find_btn{
+  border: 1px solid var(--cool-Green);
+  border-radius: 0px;
+  color:white;
+  font-size: 15px;
+  width: 100%;
+  font-weight: 600;
+  box-shadow: 10px 20px 10px 1px solid var(--white);
+}
 .shopping_cart .content .check_out .quantity{
   height: 45px;
   border: 1px solid var(--grey);

@@ -6,7 +6,7 @@ const getAllProducts = async (req, res) => {
     let allProducts = [];
 
     // Check if user is authenticated
-    if (!req.user) {
+
       const allCategories = await Categories.find({}).sort({ createdAt: -1 });
       for (const category of allCategories) {
         if (category.product) {
@@ -14,28 +14,7 @@ const getAllProducts = async (req, res) => {
         }
       }
       return res.status(200).json({ data: allProducts });
-    }
-
-    const userId = req.user._id;
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    const allCategories = await Categories.find({}).sort({ createdAt: -1 });
-    for (const category of allCategories) {
-      if (category.product) {
-        allProducts.push(...category.product);
-      }
-    }
-
-    // Check wishlist
-    const filteredProducts = allProducts.map(product => {
-      const isWishlisted = user.wishlist.some(wish => wish.title === product.title);
-      return { ...product.toObject(), wishlisted: isWishlisted };
-    });
-
-    return res.status(200).json({ data: filteredProducts })
+  
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Internal Server error" });
@@ -49,7 +28,6 @@ const getLatestProducts = async (req, res) => {
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
 
     // Check if user is authenticated
-    if (!req.user) {
 
       const allCategories = await Categories.find({ createdAt: { $gte: thirtyDaysAgo } }).sort({ createdAt: -1 });
       for (const category of allCategories) {
@@ -58,29 +36,7 @@ const getLatestProducts = async (req, res) => {
         }
       }
       return res.status(200).json({ data: allProducts });
-    }
-
-    const userId = req.user._id;
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    const allCategories = await Categories.find({ createdAt: { $gte: thirtyDaysAgo } }).sort({ createdAt: -1 });
-
-    for (const category of allCategories) {
-      if (category.product) {
-        allProducts.push(...category.product);
-      }
-    }
-
-    // Check wishlist
-    const filteredProducts = allProducts.map(product => {
-      const isWishlisted = user.wishlist.some(wish => wish.title === product.title);
-      return { ...product.toObject(), wishlisted: isWishlisted };
-    });
-
-    return res.status(200).json({ data: filteredProducts });
+  
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Internal Server error" });

@@ -17,7 +17,6 @@ export default function CategoryHook() {
         if(response.ok){
           setLoading(null)
           dispatch(getCategories(json.data))
-          console.log(json)
         }
         if(!response.ok){
             setLoading(null)

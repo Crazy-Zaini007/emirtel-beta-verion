@@ -10,9 +10,8 @@ const getCategoryProducts = async (req, res) => {
       return res.status(200).json({
         data: allProducts
       })
-    
   } catch (err) {
-    console.log(err);
+    
     res.status(500).json({ message: "Internal Server error" });
   }
 }
@@ -21,10 +20,20 @@ const getCategoryProducts = async (req, res) => {
 const getAuthCategoryProducts = async (req, res) => {
     try {
       const {id}=req.params
-        const allProducts = await Categories.findById(id)
+      const userId=req.user._id
+      const user= await User.findById(userId)
+      if(user){
+      const allProducts = await Categories.findById(id)
+    const filteredProducts =allProducts && allProducts.product.length>0 && allProducts.product.map(product => {
+      const isWishlisted = user.wishlist.length>0 && user.wishlist.some(wish => wish.title.toLowerCase() === product.title.toLowerCase());
+      return { ...product.toObject(), wishlisted: isWishlisted };
+    });
+  
         return res.status(200).json({
-          data: allProducts
+          data: filteredProducts
         })
+      }
+       
       
     } catch (err) {
       console.error(err);

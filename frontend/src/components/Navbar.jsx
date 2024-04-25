@@ -15,7 +15,7 @@ import { useSelector } from 'react-redux';
 import { green } from '@mui/material/colors';
 import Badge from '@mui/material/Badge';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { Slide, Fade } from "react-awesome-reveal";
+import { Fade } from "react-awesome-reveal";
 
 export default function Navbar() {
   const { user } = useAuthContext()
@@ -41,7 +41,7 @@ export default function Navbar() {
       setPassword('')
       setSuccess('')
     }
-  }, [mySuccess])
+  }, [mySuccess,setSuccess])
 
   useEffect(() => {
     if (mySuccess1) {
@@ -49,7 +49,7 @@ export default function Navbar() {
       setPassword1('')
       setSuccess1('')
     }
-  }, [mySuccess1])
+  }, [mySuccess1,setSuccess1])
 
 
   const handleSignup = (e) => {
@@ -102,8 +102,8 @@ export default function Navbar() {
         </div>
         <div className="right pt-2">
           {!user && <>
-            <Link className="mx-md-2 mx-1"><Tooltip title="Login/Register (coming soon)"><PermIdentityIcon></PermIdentityIcon></Tooltip></Link>
-            {/* <Link className="mx-md-2 mx-1" data-bs-toggle="modal" data-bs-target="#join_modal"><Tooltip title="Login/Register (coming soon)"><PermIdentityIcon></PermIdentityIcon></Tooltip></Link> */}
+            {/* <Link className="mx-md-2 mx-1"><Tooltip title="Login/Register (coming soon)"><PermIdentityIcon></PermIdentityIcon></Tooltip></Link> */}
+            <Link className="mx-md-2 mx-1" data-bs-toggle="modal" data-bs-target="#join_modal"><Tooltip title="Login/Register"><PermIdentityIcon></PermIdentityIcon></Tooltip></Link>
 
           </>}
           {user && <>
@@ -121,8 +121,19 @@ export default function Navbar() {
             </div>
           </>
           }
-          <Link className=" mx-md-2  mx-1" aria-current="page" to="/" ><Tooltip title="Cart (coming soon)"><Badge badgeContent={user &&(userProfile && userProfile.wishlist && userProfile.wishlist.length)} color="primary" showZero><ShoppingCartIcon></ShoppingCartIcon></Badge></Tooltip></Link>
-          <Link className=" mx-md-2  mx-1" to="/" ><Tooltip title="Orders (coming soon)"><Badge badgeContent={user &&(userProfile && userProfile.orders && userProfile.orders.length)} color="primary" showZero><LocalMallIcon ></LocalMallIcon></Badge></Tooltip></Link>
+          {user && 
+          <>
+          <Link className=" mx-md-2  mx-1" aria-current="page" to="/shopping_cart" ><Tooltip title="Cart"><Badge badgeContent={user &&(userProfile && userProfile.wishlist && userProfile.wishlist.length)} color="primary" showZero><ShoppingCartIcon></ShoppingCartIcon></Badge></Tooltip></Link>
+          <Link className=" mx-md-2  mx-1" to="/" ><Tooltip title="Orders"><Badge badgeContent={user &&(userProfile && userProfile.orders && userProfile.orders.length)} color="primary" showZero><LocalMallIcon ></LocalMallIcon></Badge></Tooltip></Link>
+          </>
+          }
+          {!user && 
+          <>
+           <Link className=" mx-md-2  mx-1" data-bs-toggle="modal" data-bs-target="#join_modal" ><Tooltip title="Cart"><Badge badgeContent={user &&(userProfile && userProfile.wishlist && userProfile.wishlist.length)} color="primary" showZero><ShoppingCartIcon></ShoppingCartIcon></Badge></Tooltip></Link>
+          <Link className=" mx-md-2  mx-1" data-bs-toggle="modal" data-bs-target="#join_modal" ><Tooltip title="Orders"><Badge badgeContent={user &&(userProfile && userProfile.orders && userProfile.orders.length)} color="primary" showZero><LocalMallIcon ></LocalMallIcon></Badge></Tooltip></Link>
+          </>
+          }
+         
         </div>
       </div>
 
