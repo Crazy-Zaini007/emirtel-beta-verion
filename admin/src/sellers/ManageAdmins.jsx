@@ -299,9 +299,9 @@ export default function ManageAdmins() {
                                         <TableCell className="text-center td">{order.totalPrice}</TableCell>
                                         <TableCell className="text-center td ">
                                         {order.order_Status.toLowerCase()==="pending" && <span className='pending  px-3 py-2 '>Pending</span> }
-                                        {order.order_Status.toLowerCase()==="delivered" &&<span className='delivered text-success px-2 py-1'><i className="fa-solid fa-truck-ramp-box me-1">Delivered</i></span> }
-                                        {order.order_Status.toLowerCase()==="packing" &&<span className='packing   px-2 py-1'><i className="fa-solid fa-boxes-packing me-1">Packing</i></span>}
-                                        {order.order_Status.toLowerCase()==="shipping" &&<span className='shipping   px-2 py-1'><i className="fa-solid fa-truck-fast me-1">Shipping</i></span> }
+                                        {order.order_Status.toLowerCase()==="delivered" &&<span className='delivered text-success px-2 py-1'>Delivered</span> }
+                                        {order.order_Status.toLowerCase()==="packing" &&<span className='packing  px-2 py-1'>Packing</span>}
+                                        {order.order_Status.toLowerCase()==="shipping" &&<span className='shipping  px-2 py-1'>Shipping</span> }
 
                                         
                                         </TableCell>
