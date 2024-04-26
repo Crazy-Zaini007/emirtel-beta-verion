@@ -84,7 +84,7 @@ if(!user){
 
     useEffect(() => {
         fetchData()
-    }, [user])
+    }, [user,id])
 
 
     //   Add to Wishlist 
@@ -131,10 +131,10 @@ if(!user){
     <div>
         <div className="container-fluid all_categories mt-3">
         <Slide className="row justify-content-center px-md-3 px-2">
-        <h2 className="text-center mb-4">All Products from <strong><i>{!user ? products&& products.categoryName:authProducts && authProducts.categoryName}</i></strong></h2>
+        <h2 className="text-center mb-4">All Products from <strong><i>{!user && products && products.categoryName} {user && authProducts && Array.from(new Set(authProducts.map(item => item.categoryName)))}</i></strong></h2>
         </Slide>
         </div>
-       <div className="container-fluid latest_products py-5">
+       <div className="container-fluid latest_products py-5 mb-5">
                 <div className="row justify-content-center px-md-3 px-2">
                     {loading &&
                     <div className='col-md-2'>

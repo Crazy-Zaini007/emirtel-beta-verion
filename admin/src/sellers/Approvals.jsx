@@ -170,30 +170,10 @@ export default function Approvals() {
               <h6>{view.categoryName}</h6>
               <h5>{view.title}</h5>
               <p className='rating'><Rating name="read-only" className='rating-stars'  value={calculateAverageRating(view.product_Rating)} precision={0.5} readOnly />({view.product_Rating.length} reviews) </p>
-              <p className='mt-2'>Size</p>
-              {view.size && view.size.length >0 ? 
-              view.size.map((data)=>(
-                <span className='border px-3 py-2 me-2 rounded size-span'>{data}</span>
-              )):<>
-              <span>size not available</span>
-              </>
-              }
-
-              <p className='mt-4'>Colors</p>
-               {view.color && view.color.length >0 ? 
-              view.color.map((data)=>(
-                <button className='me-2 color-span border shadow' disabled style={{color:'white',background:data.toLowerCase()}}></button>
-              )):<>
-              <span >colors not available</span>
-              </>
-              }
-            
               <p className='mt-3'>Price</p>
               <span className='border-0 px-4 py-2 me-2 rounded price-span'>{view.price}</span>
-
               <p className='mt-4'>Description</p>
               <span>{view.description}</span>
-
               <div className="text-start mt-3">
                 <form className='d-inline' onSubmit={productApproval}><button className='btn  btn-sm mx-1 approve-btn py-1' disabled={isLoading}>Approve</button></form>
                 <button className='btn  btn-sm mx-1 reject-btn py-1' onClick={()=>setMessage(!message)} disabled={isLoading}>Reject with a reason</button>
