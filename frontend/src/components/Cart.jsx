@@ -218,7 +218,7 @@ const plceOrder=async(e)=>{
                         <h2 className='text-center mb-4'>My Shopping Cart</h2>
                        {option===0 && 
                        <>
-                        <div className="col-md-12 bg-white pt-2 pb-4 content">
+                        <Fade direction='up'  className="col-md-12 bg-white pt-2 pb-4 content">
                             <TableContainer >
                                 <Table>
                                     <TableHead>
@@ -307,7 +307,7 @@ const plceOrder=async(e)=>{
                             }
                          
                             
-                        </div>
+                        </Fade>
                        </>
                        }
                     {option===1 && 

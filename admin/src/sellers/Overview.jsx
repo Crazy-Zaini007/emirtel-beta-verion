@@ -16,18 +16,18 @@ import ProductsHook from "../hooks/ProductsHook"
 import AdminsHook from '../hooks/AdminsHook';
 import Rating from '@mui/material/Rating';
 import { toast } from 'react-toastify';
-
+import {Link} from 'react-router-dom'
 export default function Overview() {
   const dispatch = useDispatch()
   const { getAllApprovedProducts, loading } = ProductsHook()
-  const { getAllAdmins, admin } = AdminsHook()
-  const { getAllOrders, allOrders } = ordersHook()
+  const { getAllAdmins } = AdminsHook()
+  const { getAllOrders, allOrders,getAdminOrders,myOrders } = ordersHook()
   const ordersLength = allOrders && allOrders ? allOrders.length.toString().padStart(2, '0') : '00';
   const totalSells = allOrders && allOrders.length > 0 && allOrders
     .filter(order => order.order_Status.toLowerCase() === 'delivered')
     .reduce((total, order) => total + order.totalPrice, 0);
 
-  function formatPrice(price) {
+  function formatPrice(price) { 
     if (price >= 1000) {
       const formattedPrice = price / 1000;
       if (formattedPrice % 1 === 0) {
@@ -42,7 +42,7 @@ export default function Overview() {
   const formattedTotalSells = formatPrice(totalSells);
 
 
-  const myTotalSells = admin && admin.orders.length > 0 && admin.orders
+  const myTotalSells = myOrders && myOrders.length > 0 && myOrders
     .filter(order => order.order_Status.toLowerCase() === 'delivered')
     .reduce((total, order) => total + order.totalPrice, 0);
 
@@ -59,8 +59,7 @@ export default function Overview() {
     }
   }
   const formattedMyTotalSells = formatPrice(myTotalSells);
-
-
+  
   const apiUrl = process.env.REACT_APP_API_URL;
 
   const { seller } = useAuthContext()
@@ -68,7 +67,7 @@ export default function Overview() {
 
   useEffect(() => {
     if (seller) {
-      getAllAdmins()
+      getAdminOrders()
       getAllApprovedProducts()
     }
     if (seller.role.toLowerCase() === 'super admin') {
@@ -121,11 +120,27 @@ export default function Overview() {
   };
 
   // Usage
-  const adminOrders = admin?.orders || [];
+  const adminOrders = myOrders || [];
   const overAllOrders=allOrders && allOrders || []
   const mySalesData = generateMonthlySalesData(adminOrders,selectedYear);
   const totalSalesData = generateMonthlySalesData(overAllOrders,mySelectedYear);
 
+
+// Filtered All Orders
+  const [status,setStatus]=useState('')
+  const[search,setSearch]=useState('')
+  const filteredAllOrders=allOrders && allOrders.filter(order=>{
+    return(
+      (order.buyer_Name.toLowerCase().includes(search.toLowerCase()) || 
+       order.orderId.toLowerCase().includes(search.toLowerCase()) ||
+       order.address.toLowerCase().includes(search.toLowerCase()) ||
+       order.city.toLowerCase().includes(search.toLowerCase()) ||
+       order.payment_Type.toLowerCase().includes(search.toLowerCase()) 
+
+    ) && 
+        order.order_Status.toLowerCase().includes(status.toLowerCase())
+    )
+})
 
   // deleting a product
   const [, setNewMessage] = useState('')
@@ -292,9 +307,8 @@ const [orderId,setOrderId]=useState('')
                     <div className="right">
                     <select name="year" id="year" className='pe-2'  value={selectedYear} onChange={handleYearChange}>
                         <option value={new Date().getFullYear()}>Current Year</option>
-                        {admin &&
-                          admin.orders &&
-                          Array.from(new Set(admin.orders.map(data => data.year))).map(year => (
+                        {myOrders &&
+                          Array.from(new Set(myOrders.map(data => data.year))).map(year => (
                             <option key={year} value={year}>Year {year}</option>
                           ))}
                       </select>
@@ -394,7 +408,25 @@ const [orderId,setOrderId]=useState('')
 
           {option === 2 &&
             <>
-              <div className="col-md-12 pb-2 px-1 mt-3 mb-4 table">
+              <Paper className="col-md-12 bg-white py-2 mt-1 search_box">
+              <div className="row">
+                <div className=" col-sm-12 col-md-6 order-last order-md-first py-0 my-1">
+               <ul className='py-0'>
+                <li><Link className={`all_btn me-2 `} style={status.toLowerCase()===''? {borderBottom:'2px solid var(--purple)',color:'var(--purple)'}:{}} onClick={()=>setStatus('')}>All</Link></li>
+                <li><Link className={`delivered_btn mx-2`} style={status.toLowerCase()==='delivered'? {borderBottom:'2px solid var(--purple)',color:'var(--purple)'}:{}} onClick={()=>setStatus('delivered')}>Delivered</Link></li>
+                <li><Link className={`delivered_btn mx-2`} style={status.toLowerCase()==='shipping'? {borderBottom:'2px solid var(--purple)',color:'var(--purple)'}:{}} onClick={()=>setStatus('shipping')}>Shipping</Link></li>
+                <li><Link className={`delivered_btn mx-2`} style={status.toLowerCase()==='pending'?{borderBottom:'2px solid var(--purple)',color:'var(--purple)'}:{}} onClick={()=>setStatus('pending')}>Pending</Link></li>
+                <li><Link className={`delivered_btn mx-2 `} style={status.toLowerCase()==='packing'? {borderBottom:'2px solid var(--purple)',color:'var(--purple)'}:{}} onClick={()=>setStatus('packing')}>Packing</Link></li>
+                <li><Link className={`delivered_btn mx-2 `} style={status.toLowerCase()==='cancelled'? {borderBottom:'2px solid var(--purple)',color:'var(--purple)'}:{}} onClick={()=>setStatus('cancelled')}>Cancelled</Link></li>
+               </ul>
+                </div>
+                <div className="col-md-6 col-sm-12 py-0 input_box order-first order-md-first my-1">
+                <i className="fa fa-search" aria-hidden="true"></i>
+                  <input type="search" placeholder='Seacrh here...' value={search} onChange={(e)=>setSearch(e.target.value)} />
+                </div>
+              </div>
+            </Paper>
+              <div className="col-md-12 pb-2 px-1 mt-1 mb-4 table px-0">
                 <TableContainer component={Paper} sx={{ maxHeight: '650px' }}>
                   <Table>
                     <TableHead className='product_content_head'>
@@ -416,7 +448,7 @@ const [orderId,setOrderId]=useState('')
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {allOrders && allOrders.length > 0 ? allOrders.map((order, index) => (
+                      {filteredAllOrders && filteredAllOrders.length > 0 ? filteredAllOrders.map((order, index) => (
                         <React.Fragment key={index}>
                         <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
                           <TableCell className='text-center td'>
@@ -448,6 +480,7 @@ const [orderId,setOrderId]=useState('')
                             {order.order_Status.toLowerCase() === "delivered" && <span className='delivered text-success px-2 py-1'>Delivered</span>}
                             {order.order_Status.toLowerCase() === "packing" && <span className='packing   px-2 py-1'>Packing</span>}
                             {order.order_Status.toLowerCase() === "shipping" && <span className='shipping   px-2 py-1'>Shipping</span>}
+                            {order.order_Status.toLowerCase()==="cancelled" &&<span className='pending  px-2 py-1'>Cancelled</span>}
                           </TableCell>
                           <TableCell className="text-center td">
                           <div className="btn-group " role="group" aria-label="Basic example">
@@ -571,7 +604,7 @@ const [orderId,setOrderId]=useState('')
               <label htmlFor="Status" className='mb-2'>
                 Change Status
               </label>
-              <select name="" id="" value={order_Status} onChange={(e)=>setOrder_Status(e.target.value)}>
+              <select name="" id="" value={order_Status} onChange={(e)=>setOrder_Status(e.target.value)} required>
                 <option value="">Choose status</option>
                 <option value="Packing">Packing</option>
                 <option value="Shipping">Shipping</option>
@@ -581,7 +614,7 @@ const [orderId,setOrderId]=useState('')
            
         </DialogContent>
         <DialogActions>
-        <button className='btn save_btn shadow m-1' onClick={()=>updateOrderStatus()} disabled={delLoading}>{delLoading? "Saving":"Save"}</button>
+          <button className='btn save_btn shadow m-1' onClick={()=>updateOrderStatus()} disabled={delLoading}>{delLoading? "Saving":"Save"}</button>
           <button className='btn close_btn shadow m-1' disabled={delLoading} onClick={handleClose}>Close</button>
         </DialogActions>
       </Dialog>

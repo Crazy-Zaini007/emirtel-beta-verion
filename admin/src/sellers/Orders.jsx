@@ -2,19 +2,20 @@ import React, { useEffect,useState } from 'react'
 import { useAuthContext } from '../hooks/UserContextHook'
 import { Table, TableBody, TableContainer, TableHead, TableRow, TableCell, Paper, Avatar, TablePagination } from '@mui/material';
 import AdminsHook from '../hooks/AdminsHook';
+import OrdersHook from "../hooks/OrdersHook"
 
 export default function Orders() {
   const { seller } = useAuthContext()
+  const {getAdminOrders,myOrders}=OrdersHook()
 
-    const { getAllAdmins, admin } = AdminsHook()
 
     useEffect(() => {
-            getAllAdmins()
+        getAdminOrders()
     }, [seller]);
 
     const [status,setStatus]=useState('')
 
-    const filteredOrders=admin && admin.orders && admin.orders.filter(order=>{
+    const filteredOrders=myOrders && myOrders.filter(order=>{
         return(
             order.order_Status.toLowerCase().includes(status.toLowerCase())
         )
@@ -34,7 +35,7 @@ export default function Orders() {
                             <li><button className={`btn delivered_btn mx-1 ${status.toLowerCase()==='shipping' && 'shadow'} border `} style={status.toLowerCase()==='shipping'? {background:'var(--purple)',color:'var(--white)'}:{}} onClick={()=>setStatus('shipping')}>Shipping</button></li>
                             <li><button className={`btn delivered_btn mx-1 ${status.toLowerCase()==='pending' && 'shadow'} border `} style={status.toLowerCase()==='pending'? {background:'var(--purple)',color:'var(--white)'}:{}} onClick={()=>setStatus('pending')}>Pending</button></li>
                             <li><button className={`btn delivered_btn mx-1 ${status.toLowerCase()==='packing' && 'shadow'} border `} style={status.toLowerCase()==='packing'? {background:'var(--purple)',color:'var(--white)'}:{}} onClick={()=>setStatus('packing')}>Packing</button></li>
-                            <li><button className={`btn delivered_btn mx-1 ${status.toLowerCase()==='cancel' && 'shadow'} border `} style={status.toLowerCase()==='cancel'? {background:'var(--purple)',color:'var(--white)'}:{}} onClick={()=>setStatus('cancel')}>Cancel</button></li>
+                            <li><button className={`btn delivered_btn mx-1 ${status.toLowerCase()==='cancelled' && 'shadow'} border `} style={status.toLowerCase()==='cancelled'? {background:'var(--purple)',color:'var(--white)'}:{}} onClick={()=>setStatus('cancelled')}>Cancelled</button></li>
                         </ul>
                     </div>
                     <div className='col-md-12 pb-2 m-0 px-sm-0 mb-3 table'>
@@ -63,16 +64,17 @@ export default function Orders() {
                                         <TableCell className="text-center td">{order.buyer_Name}</TableCell>
                                         <TableCell className="text-center td">{order.city}</TableCell>
                                         <TableCell className="text-center td">{order.address}</TableCell>
-                                        <TableCell className="text-center td">{order.payment_Type.toLowerCase()==='cash on delivery' ? <span className='on_delivery  px-3 py-2 '>On_Delivery</span>:<span className='paid  px-3 py-2 '>Paid</span>}</TableCell>
+                                        <TableCell className="text-center td">{order.payment_Type.toLowerCase()==='cash on delivery' ? <span className='on_delivery  px-3 py-1 '>On_Delivery</span>:<span className='paid  px-3 py-2 '>Paid</span>}</TableCell>
                                         <TableCell className="text-center td">{order.title}</TableCell>
                                         <TableCell className="text-center td">{order.price}</TableCell>
                                         <TableCell className="text-center td">{order.quantity}</TableCell>
                                         <TableCell className="text-center td">{order.totalPrice}</TableCell>
                                         <TableCell className="text-center td ">
-                                        {order.order_Status.toLowerCase()==="pending" && <span className='pending  px-3 py-2 '>Pending</span> }
-                                        {order.order_Status.toLowerCase()==="delivered" &&<span className='delivered text-success px-3 py-2'>Delivered</span> }
-                                        {order.order_Status.toLowerCase()==="packing" &&<span className='packing  px-3 py-2'>Packing</span>}
-                                        {order.order_Status.toLowerCase()==="shipping" &&<span className='shipping  px-3 py-2'>Shipping</span> }
+                                        {order.order_Status.toLowerCase() === "pending" && <span className='pending  px-3 py-1 '>Pending</span>}
+                                        {order.order_Status.toLowerCase() === "delivered" && <span className='delivered text-success px-2 py-1'>Delivered</span>}
+                                        {order.order_Status.toLowerCase() === "packing" && <span className='packing   px-2 py-1'>Packing</span>}
+                                        {order.order_Status.toLowerCase() === "shipping" && <span className='shipping   px-2 py-1'>Shipping</span>}
+                                        {order.order_Status.toLowerCase() === "cancelled" && <span className='pending  px-2 py-1'>Cancel</span>}
                                         
                                         </TableCell>
                                     </TableRow>

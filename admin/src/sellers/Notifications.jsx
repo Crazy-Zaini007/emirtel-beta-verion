@@ -20,9 +20,6 @@ import delivered from '../assets/icons/delivered.gif'
 import shipping from '../assets/icons/shipping.gif'
 import packing from '../assets/icons/packing.png'
 
-
-
-
 export default function Notifications() {
   const [current, setCurrent] = useState(0)
   const { getAllAdmins, admin } = AdminsHook()

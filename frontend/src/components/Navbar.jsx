@@ -123,14 +123,14 @@ export default function Navbar() {
           }
           {user && 
           <>
-          <Link className=" mx-md-2  mx-1" aria-current="page" to="/shopping_cart" ><Tooltip title="Cart"><Badge badgeContent={user &&(userProfile && userProfile.wishlist && userProfile.wishlist.length)} color="primary" showZero><ShoppingCartIcon></ShoppingCartIcon></Badge></Tooltip></Link>
-          <Link className=" mx-md-2  mx-1" to="/" ><Tooltip title="Orders"><Badge badgeContent={user &&(userProfile && userProfile.orders && userProfile.orders.length)} color="primary" showZero><LocalMallIcon ></LocalMallIcon></Badge></Tooltip></Link>
+          <Link className=" mx-md-2  mx-1" aria-current="page" to="/shopping_cart" ><Tooltip title="Cart"><Badge badgeContent={user &&(userProfile && userProfile.wishlist && userProfile.wishlist.length)} color="success" showZero><ShoppingCartIcon></ShoppingCartIcon></Badge></Tooltip></Link>
+          <Link className=" mx-md-2  mx-1" to="/my_orders" ><Tooltip title="Orders"><Badge badgeContent={user &&(userProfile && userProfile.orders && userProfile.orders.length)} color="success" showZero><LocalMallIcon ></LocalMallIcon></Badge></Tooltip></Link>
           </>
           }
           {!user && 
           <>
-           <Link className=" mx-md-2  mx-1" data-bs-toggle="modal" data-bs-target="#join_modal" ><Tooltip title="Cart"><Badge badgeContent={user &&(userProfile && userProfile.wishlist && userProfile.wishlist.length)} color="primary" showZero><ShoppingCartIcon></ShoppingCartIcon></Badge></Tooltip></Link>
-          <Link className=" mx-md-2  mx-1" data-bs-toggle="modal" data-bs-target="#join_modal" ><Tooltip title="Orders"><Badge badgeContent={user &&(userProfile && userProfile.orders && userProfile.orders.length)} color="primary" showZero><LocalMallIcon ></LocalMallIcon></Badge></Tooltip></Link>
+           <Link className=" mx-md-2  mx-1" data-bs-toggle="modal" data-bs-target="#join_modal" ><Tooltip title="Cart"><Badge badgeContent={user &&(userProfile && userProfile.wishlist && userProfile.wishlist.length)} color="success" showZero><ShoppingCartIcon></ShoppingCartIcon></Badge></Tooltip></Link>
+          <Link className=" mx-md-2  mx-1" data-bs-toggle="modal" data-bs-target="#join_modal" ><Tooltip title="Orders"><Badge badgeContent={user &&(userProfile && userProfile.orders && userProfile.orders.length)} color="success" showZero><LocalMallIcon ></LocalMallIcon></Badge></Tooltip></Link>
           </>
           }
          

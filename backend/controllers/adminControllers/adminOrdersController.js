@@ -20,7 +20,7 @@ const getOrders=async(req,res)=>{
         }
     }
     catch(error){
-        console.error(err);
+        console.error(error);
         res.status(500).json({ message: "Internal Server error" });
     }
 }
@@ -51,6 +51,12 @@ const updateOrderStatus=async(req,res)=>{
                 let orderToUpdate=user.orders.find((order)=>order.orderId.toString()===orderId.toString())
                 if(orderToUpdate){
                     orderToUpdate.order_Status=order_Status
+                    const newNotification={
+                        type: order_Status,
+                        content: `Your order's status with orderId ${order.orderId} updated to "${order_Status}" for your product: ${orderToUpdate.title} on ${todayDate}`,
+                        date: todayDate
+                    }
+                    user.notifications.push(newNotification)
                     await user.save()
                 }
             }
@@ -91,9 +97,34 @@ const updateOrderStatus=async(req,res)=>{
         }
     }
     catch(error){
-        console.error(err);
+        console.error(error);
         res.status(500).json({ message: "Internal Server error" });
     }
 }
 
-module.exports={getOrders,updateOrderStatus}
+
+// Getting Logged in Individual Admin Orders
+
+const getAdminOrders=async(req,res)=>{
+ try{
+        const adminId = req.user._id;
+        const admin = await Admin.findById(adminId);
+        if (!admin) {
+            return res.status(404).json({ message: 'Admin not found' });
+        }
+        if (admin) {
+            const allOrders=admin.orders
+            const sortedOrders = allOrders.sort((a, b) => b.createdAt - a.createdAt);
+            return res.status(200).json({
+                data: allOrders
+              })
+        }
+    }
+    catch(error){
+        console.error(error);
+        res.status(500).json({ message: "Internal Server error" });
+    }
+}
+
+
+module.exports={getOrders,updateOrderStatus,getAdminOrders}

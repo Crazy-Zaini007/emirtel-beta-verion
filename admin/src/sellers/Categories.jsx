@@ -375,7 +375,6 @@ export default function Categories() {
                           <TableCell  className='text-center'>Quantity</TableCell>
                           <TableCell  className='text-center'>Sold</TableCell>
                           <TableCell  className='text-center'>Price</TableCell>
-                          <TableCell  className='text-center'>Image</TableCell>
                           <TableCell  className='text-center'>Desc</TableCell>
                           <TableCell  className='text-center'>Status</TableCell>
                           
@@ -395,9 +394,7 @@ export default function Categories() {
                               <TableCell  className='text-center td'>{product.quantity}</TableCell>
                               <TableCell  className='text-center td'>{product.soldQuantity}</TableCell>
                               <TableCell  className='text-center td'>{product.price}</TableCell>
-                              <TableCell  className='text-center td'>
-                              {product.image && <img src={product.image} className='rounded' alt={product.title} />}
-                              </TableCell>
+                              
                               <TableCell  className='text-center td'>{product.description}</TableCell>
                               <TableCell  className='text-center td'>
                                   {product.available===true ?

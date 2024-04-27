@@ -6,18 +6,22 @@ import { AreaChart, PieChart, Pie, Cell, XAxis, YAxis, Area, Tooltip, Legend, Re
 import CategoryHook from '../hooks/CategoryHook'
 import { useSelector,useDispatch } from 'react-redux';
 import ProductsHook from "../hooks/ProductsHook"
+import OrdersHook from "../hooks/OrdersHook"
 import AdminsHook from '../hooks/AdminsHook';
 
 export default function SellerDashboard() {
   const dispatch = useDispatch()
   const {getAllCategory}=CategoryHook()
   const {getAllProducts}=ProductsHook()
-  const {getAllAdmins,admin}=AdminsHook()
+  const {getAllAdmins}=AdminsHook()
+  const {getAdminOrders,myOrders}=OrdersHook()
+
   const { seller } = useAuthContext()
   
   useEffect(() => {
     if(seller){
       getAllAdmins()
+      getAdminOrders()
       getAllCategory()
       getAllProducts()
     }
@@ -28,9 +32,9 @@ export default function SellerDashboard() {
   const productsLength = products ? products.length.toString().padStart(2, '0') : '00';
   const admins = useSelector((state) => state.allAdmins.admins);
   const adminLength= admins ? admins.length.toString().padStart(2, '0') : '00';
-  const ordersLength=admin && admin? admin.orders.length.toString().padStart(2, '0') : '00'; 
+  const ordersLength=myOrders && myOrders? myOrders.length.toString().padStart(2, '0') : '00'; 
 
-  const adminOrders = admin?.orders || [];
+  const adminOrders = myOrders || []
 
 const orderCounts = {};
 
@@ -70,7 +74,7 @@ function isSameDay(date1, date2) {
 
   
   const COLORS = ['#24CE85','#F68BFF','#2f2a7c','#6F47EB','#D83232'];
-  const adminOrdersStatus = admin?.orders || [];
+  const adminOrdersStatus = myOrders || [];
 
   const orderStatusCounts = {
     Delivered: 0,
@@ -112,8 +116,8 @@ function isSameDay(date1, date2) {
   return (
     <>
       <div className="main">
-        <div className="container-fluid seller_overview">
-          <div className="row mx-lg-2 mx-sm-3 my-3 ">
+        <div className="container-fluid seller_overview mb-5">
+          <div className="row mx-lg-2 mx-sm-3 mt-3 mb-5">
             <div className="col-sm-12 pb-2 m-0 px-2">
               <h4> Dashboard</h4>
               <p className='welcome'>Welcome to your {seller.role} Dashboard !</p>

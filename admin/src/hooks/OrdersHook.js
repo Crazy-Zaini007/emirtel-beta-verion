@@ -9,6 +9,8 @@ export default function OrdersHook() {
     const { seller } = useAuthContext()
     const [loading, setLoading] = useState(null)
     const [allOrders,setAllOrders]=useState('')
+    const [myOrders,setMyOrders]=useState('')
+
     // Fetching Logged in Seller's Created Categories
     const getAllOrders=async()=>{
       setLoading(true)
@@ -34,7 +36,33 @@ export default function OrdersHook() {
        }
     }
 
+    // Getting Logged in Individual Admin Orders
+
+    const getAdminOrders=async()=>{
+      setLoading(true)
+       try {
+        const response=await fetch(`${apiUrl}/auth/admin/all_orders/get/admin/orders`,{
+          headers:{
+            'Authorization': `Bearer ${seller.token}`
+            
+          }
+        })
+        
+        const json=await response.json()
+
+        if(response.ok){
+          setMyOrders(json.data)
+          setLoading(null)
+        }
+        if(!response.ok){
+            setLoading(null)
+        }
+       } catch (error) {
+       console.log(error)
+       }
+    }
+
 
 // getAllOrders
-  return {getAllOrders,allOrders}
+  return {getAllOrders,getAdminOrders,allOrders,myOrders}
 }

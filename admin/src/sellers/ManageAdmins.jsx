@@ -298,10 +298,11 @@ export default function ManageAdmins() {
                                         <TableCell className="text-center td">{order.quantity}</TableCell>
                                         <TableCell className="text-center td">{order.totalPrice}</TableCell>
                                         <TableCell className="text-center td ">
-                                        {order.order_Status.toLowerCase()==="pending" && <span className='pending  px-3 py-2 '>Pending</span> }
+                                        {order.order_Status.toLowerCase()==="pending" && <span className='pending  px-3 py-1'>Pending</span> }
                                         {order.order_Status.toLowerCase()==="delivered" &&<span className='delivered text-success px-2 py-1'>Delivered</span> }
                                         {order.order_Status.toLowerCase()==="packing" &&<span className='packing  px-2 py-1'>Packing</span>}
-                                        {order.order_Status.toLowerCase()==="shipping" &&<span className='shipping  px-2 py-1'>Shipping</span> }
+                                        {order.order_Status.toLowerCase()==="shipping" &&<span className='shipping  px-2 py-1'>Shipping</span>}
+                                        {order.order_Status.toLowerCase()==="cancelled" &&<span className='pending  px-2 py-1'>Cancelled</span>}
 
                                         
                                         </TableCell>

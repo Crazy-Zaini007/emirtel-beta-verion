@@ -632,11 +632,52 @@
   color: var(--darkgrey);
 }
 
-
 /* Seller Overview */
-
-.main .seller_overview {
+ .seller_overview {
   position: relative;
+}
+
+.search_box ul {
+  list-style: none;
+  width:auto;
+  bottom: 0;
+  background: var(--white);
+  z-index: 999;
+  overflow-x: auto;
+  white-space: nowrap; 
+}
+.search_box ul li{
+  display: inline; 
+}
+.search_box ul li a{
+  font-size: 14px;
+  text-decoration: none;
+  color: var(--black);
+}
+
+.search_box .input_box{
+  position: relative;
+}
+.search_box .input_box input{
+  width: 100%;
+  height: 35px;
+  border-radius: 4px;
+  border:1px solid var(--darkgrey);
+  padding-left: 35px;
+  font-size: 13px;
+}
+.search_box .input_box input:focus{
+  width: 100%;
+  height: 35px;
+  border-radius: 4px;
+  border:1px solid var(--purple);
+  outline: none;
+}
+.search_box .input_box i{
+  position: absolute;
+  top: 12px;
+  left: 25px;
+  font-size: 13px;
 }
 
 .main .seller_overview h4 {
@@ -1037,21 +1078,18 @@ z-index: 5;
 .table .td .pending{
   font-weight: 600;
   cursor:pointer;
-  background:#dac8c8;
   border-radius:4px;
   color:var(--b-Red);
 }
 .table .td .delivered{
   font-weight: 600;
   cursor:pointer;
-  background:var(--cool-Green);
   border-radius:4px;
-  color:#26e291;
+  color:var(--cool-Green);
 }
 .table .td .paid{
   font-weight: 600;
   cursor:pointer;
-  background:#b3d8c8;
   border-radius:4px;
   color:var(--cool-Green);
 }
@@ -1059,14 +1097,12 @@ z-index: 5;
 .table .td .packing{
   font-weight: 600;
   cursor:pointer;
-  background:#a69aca;
   border-radius:4px;
   color:var(--purple);
 }
 .table .td .shipping{
   font-weight: 600;
   cursor:pointer;
-  background:#b0c1dd;
   border-radius:4px;
   color:var(--accent-stonger-blue);
 }
@@ -1074,7 +1110,6 @@ z-index: 5;
 .table .td .on_delivery{
   font-weight: 600;
   cursor:pointer;
-  background:#b0c1dd;
   border-radius:4px;
   color:var(--accent-stonger-blue);
 }

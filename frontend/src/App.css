@@ -41,7 +41,7 @@
   --lightred: #FBE4E1;
   --grey: #C5C5C5;
   --error: #ffefef;
-  --success: rgb(162, 240, 162);
+  --success: #a2f0a2;
   --whitegrey: #f9f9f9;
   --btnbg: #ededed;
   --grays-ligher-gray: #F4F4F4;
@@ -714,6 +714,250 @@ text-transform: capitalize;
   outline: none;
 }
 
+
+
+/* Orders */
+.my_orders{
+  background-color: rgb(248, 246, 246);
+    }
+    .my_orders h2{
+      color: var(--black);
+      font-size: 28px;
+      letter-spacing: 1.4px;
+    text-transform: capitalize;
+      }
+  .my_orders .search_box{
+    position: relative;
+  }
+  .my_orders .search_box a{
+   font-size: 14px;
+   text-decoration: none;
+   color: var(--black);
+  }
+  .my_orders .search_box input{
+    width: 100%;
+    height: 38px;
+    padding-left: 35px;
+  }
+   .my_orders .search_box input{
+    width: 100%;
+    height: 38px;
+    padding-left: 40px;
+  border-radius: 4px;
+  border: 1px solid var(--black);
+  font-size: 13px;
+  }
+  .my_orders .search_box input:focus{
+  border: 1px solid var(--cool-Green);
+  outline: none;
+  }
+  .search_box .input_box{
+    position: relative;
+  }
+  .search_box .input_box input{
+    width: 100%;
+    height: 35px;
+    border-radius: 4px;
+    border:1px solid var(--darkgrey);
+    padding-left: 35px;
+    font-size: 13px;
+  }
+  .search_box .input_box input:focus{
+    width: 100%;
+    height: 35px;
+    border-radius: 4px;
+    border:1px solid var(--cool-Green);
+    outline: none;
+  }
+  .search_box .input_box .search_icon{
+    position: absolute;
+    top: 12px;
+    left: 25px;
+    font-size: 13px;
+  }
+  .search_box .input_box .notification_icon{
+    font-size: 12px;
+  }
+  .search_box .input_box
+
+  .my_orders .search_box ul {
+    list-style: none;
+    width:auto;
+    bottom: 0;
+    background: var(--white);
+    z-index: 999;
+    overflow-x: auto;
+    white-space: nowrap; 
+  }
+  .my_orders .search_box ul li{
+    display: inline; 
+  }
+  .my_orders .search_box ul li a{
+    font-size: 14px;
+    text-decoration: none;
+    color: var(--black);
+  }
+
+  .my_orders .content table thead{
+    background-color: var(--cool-Green);
+  }
+  .my_orders .content table thead th{
+    font-size: 12px;
+    font-weight: 600;
+  color: var(--white);
+
+  }
+  
+  .my_orders .content table tbody .td{
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .my_orders .content table tbody .td .in_stock{
+  color: var(--cool-Green);
+  }
+  
+  .my_orders .content table tbody .td .image .carousel{
+    height: 100%;
+    width: 100px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .my_orders .content table tbody .price{
+    color: var(--cool-Green);
+    font-weight: 600;
+    font-size: 14px;
+  }
+  
+  .my_orders .content table tbody .td button,.my_orders .content table tbody .td .span_text{
+  border: 1px solid var(--grey);
+  border-radius: 0px;
+  font-size: 12px;
+  font-weight: 400;
+  box-shadow: 10px 20px 10px 1px solid var(--white);
+  }
+  .my_orders .content table tbody .td button:hover{
+    background:var(--cool-Green);
+    color: var(--white);
+    border: 1px solid var(--cool-Green);
+  
+  }
+  
+  .my_orders .empty_cart img{
+  height: 70px;
+  width: 70px;
+  }
+  .my_orders .empty_cart .find_btn{
+    border: 1px solid var(--cool-Green);
+    border-radius: 0px;
+    color:white;
+    font-size: 15px;
+    width: 100%;
+    font-weight: 600;
+    box-shadow: 10px 20px 10px 1px solid var(--white);
+  }
+  .my_orders .content table tbody .td .pending{
+    font-weight: 600;
+    cursor:pointer;
+    border-radius:4px;
+    color:var(--b-Red);
+  }
+  .my_orders .content table tbody .td .delivered{
+    font-weight: 600;
+    cursor:pointer;
+    border-radius:4px;
+    color:var(--cool-Green);
+  }
+  .my_orders .content table tbody .td .paid{
+    font-weight: 600;
+    cursor:pointer;
+    border-radius:4px;
+    color:var(--cool-Green);
+  }
+  
+  .my_orders .content table tbody .td .packing{
+    font-weight: 600;
+    cursor:pointer;
+    border-radius:4px;
+    color:var(--purple);
+  }
+  .my_orders .content table tbody .td .shipping{
+    font-weight: 600;
+    cursor:pointer;
+    border-radius:4px;
+    color:var(--accent-stonger-blue);
+  }
+  
+  .my_orders .content table tbody .td .on_delivery{
+    font-weight: 600;
+    cursor:pointer;
+    border-radius:4px;
+    color:var(--accent-stonger-blue);
+  }
+
+  /* Orders Notifications */
+  .notification_modal h2{
+    color: var(--cool-Green);
+  }
+  .notification_modal .top p{
+    color: var(--grays-dm-background);
+  }
+  .notification_modal button{
+    color: var(--black);
+    font-size: 12px;
+  box-shadow: 10px 20px 10px 1px solid var(--white);
+    
+  }
+  .notification_modal .image img{
+    height: 120px;
+    width: 120px;
+  }
+  .notification_modal button:focus{
+    outline: none;
+  box-shadow: 10px 20px 10px 1px solid var(--white);
+  }
+
+  .notification_modal .close_btn{
+    color: var(--white);
+    background-color: var(--b-Red);
+    font-size: 12px;
+  }
+
+
+  .notification_modal .toast-header img{
+    height:30px;
+    width:30px;
+  }
+  .notification_modal .toast-header .success{
+    font-size: 13px;
+    color: var(--cool-Green);
+    font-weight: 600;
+
+  }
+  .notification_modal .toast-header .danger{
+    font-size: 13px;
+    color: var(--b-Red);
+    font-weight: 600;
+
+  }
+  .notification_modal .toast-header small{
+    font-size:12px
+  }
+  .notification_modal .toast-header button{
+font-size: 12px;
+box-shadow: 0px 0px 10px 1px solid var(--white)
+
+  }
+.notification_modal .toast-header button{
+    font-size: 10px;
+      }
+.notification_modal .toast-body p{
+  font-size: 14px;
+  color: var(--black);
+}
+.notification_modal img{
+  width: 100%;
+  height: 100%;
+}
 
 /* Footer */
 footer{
