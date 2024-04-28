@@ -251,14 +251,14 @@ const plceOrder=async(e)=>{
                                                     <TableCell className='text-center td'>{data.title}</TableCell>
 
                                                     <TableCell className='text-center td'>{data.available === true || (data.quantity - data.soldQuantity === 0) ?
-                                                        <small className='my-0 py-0 in_stock'>In Stock</small> :
-                                                        <small className='my-0 py-0 out_of_stock'>Out of Stock</small>
+                                                        <small className='my-0 py-0 in_stock text-success'>In Stock</small> :
+                                                        <small className='my-0 py-0 out_of_stock text-danger'>Out of Stock</small>
                                                     }</TableCell>
                                                     <TableCell className='text-center td'>
                                                         <div className="btn-group" role="group" aria-label="">
-                                                            <button className="btn px-3 py-2" onClick={() => incrementQuantity(data._id)}><i className="fas fa-plus"></i></button>
+                                                            <button className="btn px-3 py-2" onClick={() => incrementQuantity(data._id)} disabled={data.available === false || (data.quantity - data.soldQuantity === 0) }><i className="fas fa-plus"></i></button>
                                                             <span className="btn px-3 py-2 span_text">{quantities[data._id] || 0}</span>
-                                                            <button className="btn px-3 py-2" onClick={() => decrementQuantity(data._id)}><i className="fas fa-minus"></i></button>
+                                                            <button className="btn px-3 py-2" onClick={() => decrementQuantity(data._id)} disabled={data.available === false || (data.quantity - data.soldQuantity === 0) }><i className="fas fa-minus"></i></button>
                                                         </div>
                                                     </TableCell>
                                                     <TableCell className='text-center td '>

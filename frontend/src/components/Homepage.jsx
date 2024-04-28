@@ -24,7 +24,8 @@ export default function Homepage() {
     const userAllProducts = useSelector((state) => state.products.userAllProducts);
     const latestProducts = useSelector((state) => state.products.latestProducts);
     const userAllLatestProducts = useSelector((state) => state.products.userAllLatestProducts);
-    // const userProfile = useSelector((state) => state.userProfile.userProfile);
+    const userProfile = useSelector((state) => state.userProfile.userProfile);
+console.log('userProfile',userProfile.wishlist)
     const [title, setTitle] = useState('');
     const filteredUserAllLatestProducts = userAllLatestProducts && userAllLatestProducts.filter(product => {
         return (
@@ -330,9 +331,6 @@ export default function Homepage() {
                     </div>
                 </div>
             </div> */}
-
-
-            {/* Top Selling Products */}
             <div className="container-fluid latest_products py-5">
                 <div className="row justify-content-center px-md-3 px-2">
                     <h2 className="text-center mb-4">Top Selling Products</h2>
@@ -340,7 +338,7 @@ export default function Homepage() {
                         <>
                             {allProducts && allProducts.length > 0 ? (
                                 allProducts
-                                    .filter(d => d.soldQuantity === 0 && d.isApproved===true)
+                                    .filter(d => d.soldQuantity > 20 && d.isApproved===true)
                             ).map((data) => (
                                 <Fade className="col-xl-3 col-lg-4 col-md-6 col-sm-12 px-2 my-1" key={data._id}>
                                     <div className="card border-0" >
@@ -385,7 +383,7 @@ export default function Homepage() {
                         <>
                             {userAllProducts && userAllProducts.length > 0 ? (
                                 userAllProducts
-                                    .filter(data => data.soldQuantity === 0 && data.isApproved===true)
+                                    .filter(data => data.soldQuantity > 20 && data.isApproved===true)
                             ).map((data) => (
                                 <Fade className="col-xl-3 col-lg-4 col-md-6 col-sm-12 px-2 my-1" key={data._id}>
                                     <div className="card border-0" >
@@ -431,6 +429,118 @@ export default function Homepage() {
 
                 </div>
             </div>
+            
+
+
+            {/* Showing Category Wise Products */}
+            <div className="container benefits py-3">
+                <h2 className="text-center my-4">Products from all Categories</h2>
+            </div>
+            {categories && categories
+  .filter(category => category.product.length > 0)
+  .map((category,index) => (
+    <>
+    <div className="container-fluid latest_products bg-white py-3">
+                <div className="row justify-content-center px-md-3 px-2">
+                    <h3 className="text-center mb-4">{index+1}: {category.categoryName}</h3>
+                    {!user &&
+                        <>
+                            {category.product &&
+                                category.product.map((data) => (
+                                <Fade className="col-xl-3 col-lg-4 col-md-6 col-sm-12 px-2 my-1" key={data._id}>
+                                    <div className="card border-0 shadow" >
+                                    
+                                        {data.soldQuantity>20 && <span className='top_rated pt-1 text-center'>Top Selling</span>}
+                                        <div className="image">
+                                            <div id="carouselExampleIndicators" className="carousel slide py-0 " data-bs-ride="carousel">
+                                                <div className="carousel-inner carousel-fade py-0 my-0">
+                                                    {data.images && data.images.map((image, index) => (
+                                                        <div className={`carousel-item ${index === 0 ? "active" : ""}`}>
+                                                            <img src={image.imageUrl} className="d-block w-100" alt="..." />
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="card-body">
+                                            <h5 className="card-title">{data.title}</h5>
+                                            <h6 className='text-muted'><i >from</i> {data.categoryName}</h6>
+                                            <strong>${data.price}</strong> <br />
+                                            <div className="d-flex justify-content-between">
+                                                <div className="left">
+                                                    <p className='rating'><Rating name="half-rating-read " size="small" value={calculateAverageRating(data.product_Rating)} precision={0.5} readOnly />({data.product_Rating.length})</p>
+                                                    {data.available === true || (data.quantity - data.soldQuantity === 0) ?
+                                                        <small className='my-0 py-0 in_stock'>In Stock</small> :
+                                                        <small className='my-0 py-0 out_of_stock'>Out of Stock</small>
+                                                    }
+                                                </div>
+                                                <div className="right">
+                                                    <Slide className='btn purchase_btn mx-1 py-2'>Add to Cart</Slide>
+                                                    {/* <button className='btn purchase_btn mx-1 py-2' data-bs-toggle="modal" data-bs-target="#join_modal">Add to Cart</button> */}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </Fade>
+                            ))}
+                        </>
+                    }
+                    {user &&
+  <>
+    {category.product &&
+      category.product.map((data) => {
+        // Check if the product ID exists in the user's wishlist
+        const isWishlisted =userProfile && userProfile.wishlist && userProfile.wishlist.some(item => item.title.toLowerCase() === data.title.toLowerCase());
+        return (
+          <Fade className="col-xl-3 col-lg-4 col-md-6 col-sm-12 px-2 my-1" key={data._id}>
+            <div className="card border-0 shadow" >
+              {data.soldQuantity > 20 && <span className='top_rated pt-1 text-center'>Top Selling</span>}
+              <div className="image">
+                <div id="carouselExampleIndicators" className="carousel slide py-0 " data-bs-ride="carousel">
+                  <div className="carousel-inner carousel-fade py-0 my-0">
+                    {data.images && data.images.map((image, index) => (
+                      <div className={`carousel-item ${index === 0 ? "active" : ""}`} key={index}>
+                        <img src={image.imageUrl} className="d-block w-100" alt="..." />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="card-body">
+                <h5 className="card-title">{data.title}</h5>
+                <h6 className='text-muted'><i >from</i> {data.categoryName}</h6>
+                <strong>${data.price}</strong> <br />
+                <div className="d-flex justify-content-between">
+                  <div className="left">
+                    <p className='rating'><Rating name="half-rating-read " size="small" value={calculateAverageRating(data.product_Rating)} precision={0.5} readOnly />({data.product_Rating.length})</p>
+                    {data.available === true || (data.quantity - data.soldQuantity === 0) ?
+                      <small className='my-0 py-0 in_stock'>In Stock</small> :
+                      <small className='my-0 py-0 out_of_stock'>Out of Stock</small>
+                    }
+                  </div>
+                  <Slide className="right">
+                    <button className='btn purchase_btn mx-1 py-2' onClick={() => addToWishlist(data)} disabled={wLoading[data._id] || isWishlisted}>
+                      {wLoading[data._id] ? <i className="fa-solid fa-spinner fa-spin"></i> : (isWishlisted ? "In Cart" : "Add to Cart")}
+                    </button>
+                  </Slide>
+                </div>
+              </div>
+            </div>
+          </Fade>
+        );
+      })}
+  </>
+}
+
+
+                </div>
+            <hr className='px-5' />
+
+            </div>
+    </>
+            
+  ))}
         </>
     )
 }

@@ -74,7 +74,7 @@ export default function Orders() {
                                         {order.order_Status.toLowerCase() === "delivered" && <span className='delivered text-success px-2 py-1'>Delivered</span>}
                                         {order.order_Status.toLowerCase() === "packing" && <span className='packing   px-2 py-1'>Packing</span>}
                                         {order.order_Status.toLowerCase() === "shipping" && <span className='shipping   px-2 py-1'>Shipping</span>}
-                                        {order.order_Status.toLowerCase() === "cancelled" && <span className='pending  px-2 py-1'>Cancel</span>}
+                                        {order.order_Status.toLowerCase() === "cancelled" && <span className='pending  px-2 py-1'>Cancelled</span>}
                                         
                                         </TableCell>
                                     </TableRow>

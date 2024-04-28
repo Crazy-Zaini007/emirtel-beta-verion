@@ -186,13 +186,13 @@ const[preCategoryName,setPreCategoryName]=useState('')
   const updateProduct = async () => {
     setUpdateLoading(true)
         try {
-      const response = await fetch(`${apiUrl}/admin/product/update/product`, {
+      const response = await fetch(`${apiUrl}/auth/admin/product/update/product`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           "Authorization": `Bearer ${seller.token}`,
         },
-        body: JSON.stringify({ productId:editedEntry.productId,date:editedEntry.date, preCategory: preCategoryName,categoryName: editedEntry.categoryName, title: editedEntry.title, image: editedEntry.image, price: editedEntry.price, quantity: editedEntry.quantity, size: editedEntry.size, color: editedEntry.color, description: editedEntry.description, keywords: editedEntry.keywords,available:editedEntry.available })
+        body: JSON.stringify({ productId:editedEntry._id,date:editedEntry.date, preCategory: preCategoryName,categoryName: editedEntry.categoryName, title: editedEntry.title, image: editedEntry.image, price: editedEntry.price, quantity: editedEntry.quantity, size: editedEntry.size, color: editedEntry.color, description: editedEntry.description, keywords: editedEntry.keywords,available:editedEntry.available })
       })
 
       const json = await response.json()
@@ -509,8 +509,8 @@ const[delLoading,setDelLoading]=useState(false)
                                                       <TableCell className='border td data_td p-1 '>
                                                      <select name="" id="" value={editedEntry.available} required onChange={(e) => handleInputChange(e, 'available')}>
                                                       
-                                                      <option value='false'>set as In Stock</option>
-                                                      <option value='true'>set as Out of Stock</option>
+                                                      <option value='true'>Set as In Stock</option>
+                                                      <option value='false'>Set as Out of Stock</option>
                                                      </select>
                                                       </TableCell>
                                                       {seller.role !=="Super Admin" && <TableCell className='border td data_td p-1 '>

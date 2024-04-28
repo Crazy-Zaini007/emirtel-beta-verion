@@ -435,5 +435,22 @@ const getSecurity=async(req,res)=>{
     }
     }
     
-    
-module.exports={adminSignup,adminLogin,getAdmins,changeAdminStatus,updateAdmin,deleteNotify,addSecurity,updateSecurity,getSecurity}
+    // Getting Notifications for logged in Users
+
+    const getAdminNotifications=async(req,res)=>{
+       try {
+        const adminId = req.user._id;
+        const admin = await Admin.findById(adminId);
+        if (!admin) {
+            return res.status(404).json({ message: 'Admin not found to update' });
+        }
+        if(admin){
+            const allNotifications=admin.notifications
+            res.status(200).json({data:allNotifications})
+        }
+       } catch (error) {
+        res.status(500).json({ message: error.message });
+        
+       }
+    }
+module.exports={adminSignup,adminLogin,getAdmins,changeAdminStatus,updateAdmin,deleteNotify,addSecurity,updateSecurity,getSecurity,getAdminNotifications}

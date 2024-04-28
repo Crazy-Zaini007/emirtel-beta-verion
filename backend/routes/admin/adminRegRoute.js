@@ -1,5 +1,5 @@
 const  express = require('express');
-const { adminLogin,adminSignup,getAdmins,changeAdminStatus,updateAdmin,deleteNotify,addSecurity,updateSecurity,getSecurity } = require('../../controllers/adminControllers/adminRegController')
+const { adminLogin,adminSignup,getAdmins,changeAdminStatus,updateAdmin,deleteNotify,addSecurity,updateSecurity,getSecurity,getAdminNotifications } = require('../../controllers/adminControllers/adminRegController')
 const adminAuth = require('../../middleware/admin/adminAuth')
 
 const router=express.Router()
@@ -30,6 +30,10 @@ router.post('/add/security_code',addSecurity)
 router.patch('/update/security_code',updateSecurity)
 
 router.get('/get/security_code',getSecurity)
+
+// Getting notifications
+router.get('/get/notifications',getAdminNotifications)
+
 
 
 module.exports = router

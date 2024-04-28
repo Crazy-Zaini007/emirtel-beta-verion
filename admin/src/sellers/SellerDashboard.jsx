@@ -72,7 +72,6 @@ function isSameDay(date1, date2) {
 }
 
 
-  
   const COLORS = ['#24CE85','#F68BFF','#2f2a7c','#6F47EB','#D83232'];
   const adminOrdersStatus = myOrders || [];
 
@@ -191,7 +190,7 @@ function isSameDay(date1, date2) {
               <Paper className='mx-1'>
                 <div className="pichart pt-3 mb-lg-0 my-2 px-2 ">
                   <h6 className='mb-2'>Order's Status</h6>
-                  <p>Order's status shown for products last 7 days</p>
+                  <p>Order's status shown for orders you received</p>
                   <ResponsiveContainer width="100%" height={280}>
                     <PieChart>
                       <Pie

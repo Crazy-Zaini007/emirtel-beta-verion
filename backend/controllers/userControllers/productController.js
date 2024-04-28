@@ -24,24 +24,26 @@ const getAllProducts = async (req, res) => {
 
 const getLatestProducts = async (req, res) => {
   try {
-    let allProducts = [];
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
 
-    // Check if user is authenticated
+    // Find categories created in the last 30 days
+    const recentCategories = await Categories.find({ }).sort({ createdAt: -1 })
 
-      const allCategories = await Categories.find({ createdAt: { $gte: thirtyDaysAgo } }).sort({ createdAt: -1 });
-      for (const category of allCategories) {
-        if (category.product) {
-          allProducts.push(...category.product);
-        }
-      }
-      return res.status(200).json({ data: allProducts });
-  
+    let allProducts = [];
+    // Extract products from recent categories
+    for (const category of recentCategories) {
+      // Filter products added in the last 30 days
+      const recentProducts = category.product.filter(product => new Date(product.createdAt) >= thirtyDaysAgo);
+      allProducts.push(...recentProducts);
+    }
+
+    return res.status(200).json({ data: allProducts });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Internal Server error" });
   }
-}
+};
+
 
 
 const getAuthAllProducts = async (req, res) => {
@@ -73,26 +75,30 @@ const getAuthAllProducts = async (req, res) => {
   }
 }
 
+
 const getAuthLatestProducts = async (req, res) => {
   try {
-    let allProducts = [];
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
 
+    // Get the user ID from the request
     const userId = req.user._id;
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const allCategories = await Categories.find({ createdAt: { $gte: thirtyDaysAgo } }).sort({ createdAt: -1 });
+    // Find categories created in the last 30 days
+    const recentCategories = await Categories.find({}).sort({ createdAt: -1 });
 
-    for (const category of allCategories) {
-      if (category.product) {
-        allProducts.push(...category.product);
-      }
+    let allProducts = [];
+    // Extract products from recent categories
+    for (const category of recentCategories) {
+      // Filter products added in the last 30 days
+      const recentProducts = category.product.filter(product => new Date(product.createdAt) >= thirtyDaysAgo);
+      allProducts.push(...recentProducts);
     }
 
-    // Check wishlist
+    // Check wishlist for each product
     const filteredProducts = allProducts.map(product => {
       const isWishlisted = user.wishlist.some(wish => wish.title.toLowerCase() === product.title.toLowerCase());
       return { ...product.toObject(), wishlisted: isWishlisted };
@@ -103,6 +109,7 @@ const getAuthLatestProducts = async (req, res) => {
     console.error(err);
     return res.status(500).json({ message: "Internal Server error" });
   }
-}
+};
+
 
 module.exports = {getAllProducts, getLatestProducts,getAuthAllProducts,getAuthLatestProducts };

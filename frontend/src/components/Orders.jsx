@@ -126,7 +126,7 @@ export default function Orders() {
         <div className="container px-md-2">
           <div className="row px-xl-2 justify-content-center">
             <h2 className='text-center mb-4'>My Orders</h2>
-            <Fade className="col-md-12 bg-white pt-2 content">
+            <Fade className="col-md-12 bg-white pt-2">
               <div className="row search_box" >
                 <div className="col-sm-12 col-md-6 order-last order-md-first py-0 my-1">
                   <ul className='py-0'>
@@ -141,7 +141,7 @@ export default function Orders() {
                 <div className="col-md-6 col-sm-12 py-0 input_box order-first order-md-first my-1 text-md-end d-flex">
                   <i className="fa fa-search search_icon" aria-hidden="true"></i>
                   <input type="search" placeholder='Seacrh here...' value={search} onChange={(e) => setSearch(e.target.value)} />
-                  <Link className='notification_icon ms-2 me-1 mt-1' onClick={() => handleClickOpen()}><Badge badgeContent={filteredOrders && filteredOrders.length} color="success" showZero><NotificationsIcon></NotificationsIcon></Badge></Link>
+                  <Link className='notification_icon ms-2 me-1 mt-1' onClick={() => handleClickOpen()}><Badge badgeContent={recentNotifications && recentNotifications.length} color="success" showZero><NotificationsIcon></NotificationsIcon></Badge></Link>
                 </div>
               </div>
             </Fade>

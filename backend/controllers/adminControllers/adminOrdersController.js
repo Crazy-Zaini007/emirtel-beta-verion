@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const Admin = require('../../database/admin/adminModel');
 const Users = require('../../database/user/userModel');
 const AllOrders = require('../../database/admin/allOrdersModel')
+const Products = require('../../database/admin/productModel')
+
 const nodemailer = require("nodemailer");
 
 //getting all Orders
@@ -41,7 +43,6 @@ const updateOrderStatus=async(req,res)=>{
             
             if(!order){
             res.status(404).json({ message:`Order not found`});
-
             }
             if(order){
             const todayDate = new Date().toISOString().split("T")[0];
@@ -81,19 +82,42 @@ const updateOrderStatus=async(req,res)=>{
             if(superAdmin){
                 const newNotification={
                     type: order_Status,
-                    content: `You have updated Order Status to "${order_Status}" of ${order.buyer_Name}'order on ${todayDate}`,
+                    content: `You have updated Order Status to "${order_Status}" of ${order.buyer_Name}'s order on ${todayDate}`,
                     date: todayDate
                 }
                 superAdmin.notifications.push(newNotification)
                 await superAdmin.save()
             }
+
+
+            // Increase the sold quantity of products id the status is being updated to "Delivered"
+            if(order_Status.toLowerCase()==='delivered'){
+                const products=order.products
+                const categories=await Products.find({})
+                
+                for(const oneProduct of products){
+                    for (const category of categories){
+                        let allProducts=category.product
+                        for (const product of allProducts){
+                            if(oneProduct.title.trim().toLowerCase()===product.title.trim().toLowerCase()){
+                                product.soldQuantity+=Number(oneProduct.quantity) 
+                                await category.save()
+                            }
+                        }
+                    }
+                }
+
+            }
+
             order.order_Status=order_Status
             await order.save()
+
+
+
             return res.status(200).json({
                message:`Order Status successfully updated to ${order_Status}`
               })
             }
-
         }
     }
     catch(error){

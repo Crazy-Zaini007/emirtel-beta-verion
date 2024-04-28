@@ -3,6 +3,7 @@ const cloudinary = require('./cloudinary');
 const Admin = require('../../database/admin/adminModel');
 const Products = require('../../database/admin/productModel')
 const nodemailer = require("nodemailer");
+const User = require("../../database/user/userModel");
 
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -322,6 +323,19 @@ const updateProduct = async (req, res) => {
                             //   })
                     
                         }
+                        // update the avaiable status of product added in cart of user
+
+                        const users=await User.find({})
+                        for(const user of users){
+                            const allProducts=user.wishlist
+                            for (const product of allProducts){
+                                if(product.title.toLowerCase()===productToDelete.title.toLowerCase()){
+                                    product.available=false
+                                    await user.save()
+                                }
+                            }
+                        }
+
                     await existingCategory.save()
                     res.status(200).json({data:productToDelete,message:`${productToDelete.title} deleted successfuly from Category: ${categoryName}`})
                     }

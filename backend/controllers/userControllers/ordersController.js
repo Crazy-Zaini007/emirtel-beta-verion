@@ -142,7 +142,7 @@ const placeOrder = async (req, res) => {
         await allOrders.save();
         const newNotification = {
           type: "New Order",
-          content: `${user.name} placed an order for Products (${productTitles.join(', ')}) of Total Price: ${totalPrice} for ${orders.length} products having Total Quantity: ${totalQuantity}.`,
+          content: `${user.name} placed an order for ${orders.lenght} Products of Total Price: ${totalPrice} for ${orders.length} products having Total Quantity: ${totalQuantity}.`,
           date: todayDate,
         };
         superAdmin.notifications.push(newNotification);
@@ -169,7 +169,7 @@ const placeOrder = async (req, res) => {
       user.orders.push(userOrder);
       const newNotification={
         type: "New Order",
-        content: `Your placed an order for ${orders.length} Products (${productTitles.join(', ')}) with Total Quantity of ${totalQuantity} and Total Price ${totalPrice} on ${todayDate}`,
+        content: `Your placed an order for ${orders.length} Products with Total Quantity of ${totalQuantity} and Total Price ${totalPrice} on ${todayDate}`,
         date: todayDate
     }
     user.notifications.push(newNotification)

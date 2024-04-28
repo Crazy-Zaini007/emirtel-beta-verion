@@ -420,7 +420,7 @@ const [orderId,setOrderId]=useState('')
                 <li><Link className={`delivered_btn mx-2 `} style={status.toLowerCase()==='cancelled'? {borderBottom:'2px solid var(--purple)',color:'var(--purple)'}:{}} onClick={()=>setStatus('cancelled')}>Cancelled</Link></li>
                </ul>
                 </div>
-                <div className="col-md-6 col-sm-12 py-0 input_box order-first order-md-first my-1">
+                <div className="col-md-6 col-sm-12 py-0 input_box order-first order-md-first my-1 ">
                 <i className="fa fa-search" aria-hidden="true"></i>
                   <input type="search" placeholder='Seacrh here...' value={search} onChange={(e)=>setSearch(e.target.value)} />
                 </div>
@@ -485,7 +485,7 @@ const [orderId,setOrderId]=useState('')
                           <TableCell className="text-center td">
                           <div className="btn-group " role="group" aria-label="Basic example">
                         <button type="button" className="btn print_btn shadow"><i className="fa-solid fa-print"></i></button>
-                        <button type="button" className="btn update_btn shadow" onClick={()=>handleClickOpen(order.orderId)}><i className="fa-solid fa-pen-to-square"></i></button>
+                        <button type="button" className="btn update_btn shadow" onClick={()=>handleClickOpen(order.orderId)} disabled={order.order_Status.toLowerCase()==='cancelled'}><i className="fa-solid fa-pen-to-square"></i></button>
                       </div>
                           </TableCell>
 
@@ -614,7 +614,7 @@ const [orderId,setOrderId]=useState('')
            
         </DialogContent>
         <DialogActions>
-          <button className='btn save_btn shadow m-1' onClick={()=>updateOrderStatus()} disabled={delLoading}>{delLoading? "Saving":"Save"}</button>
+          <button className='btn save_btn shadow m-1' onClick={()=>updateOrderStatus()} disabled={delLoading || order_Status.toLowerCase()===''}>{delLoading? "Saving":"Save"}</button>
           <button className='btn close_btn shadow m-1' disabled={delLoading} onClick={handleClose}>Close</button>
         </DialogActions>
       </Dialog>
