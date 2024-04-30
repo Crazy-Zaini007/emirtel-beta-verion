@@ -124,7 +124,7 @@ const addNewProduct = async (req, res) => {
 const updateProduct = async (req, res) => {
     try {
         const adminId = req.user._id;
-        const {preCategory,date, categoryName,productId,title, image, price, quantity, size, color, description, keywords,available } = req.body;
+        const {preCategory,date, categoryName,productId,title, images, price, quantity, size, color, description, keywords,available } = req.body;
         if(!categoryName){
             return res.status(400).json({message:'Product category is required'})
           }
@@ -137,12 +137,12 @@ const updateProduct = async (req, res) => {
         if (admin && admin.isActive===false) {
             return res.status(404).json({ message: 'Your account is deactivated by Super Admin' });
         }
-        if (admin && admin.isActive===true) {
-
+        if (admin && admin.isActive===true){
             if(categoryName !==preCategory){
                 
                 const preExistingCategory= await Products.findOne({categoryName:preCategory})
                 if(preExistingCategory){
+                    var oldProduct=preExistingCategory.product.find(product => product._id.toString() == productId)
                     preExistingCategory.product=preExistingCategory.product.filter(product => product._id.toString() !== productId)
                     await preExistingCategory.save()
                 }
@@ -154,20 +154,7 @@ const updateProduct = async (req, res) => {
                      res.status(400).json({ message: `${title} already existing in ${categoryName}!` });
                 }
                 if(!existingProduct){
-
-                    const newImage=image
-                    let uploadImage;
-                    if (image && !image.startsWith("https://res.cloudinary.com")) {
-                        try {
-                            uploadImage = await cloudinary.uploader.upload(image, {
-                                upload_preset: 'rozgar',
-                            })
-                        } catch (uploadError) {
-                            return res.status(500).json({ message: 'Error uploading image ' });
-                        }
-                    }
                    
-
                     const newProduct = {
                         date:date,
                         sellerId: adminId,
@@ -181,16 +168,37 @@ const updateProduct = async (req, res) => {
                         keywords,
                         description,
                         available:available ==='false'?false:true,
-                        image: uploadImage?.secure_url || newImage
+                        images: images,
+                        isApproved:admin.role ==="Super Admin"? true :false
                     }
 
                     existingCategory.product.push(newProduct)
-                    await existingCategory.save()                    
+                    await existingCategory.save()
+                    
+                    const users =await User.find({})
+                    for(const user of users){
+                        const products=user.wishlist
+                        for (const product of products){
+                            if(product.title.toLowerCase()===oldProduct.title.toLowerCase()){
+                                product.date=date
+                                product.sellerId=adminId
+                                product.sellerName=admin.userName
+                                product.categoryName=categoryName
+                                product.title=title
+                                product.price=price
+                                product.size=size
+                                product.color=color
+                                product.keywords=keywords
+                                product.description=description
+                                product.available=available ==='false'?false:true
+                                await user.save()
+                            }
+                        }
+                    }
                     return res.status(200).json({
                         message: `Product updated successfully of category: ${categoryName}!`,
                     })
                 }
-
 
             }
 
@@ -206,18 +214,28 @@ const updateProduct = async (req, res) => {
                     }
     
                     if (existingProduct) {
-                        const newImage=existingProduct.image
-                        let uploadImage;
-                        if (image && !image.startsWith("https://res.cloudinary.com")) {
-                            try {
-                                uploadImage = await cloudinary.uploader.upload(image, {
-                                    upload_preset: 'rozgar',
-                                });
-                            } catch (uploadError) {
-                                return res.status(500).json({ message: 'Error uploading image ' });
+                       
+                        const users =await User.find({})
+                        for(const user of users){
+                            const products=user.wishlist
+                            for (const product of products){
+                                if(product.title.toLowerCase()===existingProduct.title.toLowerCase()){
+                                    product.date=date
+                                    product.sellerId=adminId
+                                    product.sellerName=admin.userName
+                                    product.categoryName=categoryName
+                                    product.title=title
+                                    product.price=price
+                                    product.size=size
+                                    product.color=color
+                                    product.keywords=keywords
+                                    product.description=description
+                                    product.available=available ==='false'?false:true
+                                    await user.save()
+                                }
                             }
                         }
-    
+
                         existingProduct.title=title
                         existingProduct.categoryName=categoryName
                         // existingProduct.images = uploadImage?.secure_url || newImage; 
@@ -227,7 +245,7 @@ const updateProduct = async (req, res) => {
                         existingProduct.color=color
                         existingProduct.description=description
                         existingProduct.keywords=keywords
-                        existingProduct.available=available ==='false'?false:true,
+                        existingProduct.available=available ==='false'?false:true
                         await existingCategory.save()
                         return res.status(200).json({
                             message: `Product updated successfully of category: ${categoryName}!`,
@@ -295,7 +313,6 @@ const updateProduct = async (req, res) => {
                         }
                         
                         existingCategory.product = existingCategory.product.filter(product => product._id.toString() !== productId)
-                    
                         if(admin.role==="Admin"){
                             const todayDate=new Date().toISOString().split("T")[0]
                             const superAdmin=await Admin.findOne({role:"Super Admin"})
@@ -537,4 +554,58 @@ const getAllProducts=async(req,res)=>{
         }
     }
 
-module.exports = { addNewProduct,getAllProductsBySellerId,deleteProduct,updateProduct,getAllProducts,productApprove }
+
+    // Update images product
+
+const updateProductImags=async(req,res)=>{
+    const adminId = req.user._id;
+    const { categoryName,images,productId } = req.body;
+    const admin = await Admin.findById(adminId);
+    if (admin && admin.isActive===false) {
+        return res.status(404).json({ message: 'Your account is deactivated by Super Admin' });
+    }
+    if (admin && admin.isActive===true) {
+        const existingCategory = await Products.findOne({categoryName})
+        if (!existingCategory) {
+            return res.status(400).json({ message: `Product Category: ${categoryName} not found !` });
+        }
+        if (existingCategory) {
+            const existingProduct = existingCategory.product.find(product => product._id.toString() === productId.toString())
+            if (!existingProduct) {
+                return res.status(400).json({ message: `Product not found !` });
+            }
+            if (existingProduct) {
+                let uploadImage;
+                let pictureArray=[]
+                let allImages=existingProduct.images
+                    for (const image of images){
+                       let imageToUpdate=allImages.find(i=>i._id.toString()===image._id)
+                       if (imageToUpdate) {
+                        if (!image.imageUrl.startsWith("https://res.cloudinary.com")) {
+                            const publicId = imageToUpdate.imageUrl.split('/').pop().split('.')[0];
+                            await cloudinary.uploader.destroy(publicId);
+                    
+                            uploadImage = await cloudinary.uploader.upload(image.imageUrl, {
+                                upload_preset: 'rozgar',
+                            });
+                            // Update the imageUrl of imageToUpdate
+                            imageToUpdate.imageUrl = uploadImage.secure_url;
+                        }
+                        // Push the updated or original image object to pictureArray
+                        pictureArray.push(imageToUpdate);
+                    }
+                    
+                    }
+    
+                    existingProduct.images=pictureArray
+                    await existingCategory.save()
+
+                    res.status(200).json({message:`Images updated successfully`})
+
+            }
+
+        }
+
+    }
+}
+module.exports = { addNewProduct,getAllProductsBySellerId,deleteProduct,updateProduct,getAllProducts,productApprove,updateProductImags }

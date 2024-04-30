@@ -25,7 +25,6 @@ export default function Homepage() {
     const latestProducts = useSelector((state) => state.products.latestProducts);
     const userAllLatestProducts = useSelector((state) => state.products.userAllLatestProducts);
     const userProfile = useSelector((state) => state.userProfile.userProfile);
-console.log('userProfile',userProfile.wishlist)
     const [title, setTitle] = useState('');
     const filteredUserAllLatestProducts = userAllLatestProducts && userAllLatestProducts.filter(product => {
         return (

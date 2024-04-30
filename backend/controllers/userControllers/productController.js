@@ -112,4 +112,5 @@ const getAuthLatestProducts = async (req, res) => {
 };
 
 
+
 module.exports = {getAllProducts, getLatestProducts,getAuthAllProducts,getAuthLatestProducts };

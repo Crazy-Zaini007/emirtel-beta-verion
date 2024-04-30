@@ -1,5 +1,5 @@
 const  express = require('express');
-const { addNewProduct,getAllProductsBySellerId,deleteProduct,updateProduct,getAllProducts,productApprove } = require('../../controllers/adminControllers/productController');
+const { addNewProduct,getAllProductsBySellerId,deleteProduct,updateProduct,getAllProducts,productApprove,updateProductImags } = require('../../controllers/adminControllers/productController');
 const adminAuth = require('../../middleware/admin/adminAuth')
 
 const router=express.Router()
@@ -17,7 +17,10 @@ router.delete("/delete/product",deleteProduct)
 
 router.patch("/update/product",updateProduct)
 
+router.patch("/update/product/images",updateProductImags)
+
 router.post("/approve/product",productApprove)
+
 
 
 module.exports = router

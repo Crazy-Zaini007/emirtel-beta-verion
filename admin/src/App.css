@@ -1041,6 +1041,13 @@ z-index: 5;
   border-radius: 6px !important;
 }
 
+.main .update_Images img{
+  height: 100%;
+  width: 100%;
+}
+
+
+
  .table {
   width: 100%;
 }

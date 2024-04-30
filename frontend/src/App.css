@@ -328,6 +328,7 @@ text-transform: capitalize;
   font-size: 22px;
   letter-spacing: 1.4px;
   text-transform: capitalize;
+  font-style: italic;
   }
 
 .latest_products .fetch_Icon{

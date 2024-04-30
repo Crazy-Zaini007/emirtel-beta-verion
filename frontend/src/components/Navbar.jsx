@@ -92,8 +92,6 @@ export default function Navbar() {
     });
   };
 
-
-
   return (
     <>
       <div className="my_navbar d-flex justify-content-between px-md-2 py-3 px-2 sticky-top">

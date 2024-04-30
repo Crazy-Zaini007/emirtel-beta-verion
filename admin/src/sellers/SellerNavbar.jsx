@@ -13,8 +13,12 @@ import Divider from '@mui/material/Divider';
 import Tooltip from '@mui/material/Tooltip';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import NotifyHook from '../hooks/NotifyHook';
+
 export default function SellerNavbar() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const { getNotifications,notifications } = NotifyHook()
+
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -28,6 +32,7 @@ export default function SellerNavbar() {
   const {getAllAdmins,admin}=AdminsHook()
 
   useEffect(() => {
+    getNotifications()
     getAllAdmins()
     const getGreeting = () => {
       const currentTime = new Date();
@@ -129,7 +134,7 @@ export default function SellerNavbar() {
   </li>
   <li className="nav-item mx-2 ">
   <Link to="/emirtel/admin/notifications"><IconButton aria-label={'100'}>
-      <Badge  badgeContent={admin && admin.notifications && admin.notifications.filter(n=>n.new===true).length} color="primary" >
+      <Badge  badgeContent={notifications && notifications && notifications.filter(n=>n.new===true).length} color="primary" >
         <NotificationsIcon />
       </Badge>
     </IconButton>
