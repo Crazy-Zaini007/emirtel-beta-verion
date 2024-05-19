@@ -52,9 +52,12 @@ const updateOrderStatus=async(req,res)=>{
                 let orderToUpdate=user.orders.find((order)=>order.orderId.toString()===orderId.toString())
                 if(orderToUpdate){
                     orderToUpdate.order_Status=order_Status
+                    const notificationContent = order_Status.toLowerCase() === 'received'
+                ? `We have received your Order having orderId: ${order.orderId} on ${todayDate}`
+                : `Your order's status with orderId ${order.orderId} updated to "${order_Status}" on ${todayDate}`;
                     const newNotification={
                         type: order_Status,
-                        content: `Your order's status with orderId ${order.orderId} updated to "${order_Status}" for your product: ${orderToUpdate.title} on ${todayDate}`,
+                        content: notificationContent,
                         date: todayDate
                     }
                     user.notifications.push(newNotification)
@@ -62,18 +65,24 @@ const updateOrderStatus=async(req,res)=>{
                 }
             }
 
-            const admins=await Admin.find({})
-            for (const admin of admins){
-                let orderToUpdate=admin.orders.find((order)=>order.orderId.toString()===orderId.toString())
-                if(orderToUpdate){
-                    orderToUpdate.order_Status=order_Status
-                    const newNotification={
-                        type: order_Status,
-                        content: `Order'status updated to "${order_Status}" for your product: ${orderToUpdate.title} By Super Admin on ${todayDate}`,
-                        date: todayDate
+            const admins = await Admin.find({});
+          
+            for (const admin of admins) {
+                let ordersUpdated = false;
+                for (const order of admin.orders) {
+                    if (order.orderId.toString() === orderId.toString()) {
+                        order.order_Status = order_Status;
+                        ordersUpdated = true;
+                        const newNotification = {
+                            type: order_Status,
+                            content: `Order's status updated to "${order_Status}" for your product: ${order.title} By Super Admin on ${todayDate}`,
+                            date: todayDate
+                        };
+                        admin.notifications.push(newNotification);
                     }
-                    admin.notifications.push(newNotification)
-                    await admin.save()
+                }
+                if (ordersUpdated) {
+                    await admin.save();
                 }
             }
 
@@ -94,7 +103,6 @@ const updateOrderStatus=async(req,res)=>{
             if(order_Status.toLowerCase()==='delivered'){
                 const products=order.products
                 const categories=await Products.find({})
-                
                 for(const oneProduct of products){
                     for (const category of categories){
                         let allProducts=category.product

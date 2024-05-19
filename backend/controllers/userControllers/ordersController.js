@@ -2,6 +2,33 @@ const User = require("../../database/user/userModel");
 const Admin = require("../../database/admin/adminModel");
 const AllOrders = require("../../database/admin/allOrdersModel");
 const mongoose = require("mongoose");
+const crypto = require('crypto');
+
+// generating a unique id for each order
+
+const generateOrderID = async () => {
+  try {
+      const currentYear = new Date().getFullYear().toString();
+
+      // Generate 4 random digits
+      const generateRandomDigits = () => {
+          return Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+      };
+
+      const randomDigits = generateRandomDigits();
+
+      // Retrieve the next index number from the AllOrders schema
+      const nextIndex = await AllOrders.countDocuments() + 1;
+
+      // Combine components to form the order ID
+      const orderId = `${currentYear}${randomDigits}${nextIndex}`;
+
+      return orderId;
+  } catch (error) {
+      throw new Error("Unable to generate order ID");
+  }
+};
+
 
 // placing a new order by Buyer/User
 
@@ -13,13 +40,11 @@ const placeOrder = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
     if (user) {
-      const {
+      let {
         totalQuantity,
         totalPrice,
         deliveryType,
-        fName,
-        lName,
-        phone,
+        choice,
         city,
         address,
         cardFName,
@@ -29,24 +54,17 @@ const placeOrder = async (req, res) => {
         expDate,
         orders,
       } = req.body;
-
-      if (!fName) {
-        return res
-          .status(400)
-          .json({ message: "Please, Enter your first name !" });
+      if(choice.toLowerCase()==='yes' && !city){
+        return res.status(400).json({ message: "City name is required" });
       }
-      if (!phone) {
-        return res.status(400).json({ message: "Please, Enter phone number!" });
-      }
-      if (!city) {
-        return res.status(400).json({ message: "Please, Enter city name!" });
-      }
-      if (!address) {
-        return res.status(400).json({ message: "Please, Enter shipping address!" });
+      if(choice.toLowerCase()==='yes' && !address){
+        return res.status(400).json({ message: "Shipping address is required" });
       }
       const productTitles = [];
       let products = [];
-      const orderId = new mongoose.Types.ObjectId();
+      const orderId = await generateOrderID();
+      console.log(choice,city,address,orderId)
+
       const todayDate = new Date().toISOString().split("T")[0];
       const today = new Date();
       const year = today.getFullYear();
@@ -82,25 +100,25 @@ const placeOrder = async (req, res) => {
           price: order.price,
           totalPrice: order.totalPrice,
         };
-        products.push(newOrder);
+        products.push(newOrder)
         productTitles.push(order.title)
-        const admins = await Admin.find();
+        const admins = await Admin.find()
         for (const admin of admins) {
           if (admin._id.toString() === order.sellerId.toString()) {
             const myOrder = {
               orderId: orderId,
               productId: order._id,
               sellerId: order.sellerId,
-              buyer_Name: fName + " " + lName,
+              buyer_Name: user.name,
               buyer_Email: user.email,
-              buyer_Phone: phone,
+              buyer_Phone: user.contact,
               title: order.title,
               price: order.price,
               totalPrice: order.totalPrice,
               quantity: order.quantity,
               payment_Type: deliveryType,
-              address: address,
-              city: city,
+              address:choice.toLowerCase()==='yes' ? address : user.address,
+              city: choice.toLowerCase()==='yes' ? city : user.city,
               order_Status: "Pending",
               date: todayDate,
               month: month,
@@ -122,14 +140,14 @@ const placeOrder = async (req, res) => {
       const superAdmin = await Admin.findOne({ role: "Super Admin" });
       const allOrders = new AllOrders({
         orderId: orderId,
-        buyer_Name: fName.concat(" ", lName),
+        buyer_Name: user.name,
         buyer_Email: user.email,
-        buyer_Phone: phone,
+        buyer_Phone: user.contact,
         totalPrice: totalPrice,
         totalQuantity: totalQuantity,
         payment_Type: deliveryType,
-        address: address,
-        city: city,
+        address: user.address,
+        city: user.city,
         order_Status: "Pending",
         date: todayDate,
         month: month,
@@ -142,7 +160,7 @@ const placeOrder = async (req, res) => {
         await allOrders.save();
         const newNotification = {
           type: "New Order",
-          content: `${user.name} placed an order for ${orders.lenght} Products of Total Price: ${totalPrice} for ${orders.length} products having Total Quantity: ${totalQuantity}.`,
+          content: `${user.name} placed an order of Total Price: ${totalPrice} for ${orders.length} products having Total Quantity: ${totalQuantity}.`,
           date: todayDate,
         };
         superAdmin.notifications.push(newNotification);
@@ -151,14 +169,14 @@ const placeOrder = async (req, res) => {
 
       const userOrder = {
         orderId: orderId,
-        buyer_Name: fName.concat(" ", lName),
+        buyer_Name:user.name,
         buyer_Email: user.email,
-        buyer_Phone: phone,
+        buyer_Phone: user.contact,
         totalPrice: totalPrice,
         totalQuantity: totalQuantity,
         payment_Type: deliveryType,
-        address: address,
-        city: city,
+        address: user.address,
+        city: user.city,
         order_Status: "Pending",
         date: todayDate,
         month: month,
@@ -178,7 +196,7 @@ const placeOrder = async (req, res) => {
 
     return res.status(201).json({ message: "Order placed successfully" });
   } catch (error) {
-    console.error(error);
+    
     return res.status(500).json({ message: "Server Error" });
   }
 };

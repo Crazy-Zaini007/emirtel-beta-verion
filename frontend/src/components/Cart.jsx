@@ -10,7 +10,7 @@ import StepButton from '@mui/material/StepButton';
 import { Fade } from "react-awesome-reveal";
 import Typography from '@mui/material/Typography';
 import {Link} from 'react-router-dom'
-import emptycart from '../assets/icons/empty_cart-icon.png'
+import emptycart from '../assets/icons/add-shopping.png'
 export default function Cart() {
 
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -154,11 +154,10 @@ useEffect(() => {
   const handleStep = (step) => () => {
     setActiveStep(step);
   };
+ 
 
   const[deliveryType,setDeliveryType]=useState('')
-  const[fName,setFName]=useState('')
-  const[lName,setLName]=useState('')
-  const[phone,setPhone]=useState('')
+  const[choice,setChoice]=useState('')
   const[city,setCity]=useState('')
   const[address,setAddress]=useState('')
 
@@ -168,6 +167,12 @@ useEffect(() => {
   const[securityCode,setSecurityCode]=useState('')
   const[expDate,setExpDate]=useState('')
 
+  const canContinue = () => {
+    if (choice === 'Yes') {
+      return city.trim() !== '' && address.trim() !== '';
+    }
+    return true;
+  };
 // Placing and Order
 const plceOrder=async(e)=>{
     e.preventDefault()
@@ -179,15 +184,12 @@ const plceOrder=async(e)=>{
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${user.token}`
             },
-            body: JSON.stringify({deliveryType,fName,lName,phone,city,address,cardFName,cardLName,cardNumber,securityCode,expDate,orders:productsToCheckout,totalQuantity,totalPrice})
+            body: JSON.stringify({deliveryType,choice,city,address,cardFName,cardLName,cardNumber,securityCode,expDate,orders:productsToCheckout,totalQuantity,totalPrice})
         })
         const json=await response.json()
         if (response.ok) {
             fetchData()
             setDeliveryType('')
-            setFName('')
-            setLName('')
-            setPhone('')
             setCity('')
             setAddress('')
             setCardFName('')
@@ -195,6 +197,8 @@ const plceOrder=async(e)=>{
             setCardNumber('')
             setSecurityCode('')
             setExpDate('')
+            setChoice('')
+            setOption(0)
             setProductsToCheckout([])
         setWLoading(false);
         alert(json.message)
@@ -218,7 +222,7 @@ const plceOrder=async(e)=>{
                         <h2 className='text-center mb-4'>My Shopping Cart</h2>
                        {option===0 && 
                        <>
-                        <Fade direction='up'  className="col-md-12 bg-white pt-2 pb-4 content">
+                        <div className="col-md-12 bg-white pt-2 pb-4 content">
                             <TableContainer >
                                 <Table>
                                     <TableHead>
@@ -249,24 +253,23 @@ const plceOrder=async(e)=>{
                                                         </div>
                                                     </TableCell>
                                                     <TableCell className='text-center td'>{data.title}</TableCell>
-
                                                     <TableCell className='text-center td'>{data.available === true || (data.quantity - data.soldQuantity === 0) ?
                                                         <small className='my-0 py-0 in_stock text-success'>In Stock</small> :
                                                         <small className='my-0 py-0 out_of_stock text-danger'>Out of Stock</small>
                                                     }</TableCell>
                                                     <TableCell className='text-center td'>
                                                         <div className="btn-group" role="group" aria-label="">
-                                                            <button className="btn px-3 py-2" onClick={() => incrementQuantity(data._id)} disabled={data.available === false || (data.quantity - data.soldQuantity === 0) }><i className="fas fa-plus"></i></button>
-                                                            <span className="btn px-3 py-2 span_text">{quantities[data._id] || 0}</span>
                                                             <button className="btn px-3 py-2" onClick={() => decrementQuantity(data._id)} disabled={data.available === false || (data.quantity - data.soldQuantity === 0) }><i className="fas fa-minus"></i></button>
+                                                            <span className="btn px-3 py-2 span_text">{quantities[data._id] || 0}</span>
+                                                            <button className="btn px-3 py-2" onClick={() => incrementQuantity(data._id)} disabled={data.available === false || (data.quantity - data.soldQuantity === 0) }><i className="fas fa-plus"></i></button>
                                                         </div>
                                                     </TableCell>
                                                     <TableCell className='text-center td '>
                                                     <button className='btn py-2 px-3' onClick={() => removeCart(data)} disabled={wLoading[data._id]}>
-                                                            {wLoading[data._id] ? <i className="fa-solid fa-spinner fa-spin"></i> :<i className="fas fa-times"></i>}
+                                                            {wLoading[data._id] ? <i className="fa-solid fa-spinner fa-spin"></i> :<i className="fa-solid fa-trash-can"></i>}
                                                         </button>
                                                     </TableCell>
-                                                    <TableCell className='text-center td'>{data.price * (quantities[data._id] || 0)}$</TableCell>
+                                                    <TableCell className='text-center td'>{data.price * (quantities[data._id] || 0)}AED</TableCell>
                                                 </TableRow>
                                             ))
                                             
@@ -297,7 +300,7 @@ const plceOrder=async(e)=>{
                                             <span>Total Qunatity:</span> {totalQuantity}
                                         </button>
                                         <button className='quantity px-md-4 px-1 m-1'>
-                                            <span>Total Price:</span> {totalPrice}$
+                                            <span>Total Price:</span> {totalPrice} AED
                                         </button>
                                         <button className='chech_out_btn px-md-4 px-1 mx-1' disabled={productsToCheckout.length<1} onClick={()=>setOption(1)}>
                                             Checkout <i className="fas fa-shopping-basket m-1"></i>
@@ -307,7 +310,7 @@ const plceOrder=async(e)=>{
                             }
                          
                             
-                        </Fade>
+                        </div>
                        </>
                        }
                     {option===1 && 
@@ -367,7 +370,7 @@ const plceOrder=async(e)=>{
                             <h5 className='mb-2'><i className="fas fa-dollar-sign"></i> Price </h5>
                             {productsToCheckout.map((product, index) => (
                                             <div key={index}>
-                                             <p className='price'>{product.price * quantities[product._id]}$</p>
+                                             <p className='price'>{product.price * quantities[product._id]} AED</p>
                                             </div>
                                         ))}
                             </div>
@@ -385,15 +388,13 @@ const plceOrder=async(e)=>{
                     </div>
                     <div className="right text-center">
                     <p className=' price'>
-                        {totalPrice}$
+                        {totalPrice} AED
                     </p>
                     </div>
                  </div>
-                        <div className="buttons">
+                   <div className="buttons">
                     <button className="buy_btn btn my-1 py-2" onClick={handleNext} >Continue</button>
                     <button className="cancel_btn btn my-1" onClick={()=>setOption(0)} disabled={wLoading}>Cancel</button>
-                   
-
                  </div>
               </> }
               {(activeStep+1===2 || activeStep+1===3)  && 
@@ -401,46 +402,36 @@ const plceOrder=async(e)=>{
                       <form className='px-md-4 px-3' onSubmit={plceOrder}>
                         {activeStep+1===2 && <>
                         <div className="row">
-                            <div className="col-md-6 px-1">
-                              <div className='my-2'>
-                                 
-                                <input type="text" required placeholder='Enter your first name' value={fName} onChange={(e)=>setFName(e.target.value)}/>
-                              </div >
-                            </div >
-                            <div className="col-md-6 px-1">
-                              <div className='my-2'>
-                                 
-                                <input type="text" required placeholder='Enter your last name' value={lName} onChange={(e)=>setLName(e.target.value)}/>
-                              </div >
-                            </div >
-                             <div className="col-md-6 px-1">
-                              <div className='my-2'>
-                                  
-                                <input type="number" min='0' required placeholder='Phone number' value={phone} onChange={(e)=>setPhone(e.target.value)} />
-                              </div>
-                            </div>
-                             <div className="col-md-6 px-1">
-                              <div className='my-2'>
-                                 
-                                <input type="text" min='0' required placeholder='Enter your city name' value={city} onChange={(e)=>setCity(e.target.value)}/>
-                              </div>
-                            </div>
+                        <div className="col-md-12 px-1">
+                      <label htmlFor="" className='py-2'>Do you want to change the city and shipping address for this order?</label>
+                       <select name="" id="" required value={choice} onChange={(e)=>setChoice(e.target.value)}>
+                       <option value="" >No</option>
+                        <option value="Yes">Yes</option>
+                        
+                       </select>
+                      </div>
+                            {choice ==='Yes' && 
                              <div className="col-md-12 px-1">
-                              <div className='my-2'>
-                                 
-                               <textarea name="" id="" required className='pt-2' placeholder='Shipping address, where to deliver' value={address} onChange={(e)=>setAddress(e.target.value)}></textarea>
+                             <div className='my-2'>
                                 
-                              </div>
-                            </div>
+                               <input type="text" min='0' required placeholder='Enter your city name' value={city} onChange={(e)=>setCity(e.target.value)}/>
+                             </div>
+                           </div>
+                            }
+                             {choice ==='Yes' &&
+                             <div className="col-md-12 px-1">
+                             <div className='my-2'>
+                                
+                              <textarea name="" id="" required className='pt-2' placeholder='Shipping address, where to deliver' value={address} onChange={(e)=>setAddress(e.target.value)}></textarea>
+                               
+                             </div>
+                             </div>
+                             }
                             <div className="buttons px-1 pt-1">
-                            <button className="buy_btn btn my-1 py-2" onClick={handleNext} >Continue</button>
+                            <button className="buy_btn btn my-1 py-2" onClick={handleNext} disabled={!canContinue()} >Continue</button>
                             <button className="cancel_btn btn my-1"  disabled={activeStep === 0}onClick={handleBack}>Back</button>
-                   
-
-                 </div>
+                            </div>
                         </div>
-                      
-                       
                         </>}
                       
                       {activeStep+1===3 &&<>

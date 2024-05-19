@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect,useRef  } from 'react'
 import { Link } from 'react-router-dom'
-import logo from '../assets/logo.png'
+import logo from '../assets/mylogo.png'
 import Tooltip from '@mui/material/Tooltip';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
@@ -16,8 +16,20 @@ import { green } from '@mui/material/colors';
 import Badge from '@mui/material/Badge';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Fade } from "react-awesome-reveal";
+import SpeedDial from '@mui/material/SpeedDial';
+import SpeedDialAction from '@mui/material/SpeedDialAction';
+import AddIcCallIcon from '@mui/icons-material/AddIcCall';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import MailIcon from '@mui/icons-material/Mail';
+import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact';
 
 export default function Navbar() {
+  const actions = [
+    { icon: <a href="https://wa.me/+971501440101" target="_blank" rel="noreferrer" ><WhatsAppIcon sx={{ background: "green", color: "white", borderRadius: "100%", fontSize: "40px",padding:"6px" }} /></a>, name: 'Whatsapp' },
+    { icon: <a href="mailto:info@emirtel.ae"><MailIcon sx={{background:"#71c6cd",color:"white",borderRadius:"100%",fontSize: "40px",padding:"6px"}}/></a>, name: 'Email' },
+    
+  ];
+
   const { user } = useAuthContext()
   const [option, setOption] = useState(0)
   const [showPassword, setShowPassword] = useState(false)
@@ -25,6 +37,10 @@ export default function Navbar() {
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [contact, setContact] = useState('')
+  const [city, setCity] = useState('')
+  const [address, setAddress] = useState('')
+
   const [password, setPassword] = useState('')
 
   const [email1, setEmail1] = useState('')
@@ -33,15 +49,22 @@ export default function Navbar() {
   const { isLoading, error, mySuccess, success, setSuccess, emptyFields, userSignup } = SignupHook()
   const { isLoading1, error1, mySuccess1, success1, setSuccess1, emptyFields1, userLogin } = LoginHook()
   const userProfile = useSelector((state) => state.userProfile.userProfile);
-
+  const [showModal, setShowModal] = useState(false);
+  const handleContactChange = (e) => {
+    const value = e.target.value;
+    if (/^\d*$/.test(value)) { // Only update state if the value is numeric
+      setContact(value);
+    }
+  }
   useEffect(() => {
     if (mySuccess) {
       setName('')
       setEmail('')
       setPassword('')
       setSuccess('')
+      setOption(0)
     }
-  }, [mySuccess,setSuccess])
+  }, [mySuccess,setSuccess,option])
 
   useEffect(() => {
     if (mySuccess1) {
@@ -55,7 +78,7 @@ export default function Navbar() {
   const handleSignup = (e) => {
 
     e.preventDefault()
-    userSignup(name, email, password)
+    userSignup(name, email,contact,city,address, password)
 
   }
   const handleLogin = (e) => {
@@ -96,12 +119,12 @@ export default function Navbar() {
     <>
       <div className="my_navbar d-flex justify-content-between px-md-2 py-3 px-2 sticky-top">
         <div delay='3' className="left">
-          <Link className="navbar-brand" to="/"><img src={logo} alt="" /> </Link>
+          <Link className="navbar-brand" to="/"><img src={logo} alt="" /> Emirtel</Link>
         </div>
         <div className="right pt-2">
           {!user && <>
             {/* <Link className="mx-md-2 mx-1"><Tooltip title="Login/Register (coming soon)"><PermIdentityIcon></PermIdentityIcon></Tooltip></Link> */}
-            <Link className="mx-md-2 mx-1" data-bs-toggle="modal" data-bs-target="#join_modal"><Tooltip title="Login/Register"><PermIdentityIcon></PermIdentityIcon></Tooltip></Link>
+            <Link className="mx-md-2 mx-1" data-bs-toggle="modal" data-bs-target="#join_modal"><Tooltip title="Login/Register"><PermIdentityIcon sx={{color:"#5C5F62" }}></PermIdentityIcon></Tooltip></Link>
 
           </>}
           {user && <>
@@ -109,7 +132,7 @@ export default function Navbar() {
             <div className="dropdown d-inline" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Profile">
               <Link className="mx-md-2 mx-1" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                 <Tooltip title="Profile">
-                  <PersonIcon ></PersonIcon>
+                  <PersonIcon sx={{color:"#5C5F62" }}></PersonIcon>
                 </Tooltip>
               </Link>
               <ul className="dropdown-menu border-0 shadow" aria-labelledby="dropdownMenuButton1">
@@ -121,14 +144,14 @@ export default function Navbar() {
           }
           {user && 
           <>
-          <Link className=" mx-md-2  mx-1" aria-current="page" to="/shopping_cart" ><Tooltip title="Cart"><Badge badgeContent={user &&(userProfile && userProfile.wishlist && userProfile.wishlist.length)} color="success" showZero><ShoppingCartIcon></ShoppingCartIcon></Badge></Tooltip></Link>
-          <Link className=" mx-md-2  mx-1" to="/my_orders" ><Tooltip title="Orders"><Badge badgeContent={user &&(userProfile && userProfile.orders && userProfile.orders.length)} color="success" showZero><LocalMallIcon ></LocalMallIcon></Badge></Tooltip></Link>
+          <Link className=" mx-md-2  mx-1" aria-current="page" to="/shopping_cart" ><Tooltip title="Cart"><Badge badgeContent={user &&(userProfile && userProfile.wishlist && userProfile.wishlist.length)} sx={{ '& .MuiBadge-badge': { backgroundColor: '#71c6cd',color:"white" } }} showZero><ShoppingCartIcon sx={{color:"#5C5F62" }}></ShoppingCartIcon></Badge></Tooltip></Link>
+          <Link className=" mx-md-2  mx-1" to="/my_orders" ><Tooltip title="Orders"><Badge badgeContent={user &&(userProfile && userProfile.orders && userProfile.orders.length)}  sx={{ '& .MuiBadge-badge': { backgroundColor: '#71c6cd',color:"white" } }} showZero><LocalMallIcon sx={{color:"#5C5F62" }} ></LocalMallIcon></Badge></Tooltip></Link>
           </>
           }
           {!user && 
           <>
-           <Link className=" mx-md-2  mx-1" data-bs-toggle="modal" data-bs-target="#join_modal" ><Tooltip title="Cart"><Badge badgeContent={user &&(userProfile && userProfile.wishlist && userProfile.wishlist.length)} color="success" showZero><ShoppingCartIcon></ShoppingCartIcon></Badge></Tooltip></Link>
-          <Link className=" mx-md-2  mx-1" data-bs-toggle="modal" data-bs-target="#join_modal" ><Tooltip title="Orders"><Badge badgeContent={user &&(userProfile && userProfile.orders && userProfile.orders.length)} color="success" showZero><LocalMallIcon ></LocalMallIcon></Badge></Tooltip></Link>
+           <Link className=" mx-md-2  mx-1" data-bs-toggle="modal" data-bs-target="#join_modal" ><Tooltip title="Cart"><Badge badgeContent={user &&(userProfile && userProfile.wishlist && userProfile.wishlist.length)} sx={{ '& .MuiBadge-badge': { backgroundColor: '#71c6cd',color:"white" } }} showZero><ShoppingCartIcon sx={{color:"#5C5F62" }}></ShoppingCartIcon></Badge></Tooltip></Link>
+          <Link className=" mx-md-2 mx-1" data-bs-toggle="modal" data-bs-target="#join_modal" ><Tooltip title="Orders"><Badge badgeContent={user &&(userProfile && userProfile.orders && userProfile.orders.length)} sx={{ '& .MuiBadge-badge': { backgroundColor: '#71c6cd',color:"white" } }} showZero><LocalMallIcon sx={{color:"#5C5F62" }}></LocalMallIcon></Badge></Tooltip></Link>
           </>
           }
          
@@ -159,17 +182,29 @@ export default function Navbar() {
                       {error && <p className='text-center error-m '>{error}</p>}
                       <div className=" innner_inputs mb-3">
                         <i className="fas fa-user pe-2 py-0 icon"></i>
-                        <input type="text" placeholder='Name' className={Array.isArray(emptyFields) && emptyFields.includes('name') ? 'error' : ''} value={name} onChange={(e) => setName(e.target.value)} />
+                        <input type="text" placeholder='Name' className={Array.isArray(emptyFields) && emptyFields.includes('name') ? 'error' : ''} value={name} onChange={(e) => setName(e.target.value)} required/>
                       </div>
                       <div className=" innner_inputs mb-3 ">
                         <i className="fas fa-at pe-2 py-0 icon"></i>
-                        <input type="email" placeholder='Email address' className={Array.isArray(emptyFields) && emptyFields.includes('email') ? 'error' : ''} value={email} onChange={(e) => setEmail(e.target.value)} />
+                        <input type="email" placeholder='Email address' className={Array.isArray(emptyFields) && emptyFields.includes('email') ? 'error' : ''} value={email} onChange={(e) => setEmail(e.target.value)} required/>
+                      </div>
+                      <div className=" innner_inputs mb-3 ">
+                        <i className="fa-solid fa-phone pe-2 py-0 icon"></i>
+                        <input type="text" placeholder='Contact number' className={Array.isArray(emptyFields) && emptyFields.includes('contact') ? 'error' : ''} value={contact} onChange={handleContactChange} required/>
+                      </div>
+                      <div className=" innner_inputs mb-3 ">
+                        <i className="fa-solid fa-city pe-2 py-0 icon"></i>
+                        <input type="text" placeholder='City' className={Array.isArray(emptyFields) && emptyFields.includes('city') ? 'error' : ''} value={city} onChange={(e) => setCity(e.target.value)} required/>
+                      </div>
+                      <div className=" innner_inputs mb-3 ">
+                        <i className="fa-regular fa-map pe-2 py-0 icon"></i>
+                        <input type="text" placeholder='Address' className={Array.isArray(emptyFields) && emptyFields.includes('address') ? 'error' : ''} value={address} onChange={(e) => setAddress(e.target.value)} required/>
                       </div>
                       <div className=" innner_inputs mb-3">
                         <i className="fas fa-lock pe-2 py-0 icon"></i>
                         <i className="fas fa-eye pe-2 py-0 show_hide_icon"></i>
                         {showPassword === true ? <i className="fas fa-eye pe-2 py-0 show_hide_icon" onClick={() => setShowPassword(!showPassword)}></i> : <i className="fas fa-eye-slash pe-2 py-0 show_hide_icon" onClick={() => setShowPassword(!showPassword)}></i>}
-                        <input type={showPassword ? 'text' : 'password'} placeholder='Password' className={Array.isArray(emptyFields) && emptyFields.includes('password') ? 'error' : ''} value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <input type={showPassword ? 'text' : 'password'} placeholder='Password' className={Array.isArray(emptyFields) && emptyFields.includes('password') ? 'error' : ''} value={password} onChange={(e) => setPassword(e.target.value)} required />
                       </div>
 
                       <button type="submit" className="btn submit_btn" disabled={isLoading}>{isLoading ? "Creating..." : "Sign up"}</button>
@@ -182,12 +217,12 @@ export default function Navbar() {
                       {error1 && <p className='text-center error-m '>{error1}</p>}
                       <div className=" innner_inputs mb-3">
                         <i className="fas fa-at pe-2 py-0 icon"></i>
-                        <input type="email" placeholder='Email address' className={Array.isArray(emptyFields1) && emptyFields1.includes('email1') ? 'error' : ''} value={email1} onChange={(e) => setEmail1(e.target.value)} />
+                        <input type="email" placeholder='Email address' className={Array.isArray(emptyFields1) && emptyFields1.includes('email1') ? 'error' : ''} value={email1} onChange={(e) => setEmail1(e.target.value)}  required/>
                       </div>
                       <div className=" innner_inputs mb-3">
                         <i className="fas fa-lock pe-2 py-0 icon"></i>
                         {showPassword1 === true ? <i className="fas fa-eye pe-2 py-0 show_hide_icon" onClick={() => setShowPassword1(!showPassword1)}></i> : <i className="fas fa-eye-slash pe-2 py-0 show_hide_icon" onClick={() => setShowPassword1(!showPassword1)}></i>}
-                        <input type={showPassword1 ? 'text' : 'password'} placeholder='Password' className={Array.isArray(emptyFields1) && emptyFields1.includes('password1') ? 'error' : ''} value={password1} onChange={(e) => setPassword1(e.target.value)} />
+                        <input type={showPassword1 ? 'text' : 'password'} placeholder='Password' className={Array.isArray(emptyFields1) && emptyFields1.includes('password1') ? 'error' : ''} value={password1} onChange={(e) => setPassword1(e.target.value)} required/>
                       </div>
                       <button type="submit" className="btn submit_btn" disabled={isLoading1}>{isLoading1 ? "Signing you in..." : "Sign in"}</button>
                       <p className='mt-1 mb-0 '>Not a member ? <Link onClick={() => setOption(1)} disabled={isLoading1}>Register Now</Link></p>
@@ -267,6 +302,20 @@ export default function Navbar() {
           </div>
         </div>
       </div>
+
+      <SpeedDial 
+        ariaLabel="Contact Us"
+        sx={{ position: 'fixed', bottom: 60, left: 50 }}
+        icon={<ConnectWithoutContactIcon className='fa-fade' sx={{ color: "white" }} />}
+      >
+        {actions.map((action) => (
+          <SpeedDialAction sx={{height:"55px", width:"55px" }}
+            key={action.name}
+            icon={action.icon}
+            tooltipTitle={action.name}
+          />
+        ))}
+      </SpeedDial>
     </>
   )
 }

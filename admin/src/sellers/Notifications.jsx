@@ -18,6 +18,8 @@ import rejected from '../assets/icons/rejected.png'
 import delivered from '../assets/icons/delivered.gif'
 import shipping from '../assets/icons/shipping.gif'
 import packing from '../assets/icons/packing.png'
+import received from '../assets/icons/received-icon.png'
+
 
 export default function Notifications() {
   const [current, setCurrent] = useState(0)
@@ -105,8 +107,8 @@ export default function Notifications() {
                     .map((data) => (
                       <Paper className="rounded shadow my-1" key={data._id}>
                         <div className="toast-header">
-                          <img src={data.type === "Activated" ? activate : data.type === 'InActivated' ? suspend : data.type === 'Product' ? newproduct : data.type === 'Delete Product' ? deleteproduct : data.type === 'New Account' ? newaccount : data.type === 'New Order' ? neworder :data.type === 'Delivered' ? delivered :data.type === 'Shipping' ? shipping  :data.type === 'Packing' ? packing : data.type === 'Approved' ? approved : data.type === 'Rejected' ? rejected : data.type === 'Order Cancelled' ? ordercancel : data.type === 'Order Delivery' && orderdelivered} className="rounded me-2" alt="..." />
-                          <div className={`me-auto ${(data.type === 'Activated' || data.type === 'Approved' || data.type === 'Product' || data.type === 'New Account' || data.type === 'New Order' || data.type === 'Delivered'|| data.type === 'Packing'|| data.type === 'Shipping') ? "success" : 'danger'}`}>
+                          <img src={data.type === "Activated" ? activate : data.type === 'InActivated' ? suspend : data.type === 'Product' ? newproduct : data.type === 'Delete Product' ? deleteproduct : data.type === 'New Account' ? newaccount : data.type === 'New Order' ? neworder :data.type === 'Delivered' ? delivered :data.type === 'Shipping' ? shipping :data.type === 'Received' ? received  :data.type === 'Packing' ? packing : data.type === 'Approved' ? approved : data.type === 'Rejected' ? rejected : data.type === 'Order Cancelled' ? ordercancel : data.type === 'Order Delivery' && orderdelivered} className="rounded me-2" alt="..." />
+                          <div className={`me-auto ${(data.type === 'Activated' || data.type === 'Approved' || data.type === 'Product' || data.type === 'New Account' || data.type === 'New Order' || data.type === 'Delivered'|| data.type === 'Packing'|| data.type === 'Shipping'|| data.type === 'Received') ? "success" : 'danger'}`}>
                             {data.type === "Activated" ? "Account Activation" :
                               data.type === "InActivated" ? "Account Suspension" :
                                 data.type === "Product" ? "New Product" :
@@ -118,6 +120,7 @@ export default function Notifications() {
                                       data.type === "Shipping" ? "Order Shipping" :
                                         data.type === 'Order Cancelled' ? "Order Cancelation" :
                                           data.type === 'Approved' ? "Product Approved" :
+                                           data.type === 'Received' ? "Order Received" :
                                             data.type === 'Rejected' ? "Product Rejected" :
                                               data.type === "Order Delivery" && "Order delivered"}
                           </div>
@@ -141,8 +144,8 @@ export default function Notifications() {
                   .map((data) => (
                     <div className="rounded my-1   shadow" key={data._id}>
                       <div className="toast-header">
-                      <img src={data.type === "Activated" ? activate : data.type === 'InActivated' ? suspend : data.type === 'Product' ? newproduct : data.type === 'Delete Product' ? deleteproduct : data.type === 'New Account' ? newaccount : data.type === 'New Order' ? neworder :data.type === 'Delivered' ? delivered :data.type === 'Shipping' ? shipping  :data.type === 'Packing' ? packing : data.type === 'Approved' ? approved : data.type === 'Rejected' ? rejected : data.type === 'Order Cancelled' && ordercancel } className="rounded me-2" alt="..." />
-                          <div className={`me-auto ${(data.type === 'Activated' || data.type === 'Approved' || data.type === 'Product' || data.type === 'New Account' || data.type === 'New Order' || data.type === 'Delivered'|| data.type === 'Packing'|| data.type === 'Shipping') ? "success" : 'danger'}`}>
+                      <img src={data.type === "Activated" ? activate : data.type === 'InActivated' ? suspend : data.type === 'Product' ? newproduct : data.type === 'Delete Product' ? deleteproduct : data.type === 'New Account' ? newaccount : data.type === 'New Order' ? neworder :data.type === 'Delivered' ? delivered :data.type === 'Shipping' ? shipping :data.type === 'Received' ? received :data.type === 'Packing' ? packing : data.type === 'Approved' ? approved : data.type === 'Rejected' ? rejected : data.type === 'Order Cancelled' && ordercancel } className="rounded me-2" alt="..." />
+                          <div className={`me-auto ${(data.type === 'Activated' || data.type === 'Approved' || data.type === 'Product' || data.type === 'New Account' || data.type === 'New Order' || data.type === 'Delivered'|| data.type === 'Packing'|| data.type === 'Shipping'|| data.type === 'Received') ? "success" : 'danger'}`}>
                             {data.type === "Activated" ? "Account Activation" :
                               data.type === "InActivated" ? "Account Suspension" :
                                 data.type === "Product" ? "New Product" :
@@ -153,6 +156,7 @@ export default function Notifications() {
                                       data.type === "Packing" ? "Order Packing" :
                                       data.type === "Shipping" ? "Order Shipping" :
                                         data.type === 'Order Cancelled' ? "Order Cancelation" :
+                                          data.type === 'Received' ? "Order Received" :
                                           data.type === 'Approved' ? "Product Approved" :
                                             data.type === 'Rejected' ? "Product Rejected" :
                                               data.type === "Order Delivery" && "Order delivered"}

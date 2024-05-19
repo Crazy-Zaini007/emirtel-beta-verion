@@ -10,7 +10,7 @@ export default function SignupHook() {
     const {dispatch}=useAuthContext()
     const apiUrl = process.env.REACT_APP_API_URL;
 
-    const userSignup=async( name,email, password)=>{
+    const userSignup=async( name, email,contact,city,address, password)=>{
         setLoading(true)
         setSuccess(false)
         setMySuccess(false)
@@ -20,7 +20,7 @@ export default function SignupHook() {
                     headers:{
                         'Content-Type':'application/json'
                     },
-                    body:JSON.stringify({ email,name, password})
+                    body:JSON.stringify({ name, email,contact,city,address, password})
                 })
         
                 const json=await response.json()
@@ -32,6 +32,7 @@ export default function SignupHook() {
                     setMySuccess(false)
                 }
                 if(response.ok){
+                    alert(json.message)
                     setLoading(false)
                     setError(null)
                     setEmptyFields([' '])

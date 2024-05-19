@@ -26,7 +26,7 @@ export default function Homepage() {
     const userAllLatestProducts = useSelector((state) => state.products.userAllLatestProducts);
     const userProfile = useSelector((state) => state.userProfile.userProfile);
     const [title, setTitle] = useState('');
-    const filteredUserAllLatestProducts = userAllLatestProducts && userAllLatestProducts.filter(product => {
+    const filteredUserAllProducts = userAllProducts && userAllProducts.filter(product => {
         return (
             (product.title.trim().toLowerCase().includes(title.trim().toLowerCase()) ||
             product.description.trim().toLowerCase().includes(title.trim().toLowerCase())) &&
@@ -34,7 +34,7 @@ export default function Homepage() {
         );
     });
     
-    const filteredLatestProducts = latestProducts && latestProducts.filter(product => {
+    const filteredAllProducts = allProducts && allProducts.filter(product => {
         return (
             (product.title.trim().toLowerCase().includes(title.trim().toLowerCase()) ||
             product.description.trim().toLowerCase().includes(title.trim().toLowerCase())) &&
@@ -49,12 +49,12 @@ export default function Homepage() {
 
     const fetchData = async () => {
         if (!user) {
-            await gettingAllLatestProducts()
+            // await gettingAllLatestProducts()
             await gettingAllProducts()
         }
         if (user) {
             await gettingUserProfile()
-            await gettingAuthAllLatestProducts()
+            // await gettingAuthAllLatestProducts()
             await gettingAuthAllProducts()
         }
 
@@ -104,7 +104,7 @@ export default function Homepage() {
                 }));
             }
         } catch (error) {
-            console.log(error)
+          
             setWLoading((prevState) => ({
                 ...prevState,
                 [product._id]: false
@@ -130,8 +130,7 @@ export default function Homepage() {
                                     <button className="btn shadow px-3" type="button" id="button-addon2"><i className="fa-solid fa-magnifying-glass me-md-2 ms-md-1 "></i><span className='d-none d-md-inline '>Search</span></button>
                                     </div>
                                     {title &&<p className='text-start'>    
-                                        <span className='total_length me-2'>{filteredLatestProducts.length}</span>Products found for your search <span className='total_length' >"{title.toUpperCase()}"</span>
-                                        
+                                        <span className='total_length me-2'>{user ? filteredUserAllProducts.length : filteredAllProducts.length}</span>Products found for your search <span className='total_length' >"{title.toUpperCase()}"</span>
                                         </p>}
                                 </div>
                             </div>
@@ -149,96 +148,97 @@ export default function Homepage() {
                 </div>
 
             </div>
-
+            {title &&
             <div className="container-fluid latest_products py-5">
-                <div className="row justify-content-center px-md-3 px-2">
-                    <h2 className="text-center mb-4">Our latest products</h2>
-                    {!user &&
-                        <>
-                            {filteredLatestProducts && filteredLatestProducts.length > 0 ? filteredLatestProducts.map((data) => (
-                                <Fade className="col-xl-3 col-lg-4 col-md-6 col-sm-12 px-2 my-1" key={data._id}>
-                                    <div className="card border-0" >
+            <div className="row justify-content-center px-md-3 px-2">
+                <h2 className="text-center mb-4">Your Search Results</h2>
+                {!user &&
+                    <>
+                        {filteredAllProducts && filteredAllProducts.length > 0 ? filteredAllProducts.map((data) => (
+                            <Fade className="col-xl-3 col-lg-4 col-md-6 col-sm-12 px-2 my-1" key={data._id}>
+                                <div className="card border-0" >
 
-                                        <div className="image">
-                                            <div id="carouselExampleIndicators" className="carousel slide py-0 " data-bs-ride="carousel">
-                                                <div className="carousel-inner carousel-fade py-0 my-0">
-                                                    {data.images && data.images.map((image, index) => (
-                                                        <div className={`carousel-item ${index === 0 ? "active" : ""}`}>
-                                                            <img src={image.imageUrl} className="d-block w-100" alt="..." />
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="card-body">
-                                            <h5 className="card-title">{data.title}</h5>
-                                            <h6 className='text-muted'><i >from</i> {data.categoryName}</h6>
-                                            <strong>${data.price}</strong> <br />
-                                            <div className="d-flex justify-content-between">
-                                                <div className="left">
-                                                    <p className='rating'><Rating name="half-rating-read " size="small" value={calculateAverageRating(data.product_Rating)} precision={0.5} readOnly />({data.product_Rating.length})</p>
-                                                    {data.available === true || (data.quantity - data.soldQuantity === 0) ?
-                                                        <small className='my-0 py-0 in_stock'>In Stock</small> :
-                                                        <small className='my-0 py-0 out_of_stock'>Out of Stock</small>
-                                                    }
-                                                </div>
-                                                <div className="right">
-                                                  
-                                                    <Slide className='btn purchase_btn mx-1 py-2' data-bs-toggle="modal" data-bs-target="#join_modal">Add to Cart</Slide>
-                                                </div>
+                                    <div className="image">
+                                        <div id="carouselExampleIndicators" className="carousel slide py-0 " data-bs-ride="carousel">
+                                            <div className="carousel-inner carousel-fade py-0 my-0">
+                                                {data.images && data.images.map((image, index) => (
+                                                    <div className={`carousel-item ${index === 0 ? "active" : ""}`}>
+                                                        <img src={image.imageUrl} className="d-block w-100" alt="..." />
+                                                    </div>
+                                                ))}
                                             </div>
                                         </div>
                                     </div>
-
-                                </Fade>
-                            )) : <p className='text-center my-1'>No new Product found yet !</p>}
-                        </>
-                    }
-                    {user &&
-                        <>
-                            {filteredUserAllLatestProducts && filteredUserAllLatestProducts.length > 0 ? filteredUserAllLatestProducts.map((data) => (
-                                <Fade className="col-xl-3 col-lg-4 col-md-6 col-sm-12 px-2 my-1" key={data._id}>
-                                    <div className="card border-0" >
-                                        <div className="image">
-                                            <div id="carouselExampleIndicators" className="carousel slide py-0 " data-bs-ride="carousel">
-                                                <div className="carousel-inner carousel-fade py-0 my-0">
-                                                    {data.images && data.images.map((image, index) => (
-                                                        <div className={`carousel-item ${index === 0 ? "active" : ""}`}>
-                                                            <img src={image.imageUrl} className="d-block w-100" alt="..." />
-                                                        </div>
-                                                    ))}
-                                                </div>
+                                    <div className="card-body">
+                                        <h5 className="card-title">{data.title}</h5>
+                                        <h6 className='text-muted'><i >from</i> {data.categoryName}</h6>
+                                        <strong>${data.price}</strong> <br />
+                                        <div className="d-flex justify-content-between">
+                                            <div className="left">
+                                                <p className='rating'><Rating name="half-rating-read " size="small" value={calculateAverageRating(data.product_Rating)} precision={0.5} readOnly />({data.product_Rating.length})</p>
+                                                {data.available === true || (data.quantity - data.soldQuantity === 0) ?
+                                                    <small className='my-0 py-0 in_stock'>In Stock</small> :
+                                                    <small className='my-0 py-0 out_of_stock'>Out of Stock</small>
+                                                }
                                             </div>
-                                        </div>
-                                        <div className="card-body">
-                                            <h5 className="card-title">{data.title}</h5>
-                                            <h6 className='text-muted'><i >from</i> {data.categoryName}</h6>
-                                            <strong>${data.price}</strong> <br />
-                                            <div className="d-flex justify-content-between">
-                                                <div className="left">
-                                                    <p className='rating'><Rating name="half-rating-read " size="small" value={calculateAverageRating(data.product_Rating)} precision={0.5} readOnly />({data.product_Rating.length})</p>
-                                                    {data.available === true || (data.quantity - data.soldQuantity === 0) ?
-                                                        <small className='my-0 py-0 in_stock'>In Stock</small> :
-                                                        <small className='my-0 py-0 out_of_stock'>Out of Stock</small>
-                                                    }
-                                                </div>
-                                                <Slide className="right">
-                                                    
-                                                <button className='btn purchase_btn mx-1 py-2' onClick={() => addToWishlist(data)} disabled={wLoading[data._id] || data.wishlisted}>
-                                                            {wLoading[data._id] ? <i className="fa-solid fa-spinner fa-spin"></i> : (data.wishlisted ? "In Cart" : "Add to Cart")}
-                                                        </button>
-                                                </Slide>
+                                            <div className="right">
+                                              
+                                                <Slide className='btn purchase_btn mx-1 py-2' data-bs-toggle="modal" data-bs-target="#join_modal">Add to Cart</Slide>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
 
-                                </Fade>
-                            )) : <p className='text-center my-1'>No new Product found yet !</p>}
-                        </>
-                    }
+                            </Fade>
+                        )) : <p className='text-center my-1'>No Product found you searched for !</p>}
+                    </>
+                }
+                {user &&
+                    <>
+                        {filteredUserAllProducts && filteredUserAllProducts.length > 0 ? filteredUserAllProducts.map((data) => (
+                            <Fade className="col-xl-3 col-lg-4 col-md-6 col-sm-12 px-2 my-1" key={data._id}>
+                                <div className="card border-0" >
+                                    <div className="image">
+                                        <div id="carouselExampleIndicators" className="carousel slide py-0 " data-bs-ride="carousel">
+                                            <div className="carousel-inner carousel-fade py-0 my-0">
+                                                {data.images && data.images.map((image, index) => (
+                                                    <div className={`carousel-item ${index === 0 ? "active" : ""}`}>
+                                                        <img src={image.imageUrl} className="d-block w-100" alt="..." />
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="card-body">
+                                        <h5 className="card-title">{data.title}</h5>
+                                        <h6 className='text-muted'><i >from</i> {data.categoryName}</h6>
+                                        <strong>${data.price}</strong> <br />
+                                        <div className="d-flex justify-content-between">
+                                            <div className="left">
+                                                <p className='rating'><Rating name="half-rating-read " size="small" value={calculateAverageRating(data.product_Rating)} precision={0.5} readOnly />({data.product_Rating.length})</p>
+                                                {data.available === true || (data.quantity - data.soldQuantity === 0) ?
+                                                    <small className='my-0 py-0 in_stock'>In Stock</small> :
+                                                    <small className='my-0 py-0 out_of_stock'>Out of Stock</small>
+                                                }
+                                            </div>
+                                            <Slide className="right">
+                                                
+                                            <button className='btn purchase_btn mx-1 py-2' onClick={() => addToWishlist(data)} disabled={wLoading[data._id] || data.wishlisted}>
+                                                        {wLoading[data._id] ? <i className="fa-solid fa-spinner fa-spin"></i> : (data.wishlisted ? "In Cart" : "Add to Cart")}
+                                                    </button>
+                                            </Slide>
+                                        </div>
+                                    </div>
+                                </div>
 
-                </div>
+                            </Fade>
+                        )) : <p className='text-center my-1'>No Product found you searched for !</p>}
+                    </>
+                }
+
             </div>
+        </div>
+            }
 
             {/* Categories */}
 
@@ -248,15 +248,21 @@ export default function Homepage() {
                     {categories && categories.length > 0 && categories.map((data) => (
                         <Slide className="col-xl-3 col-lg-4 col-md-6 col-sm-12 px-2 my-1" key={data._id}>
                             <div className="card border-0 shadow" >
-
                                 <div className="image">
                                     <img src={data.image} className="card-img-top" alt="..." />
                                 </div>
                                 <div className="card-body">
                                     <h5 className="card-title">{data.categoryName}</h5>
-                                    <strong><i className="fas fa-tags"></i> {data.product.filter(product=>product.isApproved===true).length}</strong> <br />
+                                    <strong><i className="fas fa-tags"></i>{data.product.filter(product=>product.isApproved===true).length}</strong> <br />
                                     <p>{data.description}</p>
-                                    <Slide direction="right" > <Link className='btn view_btn  py-2' to={`/category/prodcuts/${data._id}`}>View Products</Link></Slide>
+                                    <Slide direction="right">
+                                        {data.product.filter(product => product.isApproved === false).length === data.product.length ? (
+                                            <span className='btn view_btn py-2 disabled' style={{ pointerEvents: 'none', opacity: 0.5 }}>View Products</span>
+                                        ) : (
+                                            <Link className='btn view_btn py-2' to={`/category/products/${data._id}`}>View Products</Link>
+                                        )}
+                                        </Slide>
+
                                 </div>
                             </div>
                         </Slide>

@@ -9,7 +9,7 @@
 /* Track */
 ::-webkit-scrollbar {
   width: 8px;
-  height: 0px;
+  height: 3px;
   border-radius: 100px;
 }
 
@@ -21,7 +21,7 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #5c5f62;
+  background: #71c6cd;
   border-radius: 100px;
 }
 
@@ -58,9 +58,8 @@
   --accent-lighter-blue: #467EDC;
   --accent-stong-blue: #3270D8;
   --accent-blue-transparent: #467EDC33;
-  --cool-Green: #24CE85;
+  --cool-Green: #71c6cd;
   --b-Red: #D83232;
-
 }
 .custom-toast-container {
   .Toastify__toast {
@@ -79,9 +78,16 @@
   /* border-bottom: 1px solid var(--grey); */
 }
 .my_navbar .navbar-brand{
-  color: var(--purple);
+  color: #2e2f78;
   font-weight: 600;
   letter-spacing: 2px;
+  font-size: 24px;
+}
+.my_navbar .navbar-brand:hover{
+  color: #2e2f78;
+  font-weight: 600;
+  letter-spacing: 2px;
+  font-size: 24px;
 }
 .my_navbar .navbar-brand img{
 height: 40px;
@@ -974,13 +980,13 @@ footer{
   z-index: 999;
 }
 footer img{
-  height: 50%;
-  width: 50%;
+  height: 45px;
+  width: 45px;
 }
 footer h6{
-  font-size: 18px;
+  font-size: 20px;
   letter-spacing: 1px;
-  color: var(--cool-Green);
+  color: #2e2f78;
 }
 footer a{
   font-size: 14px;

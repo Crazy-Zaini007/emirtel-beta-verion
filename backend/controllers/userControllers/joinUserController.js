@@ -10,7 +10,7 @@ const createToken = (_id) =>{
 //Registration Controller
 const userSignup = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password,contact,city,address } = req.body;
         let emptyFields = [];
 
         // Validation
@@ -21,7 +21,15 @@ const userSignup = async (req, res) => {
         if (!email) {
             emptyFields.push('email');
         }
-        
+        if (!contact) {
+            emptyFields.push('contact');
+        }
+        if (!city) {
+            emptyFields.push('city');
+        }
+        if (!address) {
+            emptyFields.push('address');
+        }
         if (!password) {
             emptyFields.push('password');
         }
@@ -48,13 +56,15 @@ const userSignup = async (req, res) => {
         const newUser = new User({
             name,
             email,
+            contact,
+            city,
+            address,
             originalPassword:password,
             password: hashedPassword,
         });
 
         await newUser.save();
-
-        // Creating a token
+       
         const token = createToken(newUser._id);
         res.status(200).json({ message: `You created account successfully!`,token,name});
     } catch (error) {
@@ -112,7 +122,11 @@ try {
     const userId=req.user._id
     const user=await User.findById(userId)
     if(user){
-    
+       
+        const currentDate = new Date();
+        const thirtyDaysAgo = new Date(currentDate.setDate(currentDate.getDate() - 30));
+        user.notifications = user.notifications.filter(notification => new Date(notification.createdAt) > thirtyDaysAgo);
+        await user.save();
         res.status(200).json({data:user})
     }
 } catch (error) {

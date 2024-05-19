@@ -8,11 +8,11 @@ const navigate = useNavigate()
 // learner logout
 const userLogout=()=>{
   if (window.confirm('Are you sure you want to Logout from your Account?')){
-  
+      localStorage.removeItem('user');
+      dispatch({ type: 'USER_LOGOUT' });
       setTimeout(() => {
-        localStorage.removeItem('user')
-      }, 10);
-      dispatch({ type: "USER_LOGOUT" });
+        navigate('/', { replace: true })
+      }, 100);
   }
     }
   return {userLogout}

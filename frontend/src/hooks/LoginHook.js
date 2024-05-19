@@ -31,9 +31,9 @@ export default function SignupHook() {
                     setEmptyFields1(json.emptyFields)
                     setSuccess1(false)
                     setMySuccess1(false)
-
                 }
                 if(response.ok){
+                    alert(json.message)
                     setLoading(false)
                     setError1(null)
                     setEmptyFields1([' '])

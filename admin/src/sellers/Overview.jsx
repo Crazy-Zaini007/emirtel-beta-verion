@@ -418,6 +418,7 @@ const [orderId,setOrderId]=useState('')
                 <li><Link className={`delivered_btn mx-2`} style={status.toLowerCase()==='pending'?{borderBottom:'2px solid var(--purple)',color:'var(--purple)'}:{}} onClick={()=>setStatus('pending')}>Pending</Link></li>
                 <li><Link className={`delivered_btn mx-2 `} style={status.toLowerCase()==='packing'? {borderBottom:'2px solid var(--purple)',color:'var(--purple)'}:{}} onClick={()=>setStatus('packing')}>Packing</Link></li>
                 <li><Link className={`delivered_btn mx-2 `} style={status.toLowerCase()==='cancelled'? {borderBottom:'2px solid var(--purple)',color:'var(--purple)'}:{}} onClick={()=>setStatus('cancelled')}>Cancelled</Link></li>
+                <li><Link className={`delivered_btn mx-2 `} style={status.toLowerCase()==='received'? {borderBottom:'2px solid var(--purple)',color:'var(--purple)'}:{}} onClick={()=>setStatus('received')}>Received</Link></li>
                </ul>
                 </div>
                 <div className="col-md-6 col-sm-12 py-0 input_box order-first order-md-first my-1 ">
@@ -474,13 +475,14 @@ const [orderId,setOrderId]=useState('')
                           <TableCell className="text-center td">{order.payment_Type.toLowerCase() === 'cash on delivery' ? <span className='on_delivery  px-3 py-2 '>On_Delivery</span> : <span className='paid  px-3 py-2 '>Paid</span>}</TableCell>
                           <TableCell className="text-center td">{order.products.length}</TableCell>
                           <TableCell className="text-center td">{order.totalQuantity}</TableCell>
-                          <TableCell className="text-center td">{order.totalPrice}</TableCell>
+                          <TableCell className="text-center td">{order.totalPrice} AED</TableCell>
                           <TableCell className="text-center td ">
                             {order.order_Status.toLowerCase() === "pending" && <span className='pending  px-3 py-2 '>Pending</span>}
                             {order.order_Status.toLowerCase() === "delivered" && <span className='delivered text-success px-2 py-1'>Delivered</span>}
                             {order.order_Status.toLowerCase() === "packing" && <span className='packing   px-2 py-1'>Packing</span>}
                             {order.order_Status.toLowerCase() === "shipping" && <span className='shipping   px-2 py-1'>Shipping</span>}
                             {order.order_Status.toLowerCase()==="cancelled" &&<span className='pending  px-2 py-1'>Cancelled</span>}
+                            {order.order_Status.toLowerCase()==="received" &&<span className=' text-success  px-2 py-1'>Received</span>}
                           </TableCell>
                           <TableCell className="text-center td">
                           <div className="btn-group " role="group" aria-label="Basic example">
@@ -514,7 +516,7 @@ const [orderId,setOrderId]=useState('')
                                     <TableRow key={order._id}>
                                       <TableCell  className='text-center td'>{index + 1}</TableCell>
                                             <TableCell  className='text-center td'>{order.title}</TableCell>
-                                            <TableCell  className='text-center td'>{order.price}</TableCell>
+                                            <TableCell  className='text-center td'>{order.price} AED</TableCell>
                                             <TableCell  className='text-center td'>{order.quantity}</TableCell>
                                             <TableCell  className='text-center td'>{order.totalPrice}</TableCell>
                                     </TableRow>
@@ -606,8 +608,9 @@ const [orderId,setOrderId]=useState('')
               </label>
               <select name="" id="" value={order_Status} onChange={(e)=>setOrder_Status(e.target.value)} required>
                 <option value="">Choose status</option>
+                <option value="Received">Received</option>
                 <option value="Packing">Packing</option>
-                <option value="Shipping">Shipping</option>
+                <option value="Shipping">Shipped</option>
                 <option value="Delivered">Delivered</option>
               </select>
             </FormControl>

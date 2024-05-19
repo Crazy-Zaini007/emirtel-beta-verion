@@ -6,7 +6,7 @@ import UserProfileHook from '../hooks/UserProfileHook';
 import Box from '@mui/material/Box';
 import { Fade } from "react-awesome-reveal";
 import Typography from '@mui/material/Typography';
-import emptycart from '../assets/icons/empty_cart-icon.png'
+import emptycart from '../assets/icons/add-shopping.png'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Link } from 'react-router-dom'
@@ -22,6 +22,7 @@ import empty from '../assets/icons/empty.png'
 import delivered from '../assets/icons/delivered.gif'
 import shipping from '../assets/icons/shipping.gif'
 import packing from '../assets/icons/packing.png'
+import received from '../assets/icons/received-icon.png'
 export default function Orders() {
   const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -53,6 +54,8 @@ export default function Orders() {
       order.order_Status.toLowerCase().includes(status.toLowerCase())
     )
   })
+
+  const notifications = userProfile?.notifications ? [...userProfile.notifications] : [];
 
   const [open1, setOpen1] = useState(null);
   const handleClickOpen = () => {
@@ -128,24 +131,26 @@ export default function Orders() {
             <h2 className='text-center mb-4'>My Orders</h2>
             <Fade className="col-md-12 bg-white pt-2">
               <div className="row search_box" >
-                <div className="col-sm-12 col-md-6 order-last order-md-first py-0 my-1">
+                <div className="col-sm-12 col-md-7 order-last order-md-first py-0 my-1">
                   <ul className='py-0'>
                     <li><Link className={`all_btn me-2 `} style={status.toLowerCase() === '' ? { borderBottom: '2px solid var(--cool-Green)', color: 'var(--cool-Green)' } : {}} onClick={() => setStatus('')}>All</Link></li>
-                    <li><Link className={`delivered_btn mx-2`} style={status.toLowerCase() === 'delivered' ? { borderBottom: '2px solid var(--cool-Green)', color: 'var(--cool-Green)' } : {}} onClick={() => setStatus('delivered')}>Delivered</Link></li>
-                    <li><Link className={`delivered_btn mx-2`} style={status.toLowerCase() === 'shipping' ? { borderBottom: '2px solid var(--cool-Green)', color: 'var(--cool-Green)' } : {}} onClick={() => setStatus('shipping')}>Shipping</Link></li>
-                    <li><Link className={`delivered_btn mx-2`} style={status.toLowerCase() === 'pending' ? { borderBottom: '2px solid var(--cool-Green)', color: 'var(--cool-Green)' } : {}} onClick={() => setStatus('pending')}>Pending</Link></li>
+                    <li><Link className={`delivered_btn mx-2`} style={status.toLowerCase() === 'received' ? { borderBottom: '2px solid var(--cool-Green)', color: 'var(--cool-Green)' } : {}} onClick={() => setStatus('received')}>Received</Link></li>
                     <li><Link className={`delivered_btn mx-2 `} style={status.toLowerCase() === 'packing' ? { borderBottom: '2px solid var(--cool-Green)', color: 'var(--cool-Green)' } : {}} onClick={() => setStatus('packing')}>Packing</Link></li>
+                    <li><Link className={`delivered_btn mx-2`} style={status.toLowerCase() === 'shipping' ? { borderBottom: '2px solid var(--cool-Green)', color: 'var(--cool-Green)' } : {}} onClick={() => setStatus('shipping')}>Shipped</Link></li>
+                    <li><Link className={`delivered_btn mx-2`} style={status.toLowerCase() === 'delivered' ? { borderBottom: '2px solid var(--cool-Green)', color: 'var(--cool-Green)' } : {}} onClick={() => setStatus('delivered')}>Delivered</Link></li>
+                    <li><Link className={`delivered_btn mx-2`} style={status.toLowerCase() === 'pending' ? { borderBottom: '2px solid var(--cool-Green)', color: 'var(--cool-Green)' } : {}} onClick={() => setStatus('pending')}>Pending</Link></li>
+                    <li><Link className={`delivered_btn mx-2`} style={status.toLowerCase() === 'received' ? { borderBottom: '2px solid var(--cool-Green)', color: 'var(--cool-Green)' } : {}} onClick={() => setStatus('received')}>Received</Link></li>
                     <li><Link className={`delivered_btn mx-2 `} style={status.toLowerCase() === 'cancelled' ? { borderBottom: '2px solid var(--cool-Green)', color: 'var(--cool-Green)' } : {}} onClick={() => setStatus('cancelled')}>Cancelled</Link></li>
                   </ul>
                 </div>
-                <div className="col-md-6 col-sm-12 py-0 input_box order-first order-md-first my-1 text-md-end d-flex">
+                <div className="col-md-5 col-sm-12 py-0 input_box order-first order-md-first my-1 text-md-end d-flex">
                   <i className="fa fa-search search_icon" aria-hidden="true"></i>
                   <input type="search" placeholder='Seacrh here...' value={search} onChange={(e) => setSearch(e.target.value)} />
-                  <Link className='notification_icon ms-2 me-1 mt-1' onClick={() => handleClickOpen()}><Badge badgeContent={recentNotifications && recentNotifications.length} color="success" showZero><NotificationsIcon></NotificationsIcon></Badge></Link>
+                  <Link className='notification_icon ms-2 me-1 mt-1' onClick={() => handleClickOpen()}><Badge badgeContent={recentNotifications && recentNotifications.length} sx={{ '& .MuiBadge-badge': { backgroundColor: '#71c6cd',color:"white" } }} showZero><NotificationsIcon sx={{color:"#5C5F62" }}></NotificationsIcon></Badge></Link>
                 </div>
               </div>
             </Fade>
-            <Fade direction='up' className="col-md-12 bg-white pt-2 pb-4 content my-1">
+            <div direction='up' className="col-md-12 bg-white pt-2 pb-4 content my-1">
               <TableContainer >
                 <Table>
                   <TableHead>
@@ -155,13 +160,12 @@ export default function Orders() {
                       <TableCell className='text-center'>OrderId</TableCell>
                       <TableCell className='text-center'>Date</TableCell>
                       <TableCell className='text-center'>Time</TableCell>
-                      <TableCell className='text-center'>Receiver_Name</TableCell>
                       <TableCell className='text-center'>City</TableCell>
-                      <TableCell className='text-center'>Shipping_Address</TableCell>
+                      <TableCell className='text-center'>Address</TableCell>
                       <TableCell className='text-center'>Payment</TableCell>
                       <TableCell className='text-center'>Products</TableCell>
                       <TableCell className='text-center'>Quantity</TableCell>
-                      <TableCell className='text-center'>Total_Price</TableCell>
+                      <TableCell className='text-center'>Price</TableCell>
                       <TableCell className='text-center'>Status</TableCell>
                       <TableCell className='text-center'>Action</TableCell>
                     </TableRow>
@@ -187,7 +191,7 @@ export default function Orders() {
                           <TableCell className='text-center td'>{order.orderId}</TableCell>
                           <TableCell className='text-center td'>{order.date}</TableCell>
                           <TableCell className='text-center td'>{order.time}</TableCell>
-                          <TableCell className='text-center td'>{order.buyer_Name}</TableCell>
+                          {/* <TableCell className='text-center td'>{order.buyer_Name}</TableCell> */}
                           <TableCell className="text-center td">{order.city}</TableCell>
                           <TableCell className="text-center td">{order.address}</TableCell>
                           <TableCell className="text-center td">{order.payment_Type.toLowerCase() === 'cash on delivery' ? <span className='on_delivery  px-3 py-1 '>On_Delivery</span> : <span className='paid  px-3 py-1 '>Paid</span>}</TableCell>
@@ -195,11 +199,12 @@ export default function Orders() {
                           <TableCell className="text-center td">{order.totalQuantity}</TableCell>
                           <TableCell className="text-center td price">{order.totalPrice}</TableCell>
                           <TableCell className="text-center td ">
-                            {order.order_Status.toLowerCase() === "pending" && <span className='pending  px-3 py-1 '>Pending</span>}
-                            {order.order_Status.toLowerCase() === "delivered" && <span className='delivered text-success px-2 py-1'>Delivered</span>}
-                            {order.order_Status.toLowerCase() === "packing" && <span className='packing   px-2 py-1'>Packing</span>}
-                            {order.order_Status.toLowerCase() === "shipping" && <span className='shipping  px-2 py-1'>Shipping</span>}
-                            {order.order_Status.toLowerCase() === "cancelled" && <span className='pending  px-2 py-1'>Cancelled</span>}
+                            {order.order_Status.toLowerCase() === "pending" && <span className='pending px-md-2 py-1 '>Pending</span>}
+                            {order.order_Status.toLowerCase() === "delivered" && <span className='delivered text-success px-md-2 py-1'>Delivered</span>}
+                            {order.order_Status.toLowerCase() === "packing" && <span className='packing   px-md-2 py-1'>Packing</span>}
+                            {order.order_Status.toLowerCase() === "shipping" && <span className='shipping  px-md-2 py-1'>Shipped</span>}
+                            {order.order_Status.toLowerCase() === "cancelled" && <span className='pending  px-md-2 py-1'>Cancelled</span>}
+                            {order.order_Status.toLowerCase() === "received" && <span className='delivered  text-success px-md-2 py-1'>Received By Emirtel</span>}
                           </TableCell>
                           <TableCell className="text-center td price"><button className='btn' disabled={order.order_Status.toLowerCase() !== 'pending' || wLoading[order._id]} onClick={() => cancelOrder(order)} >
                             {wLoading[order._id] ? <i className="fa-solid fa-spinner fa-spin"></i> : "Cancel"}
@@ -218,7 +223,6 @@ export default function Orders() {
                                   <TableHead >
                                     <TableRow className=' order_head'>
                                       <TableCell className='text-center'>#</TableCell>
-
                                       <TableCell className='text-center'>Product</TableCell>
                                       <TableCell className='text-center'>Product_Price</TableCell>
                                       <TableCell className='text-center'>Quantity</TableCell>
@@ -264,7 +268,7 @@ export default function Orders() {
                   </div>
                 </div>
               }
-            </Fade>
+            </div>
           </div>
         </div>
       </div>
@@ -291,7 +295,7 @@ export default function Orders() {
 
                 <>
 
-                  {userProfile && userProfile.notifications && userProfile.notifications.filter(n => n.new === true).length === 0 ? (
+                  {userProfile && recentNotifications && recentNotifications.length === 0 ? (
                     <div className="text-center image">
                       <img src={empty} alt="" />
                     </div>
@@ -300,14 +304,16 @@ export default function Orders() {
                       .map((data) => (
                         <div className="rounded border my-1 px-1" key={data._id}>
                           <div className="toast-header">
-                            <img src={data.type === 'New Order' ? neworder : data.type === 'Delivered' ? delivered : data.type === 'Shipping' ? shipping : data.type === 'Packing' ? packing : data.type === 'Order Cancelled' && ordercancel} className="rounded me-2" alt="..." />
-                            <div className={`me-auto ${(data.type === 'Activated' || data.type === 'Approved' || data.type === 'Product' || data.type === 'New Account' || data.type === 'New Order' || data.type === 'Delivered' || data.type === 'Packing' || data.type === 'Shipping') ? "success" : 'danger'}`}>
+                            <img src={data.type === 'New Order' ? neworder : data.type === 'Delivered' ? delivered : data.type === 'Shipping' ? shipping : data.type === 'Packing' ? packing :data.type === 'Received' ? received : data.type === 'Order Cancelled' && ordercancel} className="rounded me-2" alt="..." />
+                            <div className={`me-auto ${(data.type === 'Activated' || data.type === 'Approved' || data.type === 'Product' || data.type === 'New Account' || data.type === 'New Order' || data.type === 'Delivered' || data.type === 'Packing' || data.type === 'Shipping' || data.type === 'Received') ? "success" : 'danger'}`}>
                               {data.type === "New Order" ? "New Order" :
                                 data.type === "Delivered" ? "Order Delivered" :
                                   data.type === "Packing" ? "Order Packing" :
                                     data.type === "Shipping" ? "Order Shipping" :
                                       data.type === 'Order Cancelled' ? "Order Cancelation" :
+                                      data.type === 'Received' ? "Order Received" :
                                         data.type === "Order Delivery" && "Order delivered"}
+                                        
                             </div>
                             <small>
                               {formatDistanceToNow(new Date(data.createdAt), { addSuffix: true })}
@@ -322,20 +328,21 @@ export default function Orders() {
                   )}    </>
               }
               {current === 1 &&
-
                 <>
 
-                  {userProfile && recentNotifications && recentNotifications.length > 0 ? recentNotifications
+                  {notifications && notifications.length > 0 ? notifications
+                      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                     .map((data) => (
                       <div className="rounded my-1 px-1 border" key={data._id}>
                         <div className="toast-header">
-                          <img src={data.type === 'New Order' ? neworder : data.type === 'Delivered' ? delivered : data.type === 'Shipping' ? shipping : data.type === 'Packing' ? packing : data.type === 'Order Cancelled' && ordercancel} className="rounded me-2" alt="..." />
-                          <div className={`me-auto ${(data.type === 'Activated' || data.type === 'Approved' || data.type === 'Product' || data.type === 'New Account' || data.type === 'New Order' || data.type === 'Delivered' || data.type === 'Packing' || data.type === 'Shipping') ? "success" : 'danger'}`}>
+                          <img src={data.type === 'New Order' ? neworder : data.type === 'Delivered' ? delivered : data.type === 'Shipping' ? shipping : data.type === 'Packing' ? packing :data.type === 'Received' ? received : data.type === 'Order Cancelled' && ordercancel} className="rounded me-2" alt="..." />
+                          <div className={`me-auto ${(data.type === 'Activated' || data.type === 'Approved' || data.type === 'Product' || data.type === 'New Account' || data.type === 'New Order' || data.type === 'Delivered' || data.type === 'Packing' || data.type === 'Shipping' || data.type === 'Received') ? "success" : 'danger'}`}>
                             {data.type === "New Order" ? "New Order" :
                               data.type === "Delivered" ? "Order Delivered" :
                                 data.type === "Packing" ? "Order Packing" :
                                   data.type === "Shipping" ? "Order Shipping" :
                                     data.type === 'Order Cancelled' ? "Order Cancelation" :
+                                    data.type === 'Received' ? "Order Received" :
                                       data.type === "Order Delivery" && "Order delivered"}
                           </div>
                           <small>
