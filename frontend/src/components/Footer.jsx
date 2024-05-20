@@ -52,7 +52,7 @@ await getAllCategories()
           </h6>
           {categories && categories.filter(category=>category.product.length>0).map((category, index)=>(
             <p key={index}>
-            <Link to={`/category/prodcuts/${category._id}`} className="text-reset text-start"><i className="fa-solid fa-up-right-from-square"></i> {category.categoryName}</Link>
+            <Link to={`/category/products/${category._id}`} className="text-reset text-start"><i className="fa-solid fa-up-right-from-square"></i> {category.categoryName}</Link>
           </p>
           ))}
         </div>

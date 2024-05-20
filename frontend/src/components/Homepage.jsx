@@ -336,7 +336,7 @@ export default function Homepage() {
                     </div>
                 </div>
             </div> */}
-            <div className="container-fluid latest_products py-5">
+            {/* <div className="container-fluid latest_products py-5">
                 <div className="row justify-content-center px-md-3 px-2">
                     <h2 className="text-center mb-4">Top Selling Products</h2>
                     {!user &&
@@ -374,7 +374,7 @@ export default function Homepage() {
                                                 </div>
                                                 <div className="right">
                                                     <Slide className='btn purchase_btn mx-1 py-2'>Add to Cart</Slide>
-                                                    {/* <button className='btn purchase_btn mx-1 py-2' data-bs-toggle="modal" data-bs-target="#join_modal">Add to Cart</button> */}
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -433,15 +433,15 @@ export default function Homepage() {
                     }
 
                 </div>
-            </div>
+            </div> */}
             
 
 
             {/* Showing Category Wise Products */}
-            <div className="container benefits py-3">
+            {/* <div className="container benefits py-3">
                 <h2 className="text-center my-4">Products from all Categories</h2>
-            </div>
-            {categories && categories
+            </div> */}
+            {/* {categories && categories
   .filter(category => category.product.length > 0)
   .map((category,index) => (
     <>
@@ -481,7 +481,7 @@ export default function Homepage() {
                                                 </div>
                                                 <div className="right">
                                                     <Slide className='btn purchase_btn mx-1 py-2'>Add to Cart</Slide>
-                                                    {/* <button className='btn purchase_btn mx-1 py-2' data-bs-toggle="modal" data-bs-target="#join_modal">Add to Cart</button> */}
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -495,7 +495,7 @@ export default function Homepage() {
   <>
     {category.product &&
       category.product.map((data) => {
-        // Check if the product ID exists in the user's wishlist
+       
         const isWishlisted =userProfile && userProfile.wishlist && userProfile.wishlist.some(item => item.title.toLowerCase() === data.title.toLowerCase());
         return (
           <Fade className="col-xl-3 col-lg-4 col-md-6 col-sm-12 px-2 my-1" key={data._id}>
@@ -545,7 +545,7 @@ export default function Homepage() {
             </div>
     </>
             
-  ))}
+  ))} */}
         </>
     )
 }

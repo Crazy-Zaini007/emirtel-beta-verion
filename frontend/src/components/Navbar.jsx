@@ -123,8 +123,8 @@ export default function Navbar() {
         </div>
         <div className="right pt-2">
           {!user && <>
-            {/* <Link className="mx-md-2 mx-1"><Tooltip title="Login/Register (coming soon)"><PermIdentityIcon></PermIdentityIcon></Tooltip></Link> */}
-            <Link className="mx-md-2 mx-1" data-bs-toggle="modal" data-bs-target="#join_modal"><Tooltip title="Login/Register"><PermIdentityIcon sx={{color:"#5C5F62" }}></PermIdentityIcon></Tooltip></Link>
+            <Link className="mx-md-2 mx-1"><Tooltip title="Login/Register (coming soon)"><PermIdentityIcon></PermIdentityIcon></Tooltip></Link>
+            {/* <Link className="mx-md-2 mx-1" data-bs-toggle="modal" data-bs-target="#join_modal"><Tooltip title="Login/Register"><PermIdentityIcon sx={{color:"#5C5F62" }}></PermIdentityIcon></Tooltip></Link> */}
 
           </>}
           {user && <>
@@ -150,8 +150,10 @@ export default function Navbar() {
           }
           {!user && 
           <>
-           <Link className=" mx-md-2  mx-1" data-bs-toggle="modal" data-bs-target="#join_modal" ><Tooltip title="Cart"><Badge badgeContent={user &&(userProfile && userProfile.wishlist && userProfile.wishlist.length)} sx={{ '& .MuiBadge-badge': { backgroundColor: '#71c6cd',color:"white" } }} showZero><ShoppingCartIcon sx={{color:"#5C5F62" }}></ShoppingCartIcon></Badge></Tooltip></Link>
-          <Link className=" mx-md-2 mx-1" data-bs-toggle="modal" data-bs-target="#join_modal" ><Tooltip title="Orders"><Badge badgeContent={user &&(userProfile && userProfile.orders && userProfile.orders.length)} sx={{ '& .MuiBadge-badge': { backgroundColor: '#71c6cd',color:"white" } }} showZero><LocalMallIcon sx={{color:"#5C5F62" }}></LocalMallIcon></Badge></Tooltip></Link>
+           {/* <Link className=" mx-md-2  mx-1" data-bs-toggle="modal" data-bs-target="#join_modal" ><Tooltip title="Cart"><Badge badgeContent={user &&(userProfile && userProfile.wishlist && userProfile.wishlist.length)} sx={{ '& .MuiBadge-badge': { backgroundColor: '#71c6cd',color:"white" } }} showZero><ShoppingCartIcon sx={{color:"#5C5F62" }}></ShoppingCartIcon></Badge></Tooltip></Link>
+          <Link className=" mx-md-2 mx-1" data-bs-toggle="modal" data-bs-target="#join_modal" ><Tooltip title="Orders"><Badge badgeContent={user &&(userProfile && userProfile.orders && userProfile.orders.length)} sx={{ '& .MuiBadge-badge': { backgroundColor: '#71c6cd',color:"white" } }} showZero><LocalMallIcon sx={{color:"#5C5F62" }}></LocalMallIcon></Badge></Tooltip></Link> */}
+          <Link className=" mx-md-2  mx-1"  ><Tooltip title="Cart (coming soon)"><Badge badgeContent={user &&(userProfile && userProfile.wishlist && userProfile.wishlist.length)} sx={{ '& .MuiBadge-badge': { backgroundColor: '#71c6cd',color:"white" } }} showZero><ShoppingCartIcon></ShoppingCartIcon></Badge></Tooltip></Link>
+          <Link className=" mx-md-2 mx-1"  ><Tooltip title="Orders (coming soon)"><Badge badgeContent={user &&(userProfile && userProfile.orders && userProfile.orders.length)} sx={{ '& .MuiBadge-badge': { backgroundColor: '#71c6cd',color:"white" } }} showZero><LocalMallIcon ></LocalMallIcon></Badge></Tooltip></Link>
           </>
           }
          
@@ -161,7 +163,6 @@ export default function Navbar() {
       <div className="modal fade join_modal" id="join_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div className="modal-dialog border-0">
           <div className="modal-content border-0">
-
             <Fade className="modal-body border-0 p-0 ">
               <div className="card border-0 ">
                 <Link className='close_btn' disabled={(isLoading || isLoading1)} data-bs-dismiss="modal"><i className="fas fa-times"></i></Link>
@@ -226,7 +227,6 @@ export default function Navbar() {
                       </div>
                       <button type="submit" className="btn submit_btn" disabled={isLoading1}>{isLoading1 ? "Signing you in..." : "Sign in"}</button>
                       <p className='mt-1 mb-0 '>Not a member ? <Link onClick={() => setOption(1)} disabled={isLoading1}>Register Now</Link></p>
-
                     </form>
                   }
                 </div>
@@ -305,7 +305,7 @@ export default function Navbar() {
 
       <SpeedDial 
         ariaLabel="Contact Us"
-        sx={{ position: 'fixed', bottom: 60, left: 50 }}
+        sx={{ position: 'fixed', bottom: 60, right: 50 }}
         icon={<ConnectWithoutContactIcon className='fa-fade' sx={{ color: "white" }} />}
       >
         {actions.map((action) => (

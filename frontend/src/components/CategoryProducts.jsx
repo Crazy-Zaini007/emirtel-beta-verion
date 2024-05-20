@@ -21,10 +21,6 @@ export default function CategoryProducts() {
         const totalRating = product_Rating.reduce((acc, rating) => acc + rating.rating, 0);
         return totalRating / product_Rating.length;
       }
-
-     
-  
-
     // Getting Products when the user is not loggedIn
     const getProducts=async()=>{
         setLoading(true)
@@ -55,7 +51,6 @@ export default function CategoryProducts() {
                 'Authorization': `Bearer ${user.token}`
                 
               }
-
          })
          
          const json=await response.json()
