@@ -183,7 +183,7 @@ export default function Homepage() {
                                             </div>
                                             <div className="right">
                                               
-                                                <Slide className='btn purchase_btn mx-1 py-2' data-bs-toggle="modal" data-bs-target="#join_modal">Add to Cart</Slide>
+                                                {/* <Slide className='btn purchase_btn mx-1 py-2' data-bs-toggle="modal" data-bs-target="#join_modal">Add to Cart</Slide> */}
                                             </div>
                                         </div>
                                     </div>
@@ -221,12 +221,12 @@ export default function Homepage() {
                                                     <small className='my-0 py-0 out_of_stock'>Out of Stock</small>
                                                 }
                                             </div>
-                                            <Slide className="right">
+                                            {/* <Slide className="right">
                                                 
                                             <button className='btn purchase_btn mx-1 py-2' onClick={() => addToWishlist(data)} disabled={wLoading[data._id] || data.wishlisted}>
                                                         {wLoading[data._id] ? <i className="fa-solid fa-spinner fa-spin"></i> : (data.wishlisted ? "In Cart" : "Add to Cart")}
                                                     </button>
-                                            </Slide>
+                                            </Slide> */}
                                         </div>
                                     </div>
                                 </div>
