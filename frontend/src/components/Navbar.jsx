@@ -119,7 +119,7 @@ export default function Navbar() {
     <>
       <div className="my_navbar d-flex justify-content-between px-md-2 py-3 px-2 sticky-top">
         <div delay='3' className="left">
-          <Link className="navbar-brand" to="/"><img src={logo} alt="" /> Emirtel</Link>
+          <Link className="navbar-brand" to="/"><img src={logo} alt="" /> Emirtel امرتل</Link>
         </div>
         <div className="right pt-2">
           {!user && <>
