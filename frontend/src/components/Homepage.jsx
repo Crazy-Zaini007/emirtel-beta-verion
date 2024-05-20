@@ -123,7 +123,7 @@ export default function Homepage() {
                 <div class="carousel-caption p-0">
                             <div className="row justify-content-center p-0">
                                 <div className="col-lg-10 col-12 p-0">
-                                <h1><span className='py-2 px-1 d-none d-sm-block'>Emirtel online</span></h1>
+                                <h1><span className='py-2 px-1 d-none d-sm-block'>Emirtel</span></h1>
                                 <h6>Find the best ever daily life's Products here from variouse categories...</h6>
                            <div className="input-group mb-3 shadow">
                                     <input type="search" className="form-control shadow" value={title} onChange={(e)=>setTitle(e.target.value)} placeholder="Search for product..." aria-describedby="button-addon2" />
