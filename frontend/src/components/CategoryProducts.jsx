@@ -4,6 +4,8 @@ import {useParams}  from 'react-router-dom'
 import { Rating } from '@mui/material';
 import { Slide, Fade } from "react-awesome-reveal";
 import UserProfileHook from '../hooks/UserProfileHook';
+import Navbar from './Navbar'
+import Footer from './Footer'
 
 export default function CategoryProducts() {
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -123,7 +125,8 @@ if(!user){
     }
 
   return (
-    <div>
+    <>
+            <Navbar></Navbar>
         <div className="container-fluid all_categories mt-3">
         <Slide className="row justify-content-center px-md-3 px-2">
         <h2 className="text-center mb-4">All Products from <strong><i>{!user && products && products.categoryName} {user && authProducts && Array.from(new Set(authProducts.map(item => item.categoryName)))}</i></strong></h2>
@@ -232,6 +235,7 @@ if(!user){
 
                 </div>
             </div>
-    </div>
+            <Footer></Footer>
+    </>
   )
 }

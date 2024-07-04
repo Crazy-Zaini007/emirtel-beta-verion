@@ -23,6 +23,8 @@ import delivered from '../assets/icons/delivered.gif'
 import shipping from '../assets/icons/shipping.gif'
 import packing from '../assets/icons/packing.png'
 import received from '../assets/icons/received-icon.png'
+import Navbar from './Navbar'
+import Footer from './Footer'
 export default function Orders() {
   const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -124,7 +126,8 @@ export default function Orders() {
   }
 
   return (
-    <div>
+    <>
+      <Navbar></Navbar>
       <div className="container-fluid my_orders py-md-4 py-3">
         <div className="container px-md-2">
           <div className="row px-xl-2 justify-content-center">
@@ -372,6 +375,8 @@ export default function Orders() {
           <button className='btn close_btn shadow m-1' onClick={handleClose}>Close</button>
         </DialogActions>
       </Dialog>
-    </div>
+
+      <Footer></Footer>
+    </>
   )
 }

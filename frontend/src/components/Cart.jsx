@@ -11,6 +11,8 @@ import { Fade } from "react-awesome-reveal";
 import Typography from '@mui/material/Typography';
 import {Link} from 'react-router-dom'
 import emptycart from '../assets/icons/add-shopping.png'
+import Navbar from './Navbar'
+import Footer from './Footer'
 export default function Cart() {
 
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -215,7 +217,8 @@ const plceOrder=async(e)=>{
 
 
     return (
-        <div>
+        <>
+            <Navbar></Navbar>
             <div className="container-fluid shopping_cart py-md-4 py-3">
                 <div className="container px-md-2">
                     <div className="row px-md-2 justify-content-center">
@@ -511,6 +514,8 @@ const plceOrder=async(e)=>{
                     </div>
                 </div>
             </div>
-        </div>
+            <Footer></Footer>
+
+        </>
     )
 }

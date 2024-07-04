@@ -17,7 +17,7 @@ await getAllCategories()
         fetchData()
     }, [])
   return (
-    <footer className="text-center text-lg-start bg-body-tertiary text-muted">
+    <footer className="text-center text-lg-start bg-body-tertiary text-muted emirtel_footer">
 
   <section>
     <div className="container-fluid text-center text-md-start pt-4">
@@ -35,10 +35,10 @@ await getAllCategories()
             Usefull Links
           </h6>
           <p>
-            <Link to="/" className="text-reset"><i className="fa-solid fa-angles-right my-2"></i> Home</Link> <br />
+            <Link to="/ecomm/emirtel" className="text-reset"><i className="fa-solid fa-angles-right my-2"></i> Home</Link> <br />
             {user &&<>
-                <Link to="/shopping_cart" className="text-reset text-start"><i className="fa-solid fa-angles-right my-2"></i> Shopping Cart</Link> <br />
-                <Link to="/my_orders" className="text-reset text-start"><i className="fa-solid fa-angles-right my-2"></i> My Orders</Link> <br />
+                <Link to="/ecomm/emirtel/shopping_cart" className="text-reset text-start"><i className="fa-solid fa-angles-right my-2"></i> Shopping Cart</Link> <br />
+                <Link to="/ecomm/emirtel/my_orders" className="text-reset text-start"><i className="fa-solid fa-angles-right my-2"></i> My Orders</Link> <br />
                 {/* <Link to="/notifications" className="text-reset text-start"><i className="fa-solid fa-angles-right my-2"></i> Notifiations</Link> <br /> */}
             </>
             }
@@ -52,7 +52,7 @@ await getAllCategories()
           </h6>
           {categories && categories.filter(category=>category.product.length>0).map((category, index)=>(
             <p key={index}>
-            <Link to={`/category/products/${category._id}`} className="text-reset text-start"><i className="fa-solid fa-up-right-from-square"></i> {category.categoryName}</Link>
+            <Link to={`/ecomm/emirtel/category/products/${category._id}`} className="text-reset text-start"><i className="fa-solid fa-up-right-from-square"></i> {category.categoryName}</Link>
           </p>
           ))}
         </div>
@@ -72,7 +72,7 @@ await getAllCategories()
   </section>
   <div className="text-center py-2" style={{backgroundColor: 'rgba(0, 0, 0, 0.05)'}}>
     © Copyright:
-    <Link className="text-reset fw-bold" to="/"> Emirtel Online</Link>
+    <Link className="text-reset fw-bold" to="/ecomm/emirtel"> Emirtel Online</Link>
   </div>
 
 </footer>

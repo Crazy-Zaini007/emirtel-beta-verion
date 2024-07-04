@@ -117,9 +117,9 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="my_navbar d-flex justify-content-between px-md-2 py-3 px-2 sticky-top">
+      <div className="my_navbar d-flex justify-content-between px-md-2 py-4 px-2 sticky-top">
         <div delay='3' className="left">
-          <Link className="navbar-brand" to="/"><img src={logo} alt="" /> Emirtel امرتل</Link>
+          <Link className="navbar-brand" to="/ecomm/emirtel"><img src={logo} alt="" /> Emirtel General Trading LLC امرتل</Link>
         </div>
         <div className="right pt-2">
           {!user && <>
@@ -144,8 +144,8 @@ export default function Navbar() {
           }
           {user && 
           <>
-          <Link className=" mx-md-2  mx-1" aria-current="page" to="/shopping_cart" ><Tooltip title="Cart"><Badge badgeContent={user &&(userProfile && userProfile.wishlist && userProfile.wishlist.length)} sx={{ '& .MuiBadge-badge': { backgroundColor: '#71c6cd',color:"white" } }} showZero><ShoppingCartIcon sx={{color:"#5C5F62" }}></ShoppingCartIcon></Badge></Tooltip></Link>
-          <Link className=" mx-md-2  mx-1" to="/my_orders" ><Tooltip title="Orders"><Badge badgeContent={user &&(userProfile && userProfile.orders && userProfile.orders.length)}  sx={{ '& .MuiBadge-badge': { backgroundColor: '#71c6cd',color:"white" } }} showZero><LocalMallIcon sx={{color:"#5C5F62" }} ></LocalMallIcon></Badge></Tooltip></Link>
+          <Link className=" mx-md-2  mx-1" aria-current="page" to="/ecomm/emirtel/shopping_cart" ><Tooltip title="Cart"><Badge badgeContent={user &&(userProfile && userProfile.wishlist && userProfile.wishlist.length)} sx={{ '& .MuiBadge-badge': { backgroundColor: '#71c6cd',color:"white" } }} showZero><ShoppingCartIcon sx={{color:"#5C5F62" }}></ShoppingCartIcon></Badge></Tooltip></Link>
+          <Link className=" mx-md-2  mx-1" to="/ecomm/emirtel/my_orders" ><Tooltip title="Orders"><Badge badgeContent={user &&(userProfile && userProfile.orders && userProfile.orders.length)}  sx={{ '& .MuiBadge-badge': { backgroundColor: '#71c6cd',color:"white" } }} showZero><LocalMallIcon sx={{color:"#5C5F62" }} ></LocalMallIcon></Badge></Tooltip></Link>
           </>
           }
           {!user && 

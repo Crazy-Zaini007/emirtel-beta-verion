@@ -14,7 +14,8 @@ import safePayments from '../assets/icons/safe-payment.png'
 import orderTracking from '../assets/icons/order-tracking.png'
 import { useSelector } from 'react-redux';
 import UserProfileHook from '../hooks/UserProfileHook';
-
+import Navbar from './Navbar'
+import Footer from './Footer'
 export default function Homepage() {
     const { user } = useAuthContext()
 
@@ -116,6 +117,7 @@ export default function Homepage() {
 
     return (
         <>
+            <Navbar></Navbar>
 
             <div id="carouselExampleIndicators" className="carousel slide py-0 " data-bs-ride="carousel">
 
@@ -259,7 +261,7 @@ export default function Homepage() {
                                         {data.product.filter(product => product.isApproved === false).length === data.product.length ? (
                                             <span className='btn view_btn py-2 disabled' style={{ pointerEvents: 'none', opacity: 0.5 }}>View Products</span>
                                         ) : (
-                                            <Link className='btn view_btn py-2' to={`/category/products/${data._id}`}>View Products</Link>
+                                            <Link className='btn view_btn py-2' to={`/ecomm/emirtel/category/products/${data._id}`}>View Products</Link>
                                         )}
                                         </Slide>
 
@@ -546,6 +548,9 @@ export default function Homepage() {
     </>
             
   ))} */}
+
+<Footer></Footer>
+
         </>
     )
 }
