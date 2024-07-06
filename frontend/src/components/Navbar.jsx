@@ -117,20 +117,20 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="my_navbar d-flex justify-content-between px-md-2 py-4 px-2 sticky-top">
-        <div delay='3' className="left">
-          <Link className="navbar-brand" to="/ecomm/emirtel"><img src={logo} alt="" /> Emirtel General Trading LLC امرتل</Link>
+      <div className="my_navbar d-flex justify-content-between px-md-2 py-2 px-2 sticky-top">
+        <div delay='3' className="left my-auto">
+          <Link className="navbar-brand m-auto" to="/ecomm/emirtel"><img src={logo} alt="" /> Emirtel General Trading LLC <br /><span className='ms-5'>امرتل للتجارة العامة ش ذ م م</span></Link>
         </div>
-        <div className="right pt-2">
+        <div className="right pt-2 my-auto">
           {!user && <>
-            <Link className="mx-md-2 mx-1"><Tooltip title="Login/Register (coming soon)"><PermIdentityIcon></PermIdentityIcon></Tooltip></Link>
+            <Link className="mx-md-2 mx-0"><Tooltip title="Login/Register (coming soon)"><PermIdentityIcon></PermIdentityIcon></Tooltip></Link>
             {/* <Link className="mx-md-2 mx-1" data-bs-toggle="modal" data-bs-target="#join_modal"><Tooltip title="Login/Register"><PermIdentityIcon sx={{color:"#5C5F62" }}></PermIdentityIcon></Tooltip></Link> */}
 
           </>}
           {user && <>
 
             <div className="dropdown d-inline" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Profile">
-              <Link className="mx-md-2 mx-1" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+              <Link className="mx-md-1" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                 <Tooltip title="Profile">
                   <PersonIcon sx={{color:"#5C5F62" }}></PersonIcon>
                 </Tooltip>
@@ -144,16 +144,16 @@ export default function Navbar() {
           }
           {user && 
           <>
-          <Link className=" mx-md-2  mx-1" aria-current="page" to="/ecomm/emirtel/shopping_cart" ><Tooltip title="Cart"><Badge badgeContent={user &&(userProfile && userProfile.wishlist && userProfile.wishlist.length)} sx={{ '& .MuiBadge-badge': { backgroundColor: '#71c6cd',color:"white" } }} showZero><ShoppingCartIcon sx={{color:"#5C5F62" }}></ShoppingCartIcon></Badge></Tooltip></Link>
-          <Link className=" mx-md-2  mx-1" to="/ecomm/emirtel/my_orders" ><Tooltip title="Orders"><Badge badgeContent={user &&(userProfile && userProfile.orders && userProfile.orders.length)}  sx={{ '& .MuiBadge-badge': { backgroundColor: '#71c6cd',color:"white" } }} showZero><LocalMallIcon sx={{color:"#5C5F62" }} ></LocalMallIcon></Badge></Tooltip></Link>
+          <Link className=" mx-md-1  mx-1" aria-current="page" to="/ecomm/emirtel/shopping_cart" ><Tooltip title="Cart"><Badge badgeContent={user &&(userProfile && userProfile.wishlist && userProfile.wishlist.length)} sx={{ '& .MuiBadge-badge': { backgroundColor: '#71c6cd',color:"white" } }} showZero><ShoppingCartIcon sx={{color:"#5C5F62" }}></ShoppingCartIcon></Badge></Tooltip></Link>
+          <Link className=" mx-md-1  mx-1" to="/ecomm/emirtel/my_orders" ><Tooltip title="Orders"><Badge badgeContent={user &&(userProfile && userProfile.orders && userProfile.orders.length)}  sx={{ '& .MuiBadge-badge': { backgroundColor: '#71c6cd',color:"white" } }} showZero><LocalMallIcon sx={{color:"#5C5F62" }} ></LocalMallIcon></Badge></Tooltip></Link>
           </>
           }
           {!user && 
           <>
            {/* <Link className=" mx-md-2  mx-1" data-bs-toggle="modal" data-bs-target="#join_modal" ><Tooltip title="Cart"><Badge badgeContent={user &&(userProfile && userProfile.wishlist && userProfile.wishlist.length)} sx={{ '& .MuiBadge-badge': { backgroundColor: '#71c6cd',color:"white" } }} showZero><ShoppingCartIcon sx={{color:"#5C5F62" }}></ShoppingCartIcon></Badge></Tooltip></Link>
           <Link className=" mx-md-2 mx-1" data-bs-toggle="modal" data-bs-target="#join_modal" ><Tooltip title="Orders"><Badge badgeContent={user &&(userProfile && userProfile.orders && userProfile.orders.length)} sx={{ '& .MuiBadge-badge': { backgroundColor: '#71c6cd',color:"white" } }} showZero><LocalMallIcon sx={{color:"#5C5F62" }}></LocalMallIcon></Badge></Tooltip></Link> */}
-          <Link className=" mx-md-2  mx-1"  ><Tooltip title="Cart (coming soon)"><Badge badgeContent={user &&(userProfile && userProfile.wishlist && userProfile.wishlist.length)} sx={{ '& .MuiBadge-badge': { backgroundColor: '#71c6cd',color:"white" } }} showZero><ShoppingCartIcon></ShoppingCartIcon></Badge></Tooltip></Link>
-          <Link className=" mx-md-2 mx-1"  ><Tooltip title="Orders (coming soon)"><Badge badgeContent={user &&(userProfile && userProfile.orders && userProfile.orders.length)} sx={{ '& .MuiBadge-badge': { backgroundColor: '#71c6cd',color:"white" } }} showZero><LocalMallIcon ></LocalMallIcon></Badge></Tooltip></Link>
+          <Link className=" mx-md-1  mx-1"  ><Tooltip title="Cart (coming soon)"><Badge badgeContent={user &&(userProfile && userProfile.wishlist && userProfile.wishlist.length)} sx={{ '& .MuiBadge-badge': { backgroundColor: '#71c6cd',color:"white" } }} showZero><ShoppingCartIcon></ShoppingCartIcon></Badge></Tooltip></Link>
+          <Link className=" mx-md-1 mx-1"  ><Tooltip title="Orders (coming soon)"><Badge badgeContent={user &&(userProfile && userProfile.orders && userProfile.orders.length)} sx={{ '& .MuiBadge-badge': { backgroundColor: '#71c6cd',color:"white" } }} showZero><LocalMallIcon ></LocalMallIcon></Badge></Tooltip></Link>
           </>
           }
          

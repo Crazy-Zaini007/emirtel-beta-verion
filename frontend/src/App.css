@@ -83,32 +83,29 @@
   color: #2e2f78;
   font-weight: 600;
   letter-spacing: 2px;
-  font-size: 24px;
+  font-size: 14px;
 }
 .my_navbar .navbar-brand:hover{
   color: #2e2f78;
   font-weight: 600;
   letter-spacing: 2px;
-  font-size: 24px;
+  font-size: 14px;
 }
 .my_navbar .navbar-brand img{
-height: 40px;
+height: 36px;
 }
 .my_navbar a{
   color: var(--black);
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
-  letter-spacing: 1px;
   cursor: pointer;
   text-decoration: none;
-  cursor: pointer;
 
 }
 .my_navbar a:hover{
   color: var(--black);
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
-  letter-spacing: 1px;
   cursor: pointer;
 }
 
@@ -3360,27 +3357,30 @@ font-family: 'Titillium Web', sans-serif;
 .main-page .card {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
 }
 
 .main-page .card:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
-
-.main-page .card .card-title {
+.main-page .card a{
+  text-decoration: none;
+}
+.main-page .card h5 {
   font-weight: bold;
   color: #013a99;
   font-size: 16px;
 }
-.main-page .card .card-title span{
+.main-page .card h5 span{
   color: #0a7a2f;
   font-weight: 600;
  font-family: 'Titillium Web', sans-serif;
  letter-spacing: 1px;
 }
 .main-page .card img{
-  height: 30px;
-  width: 30px;
+  height: 60px;
+  width: 60px;
 }
 
 .main-page .card .card-text {
