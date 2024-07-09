@@ -119,7 +119,16 @@ export default function Navbar() {
     <>
       <div className="my_navbar d-flex justify-content-between px-md-2 py-2 px-2 sticky-top">
         <div delay='3' className="left my-auto">
-          <Link className="navbar-brand m-auto" to="/ecomm/emirtel"><img src={logo} alt="" /> Emirtel General Trading LLC <br /><span className='ms-5'>امرتل للتجارة العامة ش ذ م م</span></Link>
+          <Link className="navbar-brand m-auto" to="/ecomm/emirtel">
+          <div className="d-flex justify-content-between">
+            <div className="left">
+            <img className='mt-2 me-1' src={logo} alt="" />
+            </div>
+            <div className="right">
+            Emirtel General Trading LLC <br /><span>امرتل للتجارة العامة ش ذ م م</span>
+            </div>
+          </div>
+          </Link>
         </div>
         <div className="right pt-2 my-auto">
           {!user && <>

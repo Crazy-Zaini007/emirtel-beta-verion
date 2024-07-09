@@ -3370,7 +3370,8 @@ font-family: 'Titillium Web', sans-serif;
 .main-page .card h5 {
   font-weight: bold;
   color: #013a99;
-  font-size: 16px;
+  font-size: 18px;
+ letter-spacing: 1px;
 }
 .main-page .card h5 span{
   color: #0a7a2f;
@@ -3378,6 +3379,20 @@ font-family: 'Titillium Web', sans-serif;
  font-family: 'Titillium Web', sans-serif;
  letter-spacing: 1px;
 }
+
+.main-page .card .emirtle_text h5 {
+  font-weight: bold;
+  color: #013a99;
+  font-size: 18px;
+ letter-spacing: 1px;
+}
+.main-page .card  .emirtle_text h5 span{
+  color: var(--cool-Green);
+  font-weight: 600;
+ font-family: 'Titillium Web', sans-serif;
+ letter-spacing: 1px;
+}
+
 .main-page .card img{
   height: 60px;
   width: 60px;

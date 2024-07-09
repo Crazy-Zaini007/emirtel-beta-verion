@@ -7,7 +7,7 @@ export default function MainPage() {
     <>
       <div className="container-fluid pt-5 main-page">
         <div className="row justify-content-center pt-5">
-            <div className="col-md-4 pt-md-5 pt-1 px-1">
+            <div className="col-md-3 pt-md-5 pt-1 px-1">
             <div className="card border-0 ">
   <div className="card-body py-2">
    <Link to='/ecomm/'>
@@ -26,7 +26,7 @@ export default function MainPage() {
   </div>
 </div>
             </div>
-            <div className="col-md-4 pt-md-5 pt-1 px-1">
+            <div className="col-md-3 pt-md-5 pt-1 px-1">
            
 <div className="card border-0 ">
   <div className="card-body py-2">
@@ -35,7 +35,7 @@ export default function MainPage() {
       <div className="left my-auto">
       <img src={emirtelLogo} alt="" />
       </div>
-      <div className="right my-auto">
+      <div className="right my-auto emirtle_text">
       <h5 className='text-end'>امرتل <span>للتجارة العامة ش ذ م م</span></h5>
       <h5 className='text-end'>Emirtel <span>General Trading LLC</span></h5>
       </div>
