@@ -39,8 +39,10 @@ const adminSignup = async (req, res) => {
             emptyFields.push('email');
         }
 
-        if (role && role.toLowerCase()==='admin' && !code) {
-            emptyFields.push('code');
+        if (role && role.toLowerCase()==='admin') {
+            if(!code){
+                emptyFields.push('code')
+            }
         }
         if (!password) {
             emptyFields.push('password');
@@ -65,19 +67,21 @@ const adminSignup = async (req, res) => {
                 message: `Admin with email: ${email} already exists`,
             });
         }
-
-                // Check if the provided code matches the security code
-                const securityCode = await Security.findOne({ code });
-                if (!securityCode) {
-                    return res.status(400).json({
-                        message: 'Invalid security code',
-                    });
-                }
+               
+        if(role && role.toLowerCase() === 'admin'){
+            const securityCode = await Security.findOne({ code });
+            if (!securityCode) {
+                return res.status(400).json({
+                    message: 'Invalid security code',
+                })
+            }
+        }
+               
         
         // Encrypting password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
-
+        
         const newUser = new Admin({
             userName,
             email,
