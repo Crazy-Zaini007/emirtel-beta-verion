@@ -38,7 +38,8 @@ const adminSignup = async (req, res) => {
         if (!email) {
             emptyFields.push('email');
         }
-        if (!code) {
+
+        if (role && role.toLowerCase()==='admin' && !code) {
             emptyFields.push('code');
         }
         if (!password) {
