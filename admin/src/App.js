@@ -21,6 +21,7 @@ import Orders from './sellers/Orders.jsx';
 
 function App() {
   const { seller } = useAuthContext();
+  console.log('seller',seller)
 
   return (
     <div className="App">
