@@ -17,7 +17,7 @@ await getAllCategories()
         fetchData()
     }, [])
   return (
-    <footer className="text-center text-lg-start bg-body-tertiary text-muted emirtel_footer">
+    <footer className="text-center text-lg-start bg-body-tertiary text-muted emirtel_footer border-0 border-top">
 
   <section>
     <div className="container-fluid text-center text-md-start pt-4">

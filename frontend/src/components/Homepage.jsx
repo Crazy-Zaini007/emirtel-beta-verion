@@ -141,12 +141,7 @@ export default function Homepage() {
                         <img src={carousel5} className="d-block w-100" alt="..." />
                        
                     </div>
-                    <div className="carousel-item">
-                        <img src={carousel6} className="d-block w-100" alt="..." />
-                    </div>
-                    <div className="carousel-item">
-                        <img src={carousel7} className="d-block w-100" alt="..." />
-                    </div>
+                   
                 </div>
 
             </div>
@@ -247,7 +242,7 @@ export default function Homepage() {
             <div className="container-fluid all_categories py-5">
                 <div className="row justify-content-center px-md-3 px-2">
                     <h2 className="text-center mb-4">Products Categories</h2>
-                    {categories && categories.length > 0 && categories.map((data) => (
+                    {categories && categories.length > 0 ? categories.map((data) => (
                         <Slide className="col-xl-3 col-lg-4 col-md-6 col-sm-12 px-2 my-1" key={data._id}>
                             <div className="card border-0 shadow" >
                                 <div className="image">
@@ -268,7 +263,7 @@ export default function Homepage() {
                                 </div>
                             </div>
                         </Slide>
-                    ))}
+                    )):<p className='text-center'>No product category found !</p>}
                 </div>
             </div>
 

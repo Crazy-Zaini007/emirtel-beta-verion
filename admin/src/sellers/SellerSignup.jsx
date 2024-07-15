@@ -77,10 +77,12 @@ const togglePasswordVisibility = () => {
                                             <option value="Admin">Admin</option>
                                         </select>
                                     </div>
+                                   {role.toLowerCase()==='admin' &&
                                     <div className="mb-1">
-                                        <label htmlFor="" >Security Code</label>
-                                        <input type="text"  className={Array.isArray(emptyFields) && emptyFields.includes('code') ? 'error' : ''} placeholder='Enter Security code provided by Super Admin'  value={code} onChange={(e)=>setCode(e.target.value)}/>
-                                    </div>
+                                    <label htmlFor="" >Security Code</label>
+                                    <input type="text"  className={Array.isArray(emptyFields) && emptyFields.includes('code') ? 'error' : ''} placeholder='Enter Security code provided by Super Admin'  value={code} onChange={(e)=>setCode(e.target.value)}/>
+                                </div>
+                                   }
                                     
                                     <div className="mb-1">
                                        

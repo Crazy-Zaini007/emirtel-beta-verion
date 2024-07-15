@@ -16,7 +16,7 @@ export default function MainPage() {
       <img src={ecommLogo} alt="" />
       </div>
       <div className="right my-auto">
-      <h5 className='text-end'>المؤيد <span>للتقنيات</span></h5>
+      <h5 className='text-end'>المعيد <span>للتكنولوجيا</span></h5>
       <h5 className='text-end'>Al Moeed <span>Technologies</span></h5>
       </div>
     </div>

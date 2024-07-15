@@ -34,7 +34,7 @@ export default function Categories() {
   const sortedCategories = [...categories].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   const apiUrl = process.env.REACT_APP_API_URL;
-
+console.log('apiUrl',apiUrl)
   useEffect(() => {
     if (seller) {
       getAllCategory()
@@ -116,7 +116,7 @@ export default function Categories() {
     e.preventDefault();
     setLoading1(true);
     try {
-      const response = await fetch('/auth/admin/category/add/category', {
+      const response = await fetch(`${apiUrl}/auth/admin/category/add/category`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

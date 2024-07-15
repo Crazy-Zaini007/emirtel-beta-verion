@@ -32,8 +32,31 @@ export default function ElectronicRepair() {
         </div>
       
         <div className="container top">
+          <div className="row my-5">
+            <Slide direction='right'><h5 className='text-center my-1'>1- Industrial Electronics Repairing</h5></Slide>
+          </div>
+        </div> 
+        <div className="row bottom border_col_8">
+         
+          <div className="col-md-6 px-md-5 px-2 py-4 my-auto">
+            <div className="text my-auto">
+              <div className="row py-4 px-3  m-0 ">
+                <div className="col-md-12 px-3 py-2 ">
+              <Fade direction='left'>
+              <img src={industrial_icon} alt="" />
+                  <h4 className='mt-2'>Industrial Electronics Repairing</h4>
+                  <p>Elevate your industrial electronics with our professional repair services. From complex control systems to specialized machinery components, we guarantee expert solutions tailored to your needs. Our experts deliver precision repairs with a commitment to excellence, ensuring minimal downtime and maximum productivity. With swift turnaround times and a satisfaction guarantee, trust us to bring your industrial electronics back to peak performance. Contact us today to experience the difference of trusted professionals dedicated to revitalizing your critical equipment. Your satisfaction is our priority as we redefine the standard for industrial electronics repair.
+                  </p>
+              </Fade>
+                  </div>
+              </div>
+            </div>
+          </div>
+
+        </div> 
+        <div className="container top">
           <div className="row my-4">
-           <Slide> <h5 className='text-center my-1'>1- Laptops Repairing</h5></Slide>
+           <Slide> <h5 className='text-center my-1'>2- Laptops Repairing</h5></Slide>
           </div>
         </div>
         <div className="container-fluid">
@@ -59,7 +82,7 @@ export default function ElectronicRepair() {
         </div> 
         <div className="container top">
           <div className="row my-5">
-            <Slide direction="right"><h5 className='text-center my-1'>2- Graphics Cards Repairing</h5></Slide>
+            <Slide direction="right"><h5 className='text-center my-1'>3- Graphics Cards Repairing</h5></Slide>
           </div>
         </div> 
         <div className="row bottom border_col_2">
@@ -85,7 +108,7 @@ export default function ElectronicRepair() {
 
         <div className="container top">
           <div className="row my-5">
-          <Slide direction="left"><h5 className='text-center my-1'>3- Game Consoles Repairing</h5></Slide>
+          <Slide direction="left"><h5 className='text-center my-1'>4- Game Consoles Repairing</h5></Slide>
           </div>
         </div> 
           <div className="row bottom justify-content-center border_col_3">
@@ -111,7 +134,7 @@ export default function ElectronicRepair() {
 
         <div className="container top">
           <div className="row my-5">
-           <Slide direction='right'> <h5 className='text-center my-1'>4- Tablets Repairing</h5></Slide>
+           <Slide direction='right'> <h5 className='text-center my-1'>5- Tablets Repairing</h5></Slide>
           </div>
         </div> 
         <div className="row bottom border_col_4">
@@ -138,7 +161,7 @@ export default function ElectronicRepair() {
 
         <div className="container top">
           <div className="row my-5">
-            <Slide direction='left'><h5 className='text-center my-1'>5- SmartPhones Repairing</h5></Slide>
+            <Slide direction='left'><h5 className='text-center my-1'>6- SmartPhones Repairing</h5></Slide>
           </div>
         </div> 
           <div className="row bottom justify-content-center border_col_5">
@@ -165,7 +188,7 @@ export default function ElectronicRepair() {
 
         <div className="container top">
           <div className="row my-5">
-            <Slide direction='right'><h5 className='text-center my-1'>6- Drones Repairing</h5></Slide>
+            <Slide direction='right'><h5 className='text-center my-1'>7- Drones Repairing</h5></Slide>
           </div>
         </div> 
         <div className="row bottom border_col_6">
@@ -189,7 +212,7 @@ export default function ElectronicRepair() {
 
         <div className="container top">
           <div className="row my-5">
-            <Slide direction='left'><h5 className='text-center my-1'>7- Cameras Repairing</h5></Slide>
+            <Slide direction='left'><h5 className='text-center my-1'>8- Cameras Repairing</h5></Slide>
           </div>
         </div> 
           <div className="row bottom justify-content-center border_col_7">
@@ -211,29 +234,7 @@ export default function ElectronicRepair() {
           </div>
         </div> 
 
-        <div className="container top">
-          <div className="row my-5">
-            <Slide direction='right'><h5 className='text-center my-1'>8- Industrial Electronics Repairing</h5></Slide>
-          </div>
-        </div> 
-        <div className="row bottom border_col_8">
-         
-          <div className="col-md-6 px-md-5 px-2 py-4 my-auto">
-            <div className="text my-auto">
-              <div className="row py-4 px-3  m-0 ">
-                <div className="col-md-12 px-3 py-2 ">
-              <Fade direction='left'>
-              <img src={industrial_icon} alt="" />
-                  <h4 className='mt-2'>Industrial Electronics Repairing</h4>
-                  <p>Elevate your industrial electronics with our professional repair services. From complex control systems to specialized machinery components, we guarantee expert solutions tailored to your needs. Our experts deliver precision repairs with a commitment to excellence, ensuring minimal downtime and maximum productivity. With swift turnaround times and a satisfaction guarantee, trust us to bring your industrial electronics back to peak performance. Contact us today to experience the difference of trusted professionals dedicated to revitalizing your critical equipment. Your satisfaction is our priority as we redefine the standard for industrial electronics repair.
-                  </p>
-              </Fade>
-                  </div>
-              </div>
-            </div>
-          </div>
-
-        </div> 
+       
 
         </div>
         
