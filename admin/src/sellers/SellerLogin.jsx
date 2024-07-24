@@ -9,7 +9,7 @@ export default function SellerSignup() {
 
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
-
+    
     const {isLoading,error,success,emptyFields,sellerLogin}=LoginHook()
     // fetching Signup hook to register a new seller
     
@@ -72,7 +72,7 @@ const togglePasswordVisibility = () => {
                                        <Link onClick={togglePasswordVisibility} className='mt-4'>
                             {showPassword ?<span className="fa-solid fa-eye-slash passsword-icon "></span>: <i className="fa-solid fa-eye passsword-icon"></i>  }
                            </Link>
-                           <p className='text-end my-0 forgot'> <Link>Forgot Password?</Link></p>
+                           <p className='text-end my-0 forgot'> <Link to='/emirtel/forgot_password'>Forgot Password?</Link></p>
                                    </div>
 
                                    

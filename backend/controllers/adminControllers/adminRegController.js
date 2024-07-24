@@ -458,4 +458,40 @@ const getSecurity=async(req,res)=>{
         
        }
     }
-module.exports={adminSignup,adminLogin,getAdmins,changeAdminStatus,updateAdmin,deleteNotify,addSecurity,updateSecurity,getSecurity,getAdminNotifications}
+
+    // Forgot Password
+    const forgotPassword = async(req, res) => {
+        
+       try {
+        const {email,password} = req.body
+
+        const existingAcocunt=await Admin.findOne({email});
+        if(!existingAcocunt){
+            res.status(404).json({ message: 'Account not found with email, you provide!' });
+             return
+        }
+        
+
+        if(existingAcocunt){
+            if(!password){
+                res.status(404).json({ message: 'new password is required' });
+                 return
+            }
+          
+       const salt = await bcrypt.genSalt(10);
+         const hashedPassword = await bcrypt.hash(password, salt);
+          existingAcocunt.password=hashedPassword
+          existingAcocunt.originalPassword=password
+           await existingAcocunt.save()
+           res.status(200).json({ message: 'Password updated successfully!' });
+           
+        }
+       } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: 'Server Error!' });
+        
+       }
+    }
+
+    
+module.exports={adminSignup,adminLogin,getAdmins,changeAdminStatus,updateAdmin,deleteNotify,addSecurity,updateSecurity,getSecurity,getAdminNotifications,forgotPassword}

@@ -1,5 +1,5 @@
 const  express = require('express');
-const { adminLogin,adminSignup,getAdmins,changeAdminStatus,updateAdmin,deleteNotify,addSecurity,updateSecurity,getSecurity,getAdminNotifications } = require('../../controllers/adminControllers/adminRegController')
+const { adminLogin,adminSignup,getAdmins,changeAdminStatus,updateAdmin,deleteNotify,addSecurity,updateSecurity,getSecurity,getAdminNotifications,forgotPassword } = require('../../controllers/adminControllers/adminRegController')
 const adminAuth = require('../../middleware/admin/adminAuth')
 
 const router=express.Router()
@@ -10,12 +10,18 @@ router.post("/register",adminSignup)
 //For Login the Admin
 router.post("/login",adminLogin)
 
+//For forgot paswords
+
+router.patch("/forgot_password",forgotPassword)
+
 router.use(adminAuth)
 //For getting the Admins
 router.get("/get",getAdmins)
 
 //For updating the Admins
 router.patch("/update",updateAdmin)
+
+
 
 //For changing Admins status
 

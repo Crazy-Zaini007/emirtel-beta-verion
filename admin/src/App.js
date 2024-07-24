@@ -17,11 +17,13 @@ import Notifications from './sellers/Notifications.jsx'
 import Approvals from './sellers/Approvals.jsx'
 import Overview from './sellers/Overview.jsx';
 import Orders from './sellers/Orders.jsx';
+import ForgotPassword from './sellers/ForgotPassword.jsx';
+
 
 
 function App() {
   const { seller } = useAuthContext();
-  console.log('seller',seller)
+
 
   return (
     <div className="App">
@@ -34,6 +36,9 @@ function App() {
           <Route exact path="/" element={!seller ? <SellerSignup></SellerSignup>:<SellerDashboard></SellerDashboard>} />
           <Route exat path="/emirtel/login_admin"
             element={!seller ? <SellerLogin></SellerLogin>:<Navigate to='/'></Navigate> }
+          />
+           <Route exat path="/emirtel/forgot_password"
+            element={!seller ? <ForgotPassword></ForgotPassword>:<Navigate to='/'></Navigate> }
           />
           <Route
             path="/emirtel/admin/overview"
