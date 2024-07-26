@@ -23,15 +23,12 @@ const addNewProduct = async (req, res) => {
             return res.status(400).json({message:'Product category is required'})
           }
         const admin = await Admin.findById(adminId);
-
         if (!admin) {
             return res.status(404).json({ message: 'Admin not found' });
         }
-
         if (admin && admin.isActive===false) {
             return res.status(404).json({ message: 'Your account is deactivated by Super Admin' });
         }
-
         if (admin && admin.isActive===true) {
             const existingCategory = await Products.findOne({categoryName})
             if (!existingCategory) {

@@ -43,32 +43,47 @@ export default function Categories() {
   const [categoryName, setCategoryName] = useState('')
   const [description, setDescription] = useState('')
   const [image, setImage] = useState('')
-  const handleImage = (e) => {
+  const [des_Type, setDes_Type] = useState('')
+
+  const [des_Pic, setDes_Pic] = useState('')
+
+  const handleImage = (e, field) => {
     const file = e.target.files[0];
-    TransformFile(file)
+
     if (file) {
       if (file.size > 5 * 1024 * 1024) {
         alert('File size exceeds the 5MB limit. Please select a smaller file.');
       } else {
-        TransformFile(file);
+        TransformFile(file, field);
       }
     } else {
-      alert('No file selected.');
+      if (field === 'image') {
+        setImage('');
+      } else if (field === 'des_Pic') {
+        setDes_Pic('');
+      }
     }
   };
 
-  const TransformFile = (file) => {
+  const TransformFile = (file, field) => {
     const reader = new FileReader();
     if (file) {
       reader.readAsDataURL(file);
       reader.onloadend = () => {
-        setImage(reader.result);
+        if (field === 'image') {
+          setImage(reader.result);
+        } else if (field === 'des_Pic') {
+          setDes_Pic(reader.result);
+        }
       };
     } else {
-      setImage('');
+      if (field === 'image') {
+        setImage('');
+      } else if (field === 'des_Pic') {
+        setDes_Pic('');
+      }
     }
   };
-
 
   // for category Details
   const [details,setDetails]=useState()
@@ -111,6 +126,7 @@ export default function Categories() {
   // Submitting Form Data
   const [loading1, setLoading1] = useState(null)
   const [, setNewMessage] = useState('')
+
   const addNewCategory = async (e) => {
     e.preventDefault();
     setLoading1(true);
@@ -124,7 +140,8 @@ export default function Categories() {
         body: JSON.stringify({
           categoryName,
           description,
-          image
+          image,
+          des_Pic
         }),
       });
 
@@ -202,10 +219,37 @@ export default function Categories() {
       label: 'Step 2:Add Description ',
       content: (
         <div>
-          <label>
-            Description:
+            <label>
+            Description Type:
           </label>
-          <textarea className='py-2' value={description} onChange={(e) => setDescription(e.target.value)} required />
+         <select name="" value={des_Type} onChange={(e)=>setDes_Type(e.target.value)} id="">
+          <option value="">choose type</option>
+          <option value="Text">Text</option>
+          <option value="Image">Image</option>
+         </select>
+
+         {des_Type === "Text" &&
+         <>
+          <label>
+            Description Text:
+          </label>
+          <textarea required={des_Type==="Text"} className='py-2' value={description} onChange={(e) => setDescription(e.target.value)} />
+         </>
+         }
+          {des_Type === "Image" &&
+         <>
+          <label>
+            Description Image:
+          </label>
+          <input type='file' accept='image/*' className='py-2' onChange={(e) => handleImage(e, 'des_Pic')} />
+         
+         </>
+         }
+          {des_Pic &&
+            <div className='col-md-12 image'>
+              <img src={des_Pic} className='py-2 rounded' />
+            </div>
+          }
         </div>
       ),
     },
@@ -217,7 +261,7 @@ export default function Categories() {
             <label>
               Thumbnail:
             </label>
-            <input type='file' accept='image/*' className='py-2' onChange={handleImage} />
+            <input type='file' accept='image/*' className='py-2' onChange={(e) => handleImage(e, 'image')} />
           </div>
           {image &&
             <div className='col-md-12 image'>
@@ -250,24 +294,34 @@ export default function Categories() {
     });
 
   };
-
   const handleImageChange = (e, field) => {
-    if (field === 'image') {
+    if (field === 'image' || field === 'des_Pic') {
       const file = e.target.files[0];
-
+  
       if (file) {
         const reader = new FileReader();
         reader.onloadend = () => {
           setEditedEntry({
             ...editedEntry,
-            [field]: reader.result, // Use reader.result as the image data URL
+            [field]: reader.result,
           });
         };
         reader.readAsDataURL(file);
+      } else {
+        setEditedEntry({
+          ...editedEntry,
+          [field]: '',
+        });
       }
     }
+  }
+
+  const handleDeleteImage = () => {
+    setEditedEntry((prevState) => ({
+      ...prevState,
+      des_Pic: '',
+    }));
   };
-  
 
   const [updateLoading, setUpdateLoading] = useState(false)
   const [updateContent, setUpdateContent] = useState('Update')
@@ -284,7 +338,7 @@ export default function Categories() {
           'Content-Type': 'application/json',
           "Authorization": `Bearer ${seller.token}`,
         },
-        body: JSON.stringify({ categoryId:editedEntry._id,categoryName: editedEntry.categoryName, description: editedEntry.description, image: editedEntry.image })
+        body: JSON.stringify({ categoryId:editedEntry._id,categoryName: editedEntry.categoryName, description: editedEntry.description, image: editedEntry.image,des_Pic:editedEntry.des_Pic })
       })
 
       const json = await response.json()
@@ -294,7 +348,6 @@ export default function Categories() {
         setNewMessage(toast.error(json.message));
         setUpdateLoading(false)
         setUpdateContent('Update')
-
       }
       if (response.ok) {
         getAllCategory()
@@ -543,14 +596,36 @@ export default function Categories() {
           <label htmlFor="" className='my-1'>Name:</label>
          <input type="text" className='my-1' value={editedEntry.categoryName} onChange={(e) => handleInputChange(e, 'categoryName')}/>
          <label htmlFor="" className='my-1'>Description:</label>
-         <textarea  className='my-1 py-2' value={editedEntry.description} onChange={(e) => handleInputChange(e, 'description')}/>
+         <textarea  className='my-1 py-2' value={editedEntry.description}disabled={editedEntry.des_Pic} onChange={(e) => handleInputChange(e, 'description')}/>
          <label htmlFor="" className='my-1'>Image:</label>
          <input type="file" className='my-1' accept='image/*' required onChange={(e) => handleImageChange(e, 'image')}/>
          <div className='row justify-content-center'>
-          <div className='col-md-6 image'>
+          <div className='col-md-12 image'>
           {editedEntry.image && 
          <img src={editedEntry.image} className='rounded' alt={editedEntry.image}/>
          }
+          </div>
+         </div>
+
+         <label htmlFor="" className='my-1'>Desc Image:</label>
+         <input type="file" className='my-1' accept='image/*'disabled={editedEntry.description}  required onChange={(e) => handleImageChange(e, 'des_Pic')}/>
+         <div className='row justify-content-center'>
+          <div className='col-md-12 image'>
+          {editedEntry.des_Pic && 
+          <div style={{
+            position: 'relative',
+          }}>
+         <img src={editedEntry.des_Pic} className='rounded' alt={editedEntry.des_Pic}/>
+         <i className="fa-solid fa-trash-can" onClick={handleDeleteImage}  style={{
+                  position: 'absolute',
+                  top: 10,
+                  right: 10,
+                  cursor: 'pointer',
+                  color: 'red',
+                }} ></i>
+          </div>
+         }
+
           </div>
          </div>
         </DialogContent>

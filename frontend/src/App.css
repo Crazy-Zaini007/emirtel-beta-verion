@@ -447,6 +447,7 @@ text-transform: capitalize;
   }
 
 .all_categories .card {
+  height: 100%;
   position: relative;
   overflow: hidden;
   transition: transform 0.3s ease; /* Transition for transform */
@@ -462,9 +463,15 @@ text-transform: capitalize;
   .all_categories .card .image{
     height: 190px;
   }
+} 
+
+.all_categories .card .des_Pic{
+  height: 80px;
 }
-
-
+.all_categories .card .des_Pic img{
+  height: 100%;
+  width: 100%;
+}
 
 .all_categories .card .image img{
   height: 100%;
@@ -505,6 +512,8 @@ text-transform: capitalize;
   width: 100%;
   font-weight: 600;
   box-shadow: 10px 20px 10px 1px solid var(--white);
+  margin-top: auto;
+
 }
 .all_categories .card .view_btn:hover{
   border: 1px solid var(--cool-Green);
@@ -3355,7 +3364,6 @@ font-family: 'Titillium Web', sans-serif;
   min-height: 100vh;
 }
 .main-page .card {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s, box-shadow 0.3s;
   cursor: pointer;
 }

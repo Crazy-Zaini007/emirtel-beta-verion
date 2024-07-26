@@ -8,7 +8,7 @@ export default function MainPage() {
       <div className="container-fluid pt-5 main-page">
         <div className="row justify-content-center pt-5">
             <div className="col-md-3 pt-md-5 pt-1 px-1">
-            <div className="card border-0 ">
+            <div className="card border ">
   <div className="card-body py-2">
    <Link to='/ecomm/'>
    <div className="d-flex justify-content-between">
@@ -28,7 +28,7 @@ export default function MainPage() {
             </div>
             <div className="col-md-3 pt-md-5 pt-1 px-1">
            
-<div className="card border-0 ">
+<div className="card border ">
   <div className="card-body py-2">
    <Link to='/ecomm/emirtel'>
    <div className="d-flex justify-content-between">

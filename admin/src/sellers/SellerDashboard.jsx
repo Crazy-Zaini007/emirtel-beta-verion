@@ -17,7 +17,6 @@ export default function SellerDashboard() {
   const {getAdminOrders,myOrders}=OrdersHook()
 
   const { seller } = useAuthContext()
-  
   useEffect(() => {
     if(seller){
       getAllAdmins()

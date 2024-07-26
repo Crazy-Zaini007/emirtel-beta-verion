@@ -8,7 +8,7 @@ const Products = require('../../database/admin/productModel')
 const addNewCategory = async (req, res) => {
   try {
     const adminId = req.user._id;
-    const { categoryName, description, image } = req.body;
+    const { categoryName, description, image,des_Pic } = req.body;
     if(!categoryName){
       return res.status(400).json({message:'category title is required'})
     }
@@ -41,10 +41,22 @@ const addNewCategory = async (req, res) => {
           }
         }
 
+        let uploadDescImage;
+        if (des_Pic) {
+          try {
+            uploadDescImage = await cloudinary.uploader.upload(des_Pic, {
+              upload_preset: 'rozgar',
+            });
+          } catch (uploadError) {
+            return res.status(500).json({ message: 'Error uploading image ' });
+          }
+        }
         const newCategory = new Products({
           categoryName,
           description,
-          image: uploadImage?.secure_url || ' '
+          image: uploadImage?.secure_url || '',
+          des_Pic: uploadDescImage?.secure_url || ''
+
         })
 
 
@@ -64,7 +76,6 @@ const addNewCategory = async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 }
-
 
 // deleting the category
 const deleteCategory = async (req, res) => {
@@ -106,6 +117,19 @@ const deleteCategory = async (req, res) => {
           }
       }
 
+      const desImageURL = categoryToDelete.des_Pic;
+      if (categoryToDelete.des_Pic && desImageURL) {
+          try {
+              // Extract the public ID of the image from the Cloudinary URL
+              const desPublicId = desImageURL.split('/').pop().split('.')[0];
+              
+              // Use the Cloudinary API to delete the image by its public ID
+              await cloudinary.uploader.destroy(desPublicId);
+          } catch (deleteError) {
+              console.log('Error deleting image from Cloudinary:', deleteError);
+          }
+      }
+
       await Products.findByIdAndDelete(categoryId);
 
       return res.status(200).json({
@@ -138,7 +162,7 @@ const updateCategory = async (req, res) => {
     }
 
     if (admin && admin.role === "Super Admin") {
-      const { categoryId, categoryName, description, image } = req.body
+      const { categoryId, categoryName, description, image,des_Pic } = req.body
       if (!mongoose.Types.ObjectId.isValid(categoryId)) {
         return res.status(404).json({ message: 'No such category in Category list !' })
       }
@@ -149,29 +173,40 @@ const updateCategory = async (req, res) => {
       }
       if (categoryToUpdate) {
         const newImage=categoryToUpdate.image
+        const descImage=categoryToUpdate.des_Pic
+
 
         let uploadImage;
-                        if (image && image.startsWith("https://res.cloudinary.com")) {
-                          
-                            // If it's already a Cloudinary secure URL, no need to upload
-                            uploadImage = image;
-                        } else if (image) {
+        let uploadDescImage;
+
+                        if (image && !image.startsWith("https://res.cloudinary.com")) {
                            
                             // If the image is not a secure URL, upload it to Cloudinary
                             try {
-                                uploadImage = await cloudinary.uploader.upload(image, {
-                                    upload_preset: 'rozgar',
-                                });
-                            } catch (uploadError) {
-                                return res.status(500).json({ message: 'Error uploading image' });
-                            }
+                              uploadImage = await cloudinary.uploader.upload(image, {
+                                  upload_preset: 'rozgar',
+                              });
+                          } catch (uploadError) {
+                              return res.status(500).json({ message: 'Error uploading image' });
+                          }
                         }
+                        
+                        if (des_Pic && !des_Pic.startsWith("https://res.cloudinary.com")) {
+                           
+                          // If the image is not a secure URL, upload it to Cloudinary
+                          try {
+                            uploadDescImage = await cloudinary.uploader.upload(des_Pic, {
+                                upload_preset: 'rozgar',
+                            });
+                        } catch (uploadError) {
+                            return res.status(500).json({ message: 'Error uploading image' });
+                        }
+                      }
 
         categoryToUpdate.categoryName = categoryName;
         categoryToUpdate.description = description;
           categoryToUpdate.image = uploadImage?.secure_url || newImage; 
-        
-
+          categoryToUpdate.des_Pic = uploadDescImage?.secure_url || descImage; 
          // Update categoryName for each product inside the product array
     categoryToUpdate.product.forEach((product) => {
       product.categoryName = categoryName;

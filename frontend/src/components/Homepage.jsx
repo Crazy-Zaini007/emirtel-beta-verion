@@ -5,7 +5,7 @@ import CategoryHook from '../hooks/CategoryHook'
 import { Link } from 'react-router-dom'
 import ProductHook from '../hooks/ProductHook'
 import { useAuthContext } from '../hooks/UserContextHook'
-import carousel5 from '../assets/carousel5.jpg'
+import carousel5 from '../assets/image5.jpg'
 import carousel6 from '../assets/carousel6.jpg'
 import carousel7 from '../assets/carousel7.jpg'
 import { Rating } from '@mui/material';
@@ -248,15 +248,23 @@ export default function Homepage() {
                                 <div className="image">
                                     <img src={data.image} className="card-img-top" alt="..." />
                                 </div>
-                                <div className="card-body">
+                                <div className="card-body d-flex flex-column">
                                     <h5 className="card-title">{data.categoryName}</h5>
                                     <strong><i className="fas fa-tags"></i>{data.product.filter(product=>product.isApproved===true).length}</strong> <br />
-                                    <p>{data.description}</p>
-                                    <Slide direction="right">
+                                    {data.description &&<p>{data.description}</p>}
+                                  
+                                    {data.des_Pic && 
+                                    <div className='des_Pic'>
+                                    <a href={data.des_Pic} target="_blank" rel="noopener noreferrer"> <img src={data.des_Pic} alt='Description' className='rounded' /></a>
+                                    </div>
+                                    }
+                                    
+                                   
+                                    <Slide direction="right" className='mt-auto'>
                                         {data.product.filter(product => product.isApproved === false).length === data.product.length ? (
-                                            <span className='btn view_btn py-2 disabled' style={{ pointerEvents: 'none', opacity: 0.5 }}>View Products</span>
+                                            <span className='btn view_btn py-2 disabled mt-auto' style={{ pointerEvents: 'none', opacity: 0.5 }}>View Products</span>
                                         ) : (
-                                            <Link className='btn view_btn py-2' to={`/ecomm/emirtel/category/products/${data._id}`}>View Products</Link>
+                                            <Link className='btn view_btn py-2 mt-auto' to={`/ecomm/emirtel/category/products/${data._id}`}>View Products</Link>
                                         )}
                                         </Slide>
 
@@ -274,16 +282,13 @@ export default function Homepage() {
                     <Slide direction="left" className="col-md-4 ">
                         <div className="benefit text-center m-1 bg-white rounded p-4">
                             <img src={deliveryIcon} alt="Benefit" />
-
                             <h3 className='my-2'>Delivery</h3>
                             <p>Place orders, we will deliver it to you with extra safety and assurance!</p>
                         </div>
                     </Slide>
                     <Fade className="col-md-4 ">
                         <div className="benefit text-center m-1 bg-white rounded p-4">
-
                             <img src={safePayments} alt="Benefit" />
-
                             <h3 className='my-2'>Safe Payments</h3>
                             <p>Make purchases and pay securely using your credit cards, ensuring safe transactions!</p>
                         </div>

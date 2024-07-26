@@ -68,7 +68,7 @@ const ProductItemSchema = new mongoose.Schema({
   date: {
     type: String
   }
-}, { timestamps: true }); // Add timestamps to individual product items
+}, { timestamps: true }); 
 
 // Products Schema
 const ProductSchema = new mongoose.Schema({
@@ -80,6 +80,10 @@ const ProductSchema = new mongoose.Schema({
   },
   image: {
     type: String
+  },
+  des_Pic:{
+    type: String,
+    default:''
   },
   product: [ProductItemSchema]
 }, { timestamps: true }); 
