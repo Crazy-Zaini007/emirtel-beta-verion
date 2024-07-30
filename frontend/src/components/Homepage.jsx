@@ -5,9 +5,10 @@ import CategoryHook from '../hooks/CategoryHook'
 import { Link } from 'react-router-dom'
 import ProductHook from '../hooks/ProductHook'
 import { useAuthContext } from '../hooks/UserContextHook'
-import carousel5 from '../assets/image5.jpg'
-import carousel6 from '../assets/carousel6.jpg'
-import carousel7 from '../assets/carousel7.jpg'
+import carousel1 from '../assets/pic2.jpg'
+import carousel2 from '../assets/pic1.jpg'
+import carousel3 from '../assets/carousel6.jpg'
+import carousel4 from '../assets/carousel4.jpg'
 import { Rating } from '@mui/material';
 import deliveryIcon from '../assets/icons/home-delivery.png'
 import safePayments from '../assets/icons/safe-payment.png'
@@ -118,33 +119,52 @@ export default function Homepage() {
     return (
         <>
             <Navbar></Navbar>
-
-            <div id="carouselExampleIndicators" className="carousel slide py-0 " data-bs-ride="carousel">
-
-                <div className="carousel-inner carousel-fade py-0 my-0">
-                <div class="carousel-caption p-0">
-                            <div className="row justify-content-center p-0">
-                                <div className="col-lg-10 col-12 p-0">
-                                <h1><span className='py-2 px-1 d-none d-sm-block'>Emirtel</span></h1>
-                                <h6>Find the best ever daily life's Products here from variouse categories...</h6>
-                           <div className="input-group mb-3 shadow">
-                                    <input type="search" className="form-control shadow" value={title} onChange={(e)=>setTitle(e.target.value)} placeholder="Search for product..." aria-describedby="button-addon2" />
-                                    <button className="btn shadow px-3" type="button" id="button-addon2"><i className="fa-solid fa-magnifying-glass me-md-2 ms-md-1 "></i><span className='d-none d-md-inline '>Search</span></button>
-                                    </div>
-                                    {title &&<p className='text-start'>    
-                                        <span className='total_length me-2'>{user ? filteredUserAllProducts.length : filteredAllProducts.length}</span>Products found for your search <span className='total_length' >"{title.toUpperCase()}"</span>
-                                        </p>}
-                                </div>
-                            </div>
-                        </div>
-                    <div className="carousel-item active p-0">
-                        <img src={carousel5} className="d-block w-100" alt="..." />
-                       
-                    </div>
-                   
-                </div>
-
+            <div id="carouselExampleIndicators" className="carousel slide carousel-fade py-0" data-bs-ride="carousel" data-bs-interval="1000">
+      <div className="carousel-inner carousel-fade py-0 my-0">
+        {/* <div className="carousel-caption p-0">
+          <div className="row justify-content-center p-0">
+            <div className="col-lg-10 col-12 p-0">
+              <h1><span className='py-2 px-1 d-none d-sm-block'>Emirtel</span></h1>
+              <h6>Find the best ever daily life's Products here from various categories...</h6>
+              <div className="input-group mb-3 shadow">
+                <input
+                  type="search"
+                  className="form-control shadow"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="Search for product..."
+                  aria-describedby="button-addon2"
+                />
+                <button className="btn shadow px-3" type="button" id="button-addon2">
+                  <i className="fa-solid fa-magnifying-glass me-md-2 ms-md-1"></i>
+                  <span className='d-none d-md-inline'>Search</span>
+                </button>
+              </div>
+              {title && (
+                <p className='text-start'>
+                  <span className='total_length me-2'>
+                    {filteredUserAllProducts.length || filteredAllProducts.length}
+                  </span>
+                  Products found for your search <span className='total_length'>" {title.toUpperCase()} "</span>
+                </p>
+              )}
             </div>
+          </div>
+        </div> */}
+        <div className="carousel-item active p-0" data-bs-interval="1000">
+          <img src={carousel1} className="d-block w-100" alt="..." />
+        </div>
+        <div className="carousel-item p-0" data-bs-interval="1000">
+          <img src={carousel2} className="d-block w-100" alt="..." />
+        </div>
+        <div className="carousel-item p-0" data-bs-interval="1000">
+          <img src={carousel3} className="d-block w-100" alt="..." />
+        </div>
+        <div className="carousel-item p-0" data-bs-interval="1000">
+          <img src={carousel4} className="d-block w-100" alt="..." />
+        </div>
+      </div>
+    </div>
             {title &&
             <div className="container-fluid latest_products py-5">
             <div className="row justify-content-center px-md-3 px-2">

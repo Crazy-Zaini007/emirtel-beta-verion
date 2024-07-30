@@ -223,7 +223,7 @@ export default function SellerProducts() {
           <label>
             Product Category:
           </label>
-          <select name="" id="" value={categoryName} onChange={(e) => setCategoryName(e.target.value)}>
+          <select name="" id="" required value={categoryName} onChange={(e) => setCategoryName(e.target.value)}>
             <option value="">Choose</option>
             {categories && categories.map((data) => (
               <option key={data._id} value={data.categoryName}>{data.categoryName}</option>
@@ -240,15 +240,15 @@ export default function SellerProducts() {
           <label>
             Title:
           </label>
-          <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <input type="text" required value={title} onChange={(e) => setTitle(e.target.value)} />
           <label>
-            Price: ($)
+            Price: (AED)
           </label>
-          <input type="number" min='0' value={price} onChange={(e) => setPrice(e.target.value)} />
+          <input type="number" required min='0' value={price} onChange={(e) => setPrice(e.target.value)} />
           <label>
             Quantity:
           </label>
-          <input type="number" min='0' value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+          <input type="number" min='0' required value={quantity} onChange={(e) => setQuantity(e.target.value)} />
         </div>
       ),
     },
@@ -267,7 +267,7 @@ export default function SellerProducts() {
           <label>
             Product Description:
           </label>
-          <textarea className='py-2' value={description} onChange={(e) => setDescription(e.target.value)} />
+          <textarea className='py-2'  value={description} onChange={(e) => setDescription(e.target.value)} />
         </div>
       ),
     },

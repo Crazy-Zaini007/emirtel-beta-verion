@@ -8,8 +8,8 @@ const nodemailer = require("nodemailer");
 //creating token
 const createToken = (_id) =>{
     return jwt.sign({_id}, process.env.SECRET, { expiresIn: '100days' });
-    
 }
+
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -102,12 +102,12 @@ const adminSignup = async (req, res) => {
                 superAdmin.notifications.push(newNotification)
                 await superAdmin.save()
 
-                const info = await transporter.sendMail({
-                    from: 'zk013506@gmail.com', // sender address
-                    to: `${superAdmin.email}`, // list of receivers
-                    subject: "🔒 New Account Alert", // Subject line
-                    html: `<b>${userName} registered an Admin acccount having Email: ${email}</b>`
-                  })
+                // const info = await transporter.sendMail({
+                //     from: 'zk013506@gmail.com', // sender address
+                //     to: `${superAdmin.email}`, // list of receivers
+                //     subject: "🔒 New Account Alert", // Subject line
+                //     html: `<b>${userName} registered an Admin acccount having Email: ${email}</b>`
+                //   })
             }
         }
         await newUser.save();
@@ -117,6 +117,7 @@ const adminSignup = async (req, res) => {
         
         res.status(200).json({ message: `${userName} registered as ${role} successfully!` });
     } catch (error) {
+        console.log(error)
         res.status(500).json({ message: error.message });
     }
 };
