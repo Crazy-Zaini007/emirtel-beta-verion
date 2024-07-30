@@ -13,7 +13,7 @@ const ProductItemSchema = new mongoose.Schema({
   },
   title: {
     type: String,
-    required: true,
+    default:''
   },
   images: [{
     imageUrl: {
@@ -22,11 +22,11 @@ const ProductItemSchema = new mongoose.Schema({
   }],
   price: {
     type: Number,
-    required: true,
+    default:0,
   },
   quantity: {
     type: Number,
-    required: true,
+    default:0,
   },
   size: {
     type: [String]
@@ -56,7 +56,7 @@ const ProductItemSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    required: true,
+    default:''
   },
   isApproved: {
     type: Boolean,

@@ -89,7 +89,7 @@ export default function SellerProducts() {
   const [tags, setTags] = useState('')
 
 
-  let numPictures = 4
+  let numPictures = 8
   const [selectedImageNames, setSelectedImageNames] = useState([]);
 
   const handleImage = (e) => {
