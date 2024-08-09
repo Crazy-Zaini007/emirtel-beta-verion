@@ -16,19 +16,8 @@ import { green } from '@mui/material/colors';
 import Badge from '@mui/material/Badge';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Fade } from "react-awesome-reveal";
-import SpeedDial from '@mui/material/SpeedDial';
-import SpeedDialAction from '@mui/material/SpeedDialAction';
-import AddIcCallIcon from '@mui/icons-material/AddIcCall';
-import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-import MailIcon from '@mui/icons-material/Mail';
-import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact';
 
 export default function Navbar() {
-  const actions = [
-    { icon: <a href="https://wa.me/+971501440101" target="_blank" rel="noreferrer" ><WhatsAppIcon sx={{ background: "green", color: "white", borderRadius: "100%", fontSize: "40px",padding:"6px" }} /></a>, name: 'Whatsapp' },
-    { icon: <a href="mailto:info@emirtel.ae"><MailIcon sx={{background:"#71c6cd",color:"white",borderRadius:"100%",fontSize: "40px",padding:"6px"}}/></a>, name: 'Email' },
-    
-  ];
 
   const { user } = useAuthContext()
   const [option, setOption] = useState(0)
@@ -117,6 +106,15 @@ export default function Navbar() {
 
   return (
     <>
+ <div class="contact-us">
+  <a href="https://wa.me/+971501440101" target="_blank" rel="noreferrer" class="contact-icon whatsapp">
+    <i className="fab fa-whatsapp"></i>
+  </a>
+  <a href="mailto:info@emirtel.ae" className="contact-icon email">
+    <i className="fas fa-envelope"></i>
+  </a>
+</div>
+
       <div className="my_navbar d-flex justify-content-between px-md-2 py-2 px-2 sticky-top">
         <div delay='3' className="left my-auto">
           <Link className="navbar-brand m-auto" to="/ecomm/emirtel">
@@ -311,20 +309,6 @@ export default function Navbar() {
           </div>
         </div>
       </div>
-
-      <SpeedDial 
-        ariaLabel="Contact Us"
-        sx={{ position: 'fixed', bottom: 60, right: 50 }}
-        icon={<ConnectWithoutContactIcon className='fa-fade' sx={{ color: "white" }} />}
-      >
-        {actions.map((action) => (
-          <SpeedDialAction sx={{height:"55px", width:"55px" }}
-            key={action.name}
-            icon={action.icon}
-            tooltipTitle={action.name}
-          />
-        ))}
-      </SpeedDial>
     </>
   )
 }

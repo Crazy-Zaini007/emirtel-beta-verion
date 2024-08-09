@@ -83,8 +83,8 @@ export default function Categories() {
         setDes_Pic('');
       }
     }
-  };
-
+  }
+  
   // for category Details
   const [details,setDetails]=useState()
 

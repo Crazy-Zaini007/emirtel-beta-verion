@@ -10,6 +10,8 @@ const cors = require('cors');
 const Category=require('./routes/admin/categoryRoute')
 const IndividualSellerProducts=require('./routes/admin/productRoute')
 const AllOrders=require('./routes/admin/ordersRoute')
+const Content=require('./routes/admin/pageContentRoute')
+
 
 // Buyer/User Routes Path
 const allCategories=require('./routes/user/getCategory_Route')
@@ -18,9 +20,6 @@ const JoinUser=require('./routes/user/user_Reg_Route')
 const Wishlist=require('./routes/user/wishlist_Route')
 const CategoryDetails=require('./routes/user/getCategoryProducts_Route')
 const UserOrders=require('./routes/user/order_Route')
-
-
-
 
 //express app
 const app = express()
@@ -51,6 +50,8 @@ app.use('/auth/admin/product',IndividualSellerProducts)
 // AllOrders Route
 app.use('/auth/admin/all_orders',AllOrders)
 
+// AllOrders Route
+app.use('/auth/admin/page_content',Content)
 
 // Routing for User
 app.use('/auth/user/categories',allCategories)

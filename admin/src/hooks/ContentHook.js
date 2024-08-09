@@ -1,18 +1,18 @@
 import {useState} from 'react'
 import { useAuthContext } from './UserContextHook'
-import { getCategory } from '../redux/reducers/categorySlice'
+import { getContent } from '../redux/reducers/contentSlice'
 import { useDispatch } from 'react-redux';
-export default function CategoryHook() {
+export default function ContentHook() {
     const dispatch = useDispatch()
     const apiUrl = process.env.REACT_APP_API_URL;
 
     const { seller } = useAuthContext()
     const [loading, setLoading] = useState(null)
     // Fetching Logged in Seller's Created Categories
-    const getAllCategory=async()=>{
+    const getAllContentImages=async()=>{
       setLoading(true)
        try {
-        const response=await fetch(`${apiUrl}/auth/admin/category/get/category`,{
+        const response=await fetch(`${apiUrl}/auth/admin/page_content/get/images`,{
           headers:{
             'Authorization': `Bearer ${seller.token}`
             
@@ -23,7 +23,7 @@ export default function CategoryHook() {
 
         if(response.ok){
           setLoading(null)
-          dispatch(getCategory(json.data))
+          dispatch(getContent(json.data))
         }
         if(!response.ok){
             setLoading(null)
@@ -37,5 +37,5 @@ export default function CategoryHook() {
 // Adding a new Community
 
 
-  return {getAllCategory,loading}
+  return {getAllContentImages,loading}
 }

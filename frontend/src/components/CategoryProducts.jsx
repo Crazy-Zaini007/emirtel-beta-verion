@@ -7,6 +7,9 @@ import UserProfileHook from '../hooks/UserProfileHook';
 import Navbar from './Navbar'
 import Footer from './Footer'
 
+import Carousel from 'react-bootstrap/Carousel';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 export default function CategoryProducts() {
     const apiUrl = process.env.REACT_APP_API_URL;
     
@@ -149,22 +152,19 @@ if(!user){
                         
                             <Fade className="col-xl-3 col-lg-4 col-md-6 col-sm-12 px-2 my-1" key={data._id}>
                             <div className="card border-0" >
-
-                                <div className="image">
-                                    <div id="carouselExampleIndicators" className="carousel slide py-0 " data-bs-ride="carousel">
-                                        <div className="carousel-inner carousel-fade py-0 my-0">
-                                            {data.images && data.images.map((image,index) => (
-                                                <div className={`carousel-item ${index===0? "active": ""}`}>
-                                                    <img src={image.imageUrl} className="d-block w-100" alt="..." />
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
+                                <Carousel >
+                                {data.images && data.images.map((image,index)=>(
+                                    <Carousel.Item key={index} className='image'>
+                                    {image.imageUrl? <a href={image.imageUrl} target="_blank" rel="noopener noreferrer"> <img src={image.imageUrl} alt='Image' className='rounded' /></a> : "No Picture"}
+                                 
+                                  </Carousel.Item>
+                                ))}
+                                </Carousel>
                                 <div className="card-body">
                                     <h5 className="card-title">{data.title}</h5>
                                     <h6 className='text-muted'><i >from</i> {data.categoryName}</h6>
                                     <strong>${data.price}</strong> <br />
+                                    <p>{data.description}</p>
                                     <div className="d-flex justify-content-between">
                                         <div className="left">
                                             <p className='rating'><Rating name="half-rating-read " size="small" value={calculateAverageRating(data.product_Rating)} precision={0.5} readOnly />({data.product_Rating.length})</p>

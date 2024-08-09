@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
   @import url('https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap');
   @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@500&display=swap');
-
+  @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
 /* Fort Family */
 * {
   font-family: "Roboto", sans-serif;
@@ -72,6 +72,49 @@
   }
 }
 
+.contact-us {
+  position: fixed;
+  bottom: 60px;
+  right: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 999;
+}
+
+.contact-icon {
+  color: white;
+  border-radius: 50%;
+  font-size: 35px;
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+}
+.contact-icon:hover{
+  color: white;
+  border-radius: 50%;
+  font-size: 35px;
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+}
+
+.email {
+  background: #71c6cd;
+}
+
+.whatsapp {
+  background: green;
+}
+
+.contact-icon i {
+  display: block;
+}
+
 /* Navbar */
 .my_navbar{
   background-color: white;
@@ -84,6 +127,8 @@
   font-weight: 600;
   letter-spacing: 2px;
   font-size: 14px;
+  font-family: normal;
+  
 }
 .my_navbar .navbar-brand:hover{
   color: #2e2f78;
@@ -237,25 +282,29 @@ position: relative;
 /* Carousel */
 @media screen and (min-width:771px) {
   .carousel .carousel-inner .carousel-item {
-    max-height: 75vh;
+    max-height: 91vh;
     position: relative;
   }
 }
 
+.carousel .carousel-indicators {
+  display: none;
+}
 
-.carousel .carousel-inner  .carousel-caption {
+
+.carousel .carousel-inner .carousel- .carousel-caption {
   bottom: 22%;
   z-index: 999;
 }
 .carousel .carousel-inner  .carousel-caption h1{
   letter-spacing: 1.5px;
-  color:var(--white);
+  color: var(--cool-Green);
   line-height: 30px;
   font-weight: 600;
 }
 .carousel .carousel-inner  .carousel-caption h6{
+  color: var(--cool-Green);
   letter-spacing: 1px;
-  color:var(--white);
   line-height: 30px;
   font-weight: 400;
 
@@ -342,6 +391,7 @@ text-transform: capitalize;
 }
 
 .latest_products .card {
+  height:100%;
   position: relative;
   overflow: hidden;
   transition: transform 0.3s ease; /* Transition for transform */
@@ -354,10 +404,19 @@ text-transform: capitalize;
 
 @media screen and (min-width:771px) {
   .latest_products .card .image{
-    height: 205px;
+    max-height: 205px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   }
 }
 
+.latest_products .card .image img{
+  height: 100%;
+  width:100%;
+  object-fit: cover;
+}
 .latest_products .card .top_rated{
   background-color: var(--cool-Green);
   right: 0px;
@@ -371,9 +430,7 @@ font-weight: 600;
 z-index: 999;
 }
 
-.latest_products .card .image img{
-  height: 100%;
-}
+
 
 .latest_products .card h5{
   font-size: 14px;
@@ -393,11 +450,15 @@ text-transform: capitalize;
 .latest_products .card strong{
   color: var(--cool-Green);
 text-transform: capitalize;}
+
+.latest_products .card p{
+  font-size: 12px;
+}
 .latest_products .card .rating{
   font-size: 12px;
   display: flex;
 }
-.latest_products .card  .in_stock{
+.latest_products .card .in_stock{
   color: var(--cool-Green);
   font: 12px;
   display: flex;
@@ -985,7 +1046,7 @@ box-shadow: 0px 0px 10px 1px solid var(--white)
 .emirtel_footer{
   position: relative;
   top: 0;
-  z-index: 999;
+  z-index: 0;
 }
 .emirtel_footer img{
   height: 45px;
@@ -3329,6 +3390,8 @@ font-family: 'Titillium Web', sans-serif;
 .ecomm_footer{
   background-color: #051b41;
   font-family: 'Titillium Web', sans-serif;
+  z-index: 0;
+
 }
 .ecomm_footer img{
   height: 38px;

@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useEffect, Suspense } from "react";
+import React, {Suspense } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuthContext } from './hooks/UserContextHook';
 import loading from './assets/icons/loading.gif'

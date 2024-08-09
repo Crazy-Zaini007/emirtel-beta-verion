@@ -44,10 +44,6 @@ const togglePasswordVisibility = () => {
     confirmPassword.attr('type', 'text');
   }
 }
-
-
-   
-
     return (
         <>
             <div className='container mt-5'>
@@ -56,8 +52,6 @@ const togglePasswordVisibility = () => {
                         <form onSubmit={handleSignup}>
                             <h4 className='my-3 text-center'>Signup Now</h4>
                             <p className='text-center'>Already have an account? <Link to='/emirtel/login_admin'>Login</Link></p>
-
-                            
                                         {success && <p className='text-center success-m'>{success}</p> }
                                         {error && <p className='text-center error-m '>{error}</p>}
 

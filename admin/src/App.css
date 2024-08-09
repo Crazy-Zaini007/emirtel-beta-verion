@@ -359,7 +359,6 @@
 /* Seller Pages */
 /* Side bar */
 
-
 .sidenav::-webkit-scrollbar {
   width: 0px;
   border-radius: 100px;
@@ -1661,6 +1660,63 @@ letter-spacing: 1px;
   
   }
 
+
+  .main .setting .wrap {
+    height: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top:45px;
+    float: right;
+    right: 2%;
+    position: fixed;
+    z-index: 5;
+    }
+    .main .setting .add_communi{
+      position: absolute;
+      right: 4%;
+      top: 80%;
+    }
+
+
+    .main .setting .add_content label{
+      color: var(--grays-dm-background);
+      font-size: 14px;
+      font-weight: 400;
+    }
+    .main .setting .add_content input{
+      width: auto;
+      height: 35px;
+      border-radius: 4px;
+      border:1px solid var(--darkgrey);
+      padding-left: 35px;
+      font-size: 13px;
+    }
+    .main .add_content .add_btn{
+      background-color: var(--purple);
+  color: white;
+  font-weight: 500;
+  letter-spacing: 1px;
+  box-shadow: 0px 0px 10px 1px solid var(--white)
+    }
+
+    .main .setting .content .content_view{
+      position:relative;
+    }
+    .main .setting .content .image{
+      width: 100%;
+      position:relative;
+    }
+    .main .setting .content .delete-icon span{
+      position: absolute;
+      top:10px;
+      color: red;
+      right: 10px;
+      cursor: pointer;
+    }
+    .main .setting img{
+      width: 100%;
+    }
   /* Notifications */
 
   .main .notifications h4 {

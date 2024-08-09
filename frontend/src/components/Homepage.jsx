@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 // import CountUp from 'react-countup';
 import { Slide, Fade } from "react-awesome-reveal";
+import Carousel from 'react-bootstrap/Carousel';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import ContentHook from '../hooks/ContentHook';
 import CategoryHook from '../hooks/CategoryHook'
 import { Link } from 'react-router-dom'
 import ProductHook from '../hooks/ProductHook'
@@ -27,29 +30,33 @@ export default function Homepage() {
     const latestProducts = useSelector((state) => state.products.latestProducts);
     const userAllLatestProducts = useSelector((state) => state.products.userAllLatestProducts);
     const userProfile = useSelector((state) => state.userProfile.userProfile);
+
+    const content = useSelector((state) => state.content.contentImages);
+    console.log('content', content)
     const [title, setTitle] = useState('');
     const filteredUserAllProducts = userAllProducts && userAllProducts.filter(product => {
         return (
             (product.title.trim().toLowerCase().includes(title.trim().toLowerCase()) ||
-            product.description.trim().toLowerCase().includes(title.trim().toLowerCase())) &&
+                product.description.trim().toLowerCase().includes(title.trim().toLowerCase())) &&
             product.isApproved === true
         );
     });
-    
+
     const filteredAllProducts = allProducts && allProducts.filter(product => {
         return (
             (product.title.trim().toLowerCase().includes(title.trim().toLowerCase()) ||
-            product.description.trim().toLowerCase().includes(title.trim().toLowerCase())) &&
+                product.description.trim().toLowerCase().includes(title.trim().toLowerCase())) &&
             product.isApproved === true
         );
     });
-    
+
 
     const { getAllCategories } = CategoryHook()
     const { gettingAllProducts, gettingAllLatestProducts, gettingAuthAllProducts, gettingAuthAllLatestProducts } = ProductHook()
     const { gettingUserProfile } = UserProfileHook()
-
+    const { getAllContentImages } = ContentHook()
     const fetchData = async () => {
+        await getAllContentImages()
         if (!user) {
             // await gettingAllLatestProducts()
             await gettingAllProducts()
@@ -106,7 +113,7 @@ export default function Homepage() {
                 }));
             }
         } catch (error) {
-          
+
             setWLoading((prevState) => ({
                 ...prevState,
                 [product._id]: false
@@ -119,9 +126,60 @@ export default function Homepage() {
     return (
         <>
             <Navbar></Navbar>
-            <div id="carouselExampleIndicators" className="carousel slide carousel-fade py-0" data-bs-ride="carousel" data-bs-interval="1000">
-      <div className="carousel-inner carousel-fade py-0 my-0">
-        {/* <div className="carousel-caption p-0">
+
+            <div className="container-fluid">
+                <div className="row p-0">
+                    <div className="col-md-12 p-0">
+                      
+                        {content && content.length > 0 ?
+                            <Carousel fade>
+                                {content.map((data,index)=>(
+                            <Carousel.Item>
+                            <img
+                                className="d-block w-100"
+                                src={data}
+                                alt="First slide"
+                            />
+
+                        </Carousel.Item>
+                                ))}
+                       
+                            </Carousel>
+                     :
+                            <Carousel fade>
+                                <Carousel.Item>
+                                    <img
+                                        className="d-block w-100"
+                                        src={carousel1}
+                                        alt="First slide"
+                                    />
+
+                                </Carousel.Item>
+                                <Carousel.Item>
+                                    <img
+                                        className="d-block w-100"
+                                        src={carousel2}
+                                        alt="Second slide"
+                                    />
+
+                                </Carousel.Item>
+                                <Carousel.Item>
+                                    <img
+                                        className="d-block w-100"
+                                        src={carousel3}
+                                        alt="Third slide"
+                                    />
+
+                                </Carousel.Item>
+                            </Carousel>
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <div id="carouselExampleIndicators" className="carousel slide carousel-fade py-0" data-bs-ride="carousel" data-bs-interval="3000">
+                <div className="carousel-inner carousel-fade py-0 my-0">
+                    {/* <div className="carousel-caption p-0">
           <div className="row justify-content-center p-0">
             <div className="col-lg-10 col-12 p-0">
               <h1><span className='py-2 px-1 d-none d-sm-block'>Emirtel</span></h1>
@@ -151,110 +209,94 @@ export default function Homepage() {
             </div>
           </div>
         </div> */}
-        <div className="carousel-item active p-0" data-bs-interval="1000">
-          <img src={carousel1} className="d-block w-100" alt="..." />
-        </div>
-        <div className="carousel-item p-0" data-bs-interval="1000">
-          <img src={carousel2} className="d-block w-100" alt="..." />
-        </div>
-        <div className="carousel-item p-0" data-bs-interval="1000">
-          <img src={carousel3} className="d-block w-100" alt="..." />
-        </div>
-        <div className="carousel-item p-0" data-bs-interval="1000">
-          <img src={carousel4} className="d-block w-100" alt="..." />
-        </div>
-      </div>
-    </div>
+
+                </div>
+            </div>
             {title &&
-            <div className="container-fluid latest_products py-5">
-            <div className="row justify-content-center px-md-3 px-2">
-                <h2 className="text-center mb-4">Your Search Results</h2>
-                {!user &&
-                    <>
-                        {filteredAllProducts && filteredAllProducts.length > 0 ? filteredAllProducts.map((data) => (
-                            <Fade className="col-xl-3 col-lg-4 col-md-6 col-sm-12 px-2 my-1" key={data._id}>
-                                <div className="card border-0" >
-
-                                    <div className="image">
-                                        <div id="carouselExampleIndicators" className="carousel slide py-0 " data-bs-ride="carousel">
-                                            <div className="carousel-inner carousel-fade py-0 my-0">
+                <div className="container-fluid latest_products py-5">
+                    <div className="row justify-content-center px-md-3 px-2">
+                        <h2 className="text-center mb-4">Your Search Results</h2>
+                        {!user &&
+                            <>
+                                {filteredAllProducts && filteredAllProducts.length > 0 ? filteredAllProducts.map((data) => (
+                                    <Fade className="col-xl-3 col-lg-4 col-md-6 col-sm-12 px-2 my-1" key={data._id}>
+                                        <div className="card border-0" >
+                                            <Carousel >
                                                 {data.images && data.images.map((image, index) => (
-                                                    <div className={`carousel-item ${index === 0 ? "active" : ""}`}>
-                                                        <img src={image.imageUrl} className="d-block w-100" alt="..." />
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="card-body">
-                                        <h5 className="card-title">{data.title}</h5>
-                                        <h6 className='text-muted'><i >from</i> {data.categoryName}</h6>
-                                        <strong>${data.price}</strong> <br />
-                                        <div className="d-flex justify-content-between">
-                                            <div className="left">
-                                                <p className='rating'><Rating name="half-rating-read " size="small" value={calculateAverageRating(data.product_Rating)} precision={0.5} readOnly />({data.product_Rating.length})</p>
-                                                {data.available === true || (data.quantity - data.soldQuantity === 0) ?
-                                                    <small className='my-0 py-0 in_stock'>In Stock</small> :
-                                                    <small className='my-0 py-0 out_of_stock'>Out of Stock</small>
-                                                }
-                                            </div>
-                                            <div className="right">
-                                              
-                                                {/* <Slide className='btn purchase_btn mx-1 py-2' data-bs-toggle="modal" data-bs-target="#join_modal">Add to Cart</Slide> */}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                                    <Carousel.Item key={index} className='image'>
+                                                        {image.imageUrl ? <a href={image.imageUrl} target="_blank" rel="noopener noreferrer"> <img src={image.imageUrl} alt='Image' className='rounded' /></a> : "No Picture"}
 
-                            </Fade>
-                        )) : <p className='text-center my-1'>No Product found you searched for !</p>}
-                    </>
-                }
-                {user &&
-                    <>
-                        {filteredUserAllProducts && filteredUserAllProducts.length > 0 ? filteredUserAllProducts.map((data) => (
-                            <Fade className="col-xl-3 col-lg-4 col-md-6 col-sm-12 px-2 my-1" key={data._id}>
-                                <div className="card border-0" >
-                                    <div className="image">
-                                        <div id="carouselExampleIndicators" className="carousel slide py-0 " data-bs-ride="carousel">
-                                            <div className="carousel-inner carousel-fade py-0 my-0">
-                                                {data.images && data.images.map((image, index) => (
-                                                    <div className={`carousel-item ${index === 0 ? "active" : ""}`}>
-                                                        <img src={image.imageUrl} className="d-block w-100" alt="..." />
-                                                    </div>
+                                                    </Carousel.Item>
                                                 ))}
+                                            </Carousel>
+                                            <div className="card-body">
+                                                <h5 className="card-title">{data.title}</h5>
+                                                <h6 className='text-muted'><i >from</i> {data.categoryName}</h6>
+                                                <strong>${data.price}</strong> <br />
+                                                <p>{data.description}</p>
+                                                <div className="d-flex justify-content-between">
+                                                    <div className="left">
+                                                        <p className='rating'><Rating name="half-rating-read " size="small" value={calculateAverageRating(data.product_Rating)} precision={0.5} readOnly />({data.product_Rating.length})</p>
+                                                        {data.available === true || (data.quantity - data.soldQuantity === 0) ?
+                                                            <small className='my-0 py-0 in_stock'>In Stock</small> :
+                                                            <small className='my-0 py-0 out_of_stock'>Out of Stock</small>
+                                                        }
+                                                    </div>
+                                                    {/* */}
+                                                    {/* <div className="right">
+                                           <Slide className='btn purchase_btn mx-1 py-2' data-bs-toggle="modal" data-bs-target="#join_modal">Add to Cart</Slide>
+                                      </div> */}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="card-body">
-                                        <h5 className="card-title">{data.title}</h5>
-                                        <h6 className='text-muted'><i >from</i> {data.categoryName}</h6>
-                                        <strong>${data.price}</strong> <br />
-                                        <div className="d-flex justify-content-between">
-                                            <div className="left">
-                                                <p className='rating'><Rating name="half-rating-read " size="small" value={calculateAverageRating(data.product_Rating)} precision={0.5} readOnly />({data.product_Rating.length})</p>
-                                                {data.available === true || (data.quantity - data.soldQuantity === 0) ?
-                                                    <small className='my-0 py-0 in_stock'>In Stock</small> :
-                                                    <small className='my-0 py-0 out_of_stock'>Out of Stock</small>
-                                                }
-                                            </div>
-                                            {/* <Slide className="right">
+
+                                    </Fade>
+                                )) : <p className='text-center my-1'>No Product found you searched for !</p>}
+                            </>
+                        }
+                        {user &&
+                            <>
+                                {filteredUserAllProducts && filteredUserAllProducts.length > 0 ? filteredUserAllProducts.map((data) => (
+                                    <Fade className="col-xl-3 col-lg-4 col-md-6 col-sm-12 px-2 my-1" key={data._id}>
+                                        <div className="card border-0" >
+                                            <Carousel >
+                                                {data.images && data.images.map((image, index) => (
+                                                    <Carousel.Item key={index} className='image'>
+                                                        {image.imageUrl ? <a href={image.imageUrl} target="_blank" rel="noopener noreferrer"> <img src={image.imageUrl} alt='Image' className='rounded' /></a> : "No Picture"}
+
+                                                    </Carousel.Item>
+                                                ))}
+                                            </Carousel>
+                                            <div className="card-body">
+                                                <h5 className="card-title">{data.title}</h5>
+                                                <h6 className='text-muted'><i >from</i> {data.categoryName}</h6>
+                                                <strong>${data.price}</strong> <br />
+                                                <p>{data.description}</p>
+                                                <div className="d-flex justify-content-between">
+                                                    <div className="left">
+                                                        <p className='rating'><Rating name="half-rating-read " size="small" value={calculateAverageRating(data.product_Rating)} precision={0.5} readOnly />({data.product_Rating.length})</p>
+                                                        {data.available === true || (data.quantity - data.soldQuantity === 0) ?
+                                                            <small className='my-0 py-0 in_stock'>In Stock</small> :
+                                                            <small className='my-0 py-0 out_of_stock'>Out of Stock</small>
+                                                        }
+                                                    </div>
+
+                                                    {/* <Slide className="right">
                                                 
                                             <button className='btn purchase_btn mx-1 py-2' onClick={() => addToWishlist(data)} disabled={wLoading[data._id] || data.wishlisted}>
                                                         {wLoading[data._id] ? <i className="fa-solid fa-spinner fa-spin"></i> : (data.wishlisted ? "In Cart" : "Add to Cart")}
                                                     </button>
                                             </Slide> */}
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
+                                    </Fade>
+                                )) : <p className='text-center my-1'>No Product found you searched for !</p>}
+                            </>
+                        }
 
-                            </Fade>
-                        )) : <p className='text-center my-1'>No Product found you searched for !</p>}
-                    </>
-                }
-
-            </div>
-        </div>
+                    </div>
+                </div>
             }
 
             {/* Categories */}
@@ -270,28 +312,28 @@ export default function Homepage() {
                                 </div>
                                 <div className="card-body d-flex flex-column">
                                     <h5 className="card-title">{data.categoryName}</h5>
-                                    <strong><i className="fas fa-tags"></i>{data.product.filter(product=>product.isApproved===true).length}</strong> <br />
-                                    {data.description &&<p>{data.description}</p>}
-                                  
-                                    {data.des_Pic && 
-                                    <div className='des_Pic'>
-                                    <a href={data.des_Pic} target="_blank" rel="noopener noreferrer"> <img src={data.des_Pic} alt='Description' className='rounded' /></a>
-                                    </div>
+                                    <strong><i>Products: </i>{data.product.filter(product => product.isApproved === true).length}</strong> <br />
+                                    {data.description && <p>{data.description}</p>}
+
+                                    {data.des_Pic &&
+                                        <div className='des_Pic'>
+                                            <a href={data.des_Pic} target="_blank" rel="noopener noreferrer"> <img src={data.des_Pic} alt='Description' className='rounded' /></a>
+                                        </div>
                                     }
-                                    
-                                   
+
+
                                     <Slide direction="right" className='mt-auto'>
                                         {data.product.filter(product => product.isApproved === false).length === data.product.length ? (
                                             <span className='btn view_btn py-2 disabled mt-auto' style={{ pointerEvents: 'none', opacity: 0.5 }}>View Products</span>
                                         ) : (
                                             <Link className='btn view_btn py-2 mt-auto' to={`/ecomm/emirtel/category/products/${data._id}`}>View Products</Link>
                                         )}
-                                        </Slide>
+                                    </Slide>
 
                                 </div>
                             </div>
                         </Slide>
-                    )):<p className='text-center'>No product category found !</p>}
+                    )) : <p className='text-center'>No product category found !</p>}
                 </div>
             </div>
 
@@ -456,7 +498,7 @@ export default function Homepage() {
 
                 </div>
             </div> */}
-            
+
 
 
             {/* Showing Category Wise Products */}
@@ -569,7 +611,7 @@ export default function Homepage() {
             
   ))} */}
 
-<Footer></Footer>
+            <Footer></Footer>
 
         </>
     )

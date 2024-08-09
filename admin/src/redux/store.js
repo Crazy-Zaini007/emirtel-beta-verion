@@ -6,6 +6,8 @@ import teams from './reducers/teamSlice'
 import approvals from './reducers/approvalSlice'
 import allProducts from './reducers/allProductSlice'
 import securityCode from './reducers/securitySlice'
+import content from './reducers/contentSlice'
+
 export const store = configureStore({
   reducer: {
     getCategories:categories,
@@ -14,6 +16,7 @@ export const store = configureStore({
     myTeams:teams,
     productsApprovals:approvals,
     allProducts:allProducts,
-    security:securityCode
+    security:securityCode,
+    content:content
   }
 })

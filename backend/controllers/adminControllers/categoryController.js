@@ -62,7 +62,6 @@ const addNewCategory = async (req, res) => {
 
         // Save the admin (assuming your Admin schema has a 'Products' field)
         await newCategory.save();
-        console.log(newCategory)
         return res.status(200).json({
           message: `${categoryName} added successfully!`,
           data: newCategory
